@@ -45,8 +45,8 @@
 			</div>
 			<div
 				v-show="error.type"
-				class="pa-10 text-red"
-			><v-icon small class="text-red">mdi-alert</v-icon> {{ error.msg }}</div>
+				class="pa-10 color-red"
+			><v-icon small class="color-red">mdi-alert</v-icon> {{ error.msg }}</div>
 			<div class="pa-10">
 				<label
 				>
