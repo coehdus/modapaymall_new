@@ -371,6 +371,7 @@
 		}
 		,created: function(){
 			this.$emit('onLoad', this.program)
+			this.$emit('getCartList')
 		}
 	}
 </script>
