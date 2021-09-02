@@ -53,10 +53,10 @@
 							</div>
 						</template>
 						</template>
-						<div
+						<v-icon
 							v-else
 							class="full-height flex-column justify-center input-box"
-						><span>No Image</span></div>
+						>mdi mdi-image</v-icon>
 					</div>
 					<v-icon
 						@click="file_index++"
@@ -210,7 +210,7 @@
 					class="flex-1 btn btn-default mr-10"
 				>바로구매</button>
 				<button
-					class="flex-1 btn btn-primary"
+					class="flex-1 btn btn-identify"
 					@click="setCart"
 				>장바구니</button>
 			</div>
@@ -228,7 +228,7 @@
 					class="justify-space-between"
 				>
 					<button
-						class="btn btn-identify"
+						class="btn btn-blue"
 						@click="toCart"
 					>장바구니로 이동</button>
 					<button

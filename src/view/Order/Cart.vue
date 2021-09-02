@@ -242,7 +242,7 @@
 					}else{
 						if(val.free_price > 0){
 							items[val.seller_id]['company']['delivery'] = val.free_price + ' 이상 구매시 무료'
-							if(val.free_price < items[val.seller_id]['company']['total_price'] || items[val.seller_id]['company']['total_price'] == 0){
+							if(val.free_price <= items[val.seller_id]['company']['total_price'] || items[val.seller_id]['company']['total_price'] == 0){
 								items[val.seller_id]['company']['delivery_price'] = 0
 							}
 						}

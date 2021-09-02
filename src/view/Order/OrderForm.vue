@@ -9,21 +9,23 @@
 				<div
 					class="mt-10 pa-10 bg-white box-shadow"
 				>
-					<div class="input-box">{{ member_info.member_name }}</div>
-					<input
-						type="number"
-						v-model="item.member_tell"
-						class="mt-10 input-box"
-						placeholder="연락처"
-					/>
-					<input
-						type="email"
-						v-model="item.member_email"
-						class="mt-10 input-box"
-						placeholder="이메일"
-					/>
-					<div class="mt-5 input-box">{{ member_info.member_post }} {{ member_info.member_addr1 }}</div>
-					<div class="mt-5 input-box">{{ member_info.member_addr2 }}</div>
+					<div class="input-box-5">{{ member_info.member_name }}</div>
+					<div
+						class="mt-10 position-relative"
+					>
+						<label>
+						<input
+							type="number"
+							v-model="item.member_tell"
+							class="input-box-5"
+							placeholder="연락처"
+						/>
+						<v-icon
+							class="position-absolute"
+							style="right: 10px; top: 7px"
+						>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
 				</div>
 			</div>
 			<div class="mt-30">
@@ -36,44 +38,74 @@
 				<div
 					class="mt-10 bg-white pa-10 box-shadow"
 				>
-					<input
-						v-model="item.d_name"
-						class="input-box"
-						placeholder="이름"
-					/>
-					<input
-						v-model="item.d_tell"
-						class="mt-10 input-box"
-						placeholder="연락처"
-					/>
+					<div
+						class="position-relative"
+					>
+						<label>
+						<input
+							v-model="item.d_name"
+							class="input-box-5"
+							placeholder="이름"
+						/>
+						<v-icon
+							class="position-absolute"
+							style="right: 10px; top: 7px;"
+						>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
+					<div
+						class="mt-10 position-relative"
+					>
+						<label>
+						<input
+							v-model="item.d_tell"
+							class=" input-box-5"
+							placeholder="연락처"
+						/>
+						<v-icon
+							class="position-absolute"
+							style="right: 10px; top: 7px;"
+						>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
 					<div
 						class="mt-10 flex-row"
 						@click="daumPost('default')"
 					>
 						<input
 							v-model="item.d_post"
-							class="input-box flex-3 mr-10"
+							class="input-box-5 flex-3 mr-10"
 							placeholder="우편번호"
 							readonly
 						/>
 						<button
-							class="btn btn-blue flex-1"
+							class=" btn-blue flex-1"
 						>주소 검색</button>
 					</div>
 					<input
 						v-model="item.d_addr"
 						type="text" placeholder="기본 주소"
-						class="mt-10 input-box"
+						class="mt-10 input-box-5"
 						readonly
 						maxlength="80"
 						@click="daumPost('default')"
 					/>
-					<input
-						v-model="item.d_addr2"
-						type="text" placeholder="상세 주소를 입력하세요"
-						class="mt-10 input-box"
-						maxlength="50"
-					/>
+					<div
+						class="mt-10 position-relative"
+					>
+						<label>
+						<input
+							v-model="item.d_addr2"
+							type="text" placeholder="상세 주소를 입력하세요"
+							class="input-box-5"
+							maxlength="50"
+						/>
+						<v-icon
+							class="position-absolute"
+							style="right: 10px; top: 7px;"
+						>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
 				</div>
 			</div>
 
@@ -105,9 +137,9 @@
 										v-if="product.pdt_img"
 										:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
 									/>
-									<span
+									<v-icon
 										v-else
-									>No Image</span>
+									>mdi mdi-image</v-icon>
 								</div>
 								<div class="flex-3">
 									<div class=" ptb-10 under-line">{{ product.pdt_name }}</div>
@@ -137,7 +169,7 @@
 						<div
 							class="pa-10 justify-space-between under-line-dashed"
 						>
-							<span>배송비 <span class="size-px-11">{{ item.company.delivery }}</span></span>
+							<span>배송비 <br/><span class="size-px-11">{{ item.company.delivery }}</span></span>
 							<span>{{ item.company.delivery_price | makeComma }}</span>
 						</div>
 						<div
@@ -193,11 +225,19 @@
 						<div>
 							무통장 입금 안내
 							<div class="mt-10">{{ item.site_bank }}</div>
-							<input
-								v-model="item.bank_info"
-								placeholder="입금자 명"
-								class="mt-10 input-box"
-							/>
+							<label
+								class="mt-10 position-relative"
+							>
+								<input
+									v-model="item.bank_info"
+									placeholder="입금자 명"
+									class=" input-box-5"
+								/>
+								<v-icon
+									class="position-absolute"
+									style="right: 10px; top: 0px;"
+								>mdi mdi-keyboard</v-icon>
+							</label>
 						</div>
 					</div>
 					<div
@@ -222,7 +262,7 @@
 				<div
 					class="pa-10 justify-space-between under-line-dashed"
 				>
-					<span>배송비 </span>
+					<span>총 배송비 </span>
 					<span>{{ total_delivery_price | makeComma }} 원</span>
 				</div>
 				<div

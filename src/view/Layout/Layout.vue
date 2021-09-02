@@ -9,6 +9,8 @@
 		<Side
 			v-if="is_side"
 			:Axios="Axios"
+			:member_info="member_info"
+			:category="category"
 
 			@toggleSide="toggleSide"
 			@push="toLocation"
@@ -48,6 +50,7 @@
 				:date="date"
 				:cart_cnt="cart_cnt"
 				:codes="codes"
+				:category="category"
 
 				@setNotify="setNotify"
 				@onLoad="setProgram"
@@ -103,6 +106,7 @@
 				]
 				,is_loading: true
 				,is_ready: false
+				,category: null
 			}
 		}
 		,computed:{
@@ -111,7 +115,24 @@
 			}
 		}
 		,methods: {
-			setNotify: function({type, message}){
+
+			getData: async function(){
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: '/product/getCategory'
+					})
+					if(result.success){
+						this.category = result.data.category
+					}else{
+						this.$emit('setNotify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+
+				}
+			}
+			,setNotify: function({type, message}){
 				this.notifyCondition = {
 					message: message
 					,type: type
@@ -153,13 +174,24 @@
 		}
 		,created: function(){
 			this.getCartList()
+			this.getData()
 		}
 		,watch: {
 			codes: {
 				immediate: true
 				,deep: true
 				,handler: function(call){
-					if(call){
+					let skip = false
+					let except = ['auth']
+					let path = document.location.href
+					except.forEach(function (val) {
+						if (path.toLowerCase().indexOf(val) > -1) {
+							skip = true
+							return false
+						}
+					})
+
+					if(call || skip){
 						this.is_ready = true
 						setTimeout(() => {
 							this.is_loading = false

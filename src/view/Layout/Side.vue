@@ -13,7 +13,7 @@
 			<div
 				class="flex-row justify-space-between under-line pa-20 bg-base color-white"
 			>
-				<span class="color-white">logo-position</span>
+				<span class="color-white">{{ member_info.member_name }} 님</span>
 				<v-icon
 					@click="toggleSide"
 					class="color-white"
@@ -59,32 +59,14 @@
 <script>
 	export default{
 		name: 'Side'
-		,props: ['Axios']
+		,props: ['Axios', 'member_info', 'category']
 		,data: function(){
 			return {
-				items: [
-
-				]
+				items: this.category
 			}
 		}
 		,methods: {
-			getData: async function(){
-				try{
-					const result = await this.Axios({
-						method: 'post'
-						,url: '/product/getCategory'
-					})
-					if(result.success){
-						this.items = result.data.category
-					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
-					}
-				}catch (e) {
-					console.log(e)
-
-				}
-			}
-			,toItem: function(category){
+			toItem: function(category){
 				this.toggleSide()
 				//document.location.href = '/Product/List/' + category
 				this.$emit('push', 'ProductList', { category: category})
@@ -101,7 +83,6 @@
 			}
 		}
 		,created: function(){
-			this.getData()
 		}
 	}
 </script>
@@ -131,7 +112,7 @@
 	}
 
 	.li-side-content {
-		padding: 20px 10px;
+		padding: 10px 10px;
 		border-bottom: 1px solid #ddd;
 	}
 	.li-side-depth-1 {

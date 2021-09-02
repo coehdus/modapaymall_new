@@ -1,7 +1,46 @@
 <template>
 	<div class="flex-column full-height bg-withe">
 
+		<template
+			v-if="!item.uid"
+		>
 		<div
+			class="box-main-banner position-relative"
+		>
+			<v-icon
+				class="position-absolute arrow-left"
+			>mdi mdi-chevron-left</v-icon>
+			<ul
+				class="ul-main-banner"
+			>
+				<template
+					v-if="banner_items.length > 0"
+				>
+				<li
+					v-for="(banner, key) in banner_items"
+					:key="'banner_' + key"
+				>
+					<img
+						v-if="banner.img"
+						:src="banner.img"
+					/>
+					<v-icon
+						v-else
+					>mdi mdi-image</v-icon>
+				</li>
+				</template>
+				<li
+					v-else
+					class="no-banner"
+				>no banner</li>
+			</ul>
+			<v-icon
+				class="position-absolute arrow-right"
+			>mdi mdi-chevron-right</v-icon>
+		</div>
+
+		<div
+			v-if="!item.uid"
 			class="pa-10 justify-space-between "
 		>
 			<select
@@ -20,15 +59,16 @@
 				<v-icon
 					class="box pa-5 mr-5 "
 					:class="list_type == 'list' ? 'bg-gray' : 'bg-white'"
-					@click="list_type = 'list'"
+					@click="setListType('list')"
 				>mdi mdi-view-list</v-icon>
 				<v-icon
 					class="box pa-5 "
 					:class="list_type == 'grid' ? 'bg-gray' : 'bg-white'"
-					@click="list_type = 'grid'"
+					@click="setListType('grid')"
 				>mdi mdi-view-grid</v-icon>
 			</span>
 		</div>
+
 		<ul
 			v-if="!item.uid"
 			class=" main-pdt overflow-y-auto"
@@ -55,8 +95,8 @@
 					></v-icon>
 				</div>
 				<div class="pdt-info ">
-					<div class="pdt-title">{{  item.pdt_name }}</div>
-					<div class="price">{{ item.pdt_price | makeComma }}</div>
+					<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
+					<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
 
 					<div
 						v-if="list_type == 'list'"
@@ -90,6 +130,7 @@
 			</li>
 			</template>
 		</ul>
+		</template>
 
 		<ProductDetail
 			v-if="item.uid"
@@ -127,6 +168,9 @@
 				,member_info: {
 
 				}
+				,banner_items: [
+
+				]
 				,items: [
 					{}, {}, {}, {}
 				]
@@ -137,7 +181,7 @@
 					TOKEN: this.TOKEN
 					,sort: 'new'
 				}
-				,list_type: 'grid'
+				,list_type: localStorage.getItem('list_type') ? localStorage.getItem('list_type') : 'grid'
 			}
 		}
 		,methods: {
@@ -167,6 +211,10 @@
 			}
 			,setNotify({ type, message}){
 				this.$emit('setNotify', { type: type, message: message })
+			}
+			,setListType: function(list_type){
+				this.list_type = list_type
+				localStorage.setItem('list_type', list_type)
 			}
 		}
 		,created: function(){
@@ -234,5 +282,23 @@
 
 	.pdt-img {
 		overflow: hidden
+	}
+
+	.box-main-banner {
+		background-color: #eee;
+	}
+
+	.box-main-banner .no-banner {
+		text-align: center;
+		padding: 30px 0;
+	}
+
+	.box-main-banner .arrow-left{
+		left: 10px;
+		top: calc(50% - 12px);
+	}
+	.box-main-banner .arrow-right{
+		right: 10px;
+		top: calc(50% - 12px);
 	}
 </style>
