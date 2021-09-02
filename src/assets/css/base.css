@@ -198,6 +198,7 @@ input:read-only { background-color: #eee; color: #bbb;}
 .input-underline.input  { border-bottom: 1px solid #009BFA}
 
 .input-box { width: 100%; padding: 10px; border: 1px solid #ddd;}
+.box { border: 1px solid #ddd}
 
 .login-checkbox { width: 20px !important; vertical-align: middle; margin-right: 0px;}
 

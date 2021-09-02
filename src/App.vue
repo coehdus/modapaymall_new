@@ -1,5 +1,5 @@
 <template>
-	<Layout 
+	<Layout
 		:Axios="Axios"
 		:Notify="Notify"
 		:filter="filter"
@@ -9,6 +9,7 @@
 		:metaInfo="metaInfo"
 		:TOKEN="TOKEN"
 		:member_info="member_info"
+		:codes="codes"
 	/>
 </template>
 
@@ -24,6 +25,7 @@
 	import { Base64 } from 'js-base64'
 
 	import Layout from '@/view/Layout/Layout.vue'
+	//import {codes} from "@/resources/config/codes";
 
 export default {
 
@@ -39,6 +41,7 @@ export default {
 		,Base64: Base64
 		,metaInfo: metaInfo
 		,TOKEN: ''
+		,codes: null
 		,member_info: {
 
 		}
@@ -65,6 +68,7 @@ export default {
 				}else{
 					this.TOKEN = encodeURI(TOKEN)
 					this.getBaseInfo()
+					this.getBaseCode()
 				}
 			}
 
@@ -93,6 +97,40 @@ export default {
 			}catch (e) {
 				console.log(e)
 			}
+		}
+		,getBaseCode: async function(){
+			try{
+				const result = await this.Axios({
+					method: 'post'
+					,url: 'management/getCodeList'
+					,data: {
+						ATOKEN: this.TOKEN
+					}
+				})
+
+				if(result.success){
+					this.setCode(result.data.result)
+				}else{
+					this.toLogin()
+					console.log(result.message)
+				}
+			}catch (e) {
+				console.log(e)
+			}
+		}
+		,setCode: function(code_list){
+			let list = {}
+			code_list.forEach(function(code){
+				let main = list[code.main_code]
+				if(!main){
+					code.items = []
+					list[code.main_code] = code
+				}
+				list[code.main_code].items.push(code)
+			})
+
+			this.$set(this, 'codes', list)
+			console.log(list)
 		}
 	}
 	,created() {

@@ -608,8 +608,8 @@
 
 <style type="text/css">
 .pdt-title {
-	padding: 10px 0;
-	font-size: 16px;
+	padding: 0;
+	font-size: 14px;
 	color: black;
 }
 

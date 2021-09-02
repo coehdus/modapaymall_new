@@ -97,6 +97,6 @@
 </script>
 
 <style>
-	.on { background-color: #0D47A1; color: white;}
+	.on { background-color: black; color: white;}
 	.on i { color: white !important;}
 </style>

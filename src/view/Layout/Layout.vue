@@ -1,5 +1,11 @@
 <template>
 	<div class="full-height" style="overflow: hidden">
+		<Loading
+			v-if="is_loading"
+		></Loading>
+		<template
+			v-if="is_ready"
+		>
 		<Side
 			v-if="is_side"
 			:Axios="Axios"
@@ -41,6 +47,7 @@
 				:key="$route.fullPath"
 				:date="date"
 				:cart_cnt="cart_cnt"
+				:codes="codes"
 
 				@setNotify="setNotify"
 				@onLoad="setProgram"
@@ -57,6 +64,7 @@
 				@push="toLocation"
 			></Bottom>
 		</div>
+		</template>
 
 		<Notify
 			:msg="notifyCondition.message"
@@ -75,11 +83,12 @@
 	import Bottom from "@/view/Layout/Bottom";
 	import Title from "@/view/Layout/Title";
 	import Search from "@/view/Layout/Search";
+	import Loading from "@/view/Layout/Loading";
 	
 	export default{
 		name: 'Layout'
-		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'filter', 'date']
-		,components: {Search, Title, Bottom, Side, Top, Notify }
+		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'filter', 'date', 'codes']
+		,components: {Loading, Search, Title, Bottom, Side, Top, Notify }
 		,data: function(){
 			return {
 				program: {
@@ -92,6 +101,8 @@
 				,cart_items: [
 
 				]
+				,is_loading: true
+				,is_ready: false
 			}
 		}
 		,computed:{
@@ -143,6 +154,23 @@
 		,created: function(){
 			this.getCartList()
 		}
+		,watch: {
+			codes: {
+				immediate: true
+				,deep: true
+				,handler: function(call){
+					if(call){
+						this.is_ready = true
+						setTimeout(() => {
+							this.is_loading = false
+						}, 500)
+					}else{
+						this.is_ready = false
+						this.is_loading = true
+					}
+				}
+			}
+		}
 	}
 	
 </script>
@@ -176,8 +204,8 @@
 	display: none;
 }
 
-.main-box-pdt { background-color: white; border-radius: 10px 0px 0px 0px;}
-.main-box-pdt img { border-radius: 10px 0px 0px 0px;}
+.main-box-pdt { background-color: white; }
+.main-box-pdt img { }
 
 .box-shadow-top { box-shadow: 0px 3px 6px black}
 .box-shadow-inset { box-shadow: 0px 0px 2px 1px #bbb inset}
@@ -186,7 +214,7 @@
 .border-tb { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
 .border-lr { border-left: 1px solid #ddd; border-right: 1px solid #ddd;}
 
-.bg-base { background-color: #0165fa}
+.bg-base { background-color: black}
 
 	.logo-position {
 
