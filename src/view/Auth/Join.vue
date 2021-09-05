@@ -162,6 +162,30 @@
 					class="mt-10 text-right color-red"
 				>{{ this.txtValidCheckEmail }}</div>
 			</div>
+
+			<div
+				class="mt-10"
+			>
+				<h6>이용약관 및 쇼핑정보 수신동의</h6>
+				<div
+					class="mt-10 input-box"
+				>이용약관</div>
+
+				<div
+					class="mt-10 mb-30"
+					@click="item.is_agree = !item.is_agree"
+				>
+					<v-icon
+						v-if="item.is_agree"
+						class="color-green"
+					>mdi mdi-checkbox-marked</v-icon>
+					<v-icon
+						v-else
+					>mdi mdi-checkbox-blank-outline</v-icon>
+
+					이용약관 및 SMS 수신 동의
+				</div>
+			</div>
 		</div>
 
 		<div
@@ -217,6 +241,7 @@ export default{
 				member_id: ''
 				,member_email: ''
 				,admin_code: this.$route.params.code
+				,is_agree: false
 			}
 			,is_check_id: false
 		}
@@ -224,7 +249,7 @@ export default{
 	,computed: {
 		isNext: function(){
 			const self = this
-			const required = ['member_id', 'member_password', 'member_password_confirm', 'member_name', 'member_post', 'member_addr1', 'member_addr2', 'member_phone', 'member_email']
+			const required = ['member_id', 'member_password', 'member_password_confirm', 'member_name', 'member_post', 'member_addr1', 'member_addr2', 'member_phone', 'member_email', 'is_agree']
 			let isNext = false
 			for(let i = 0; i < required.length; i++){
 				if(!self.item[required[i]]){

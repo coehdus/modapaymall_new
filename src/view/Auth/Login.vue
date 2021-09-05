@@ -8,9 +8,10 @@
 			<div
 				class="pa-10 text-center"
 			>
-				<span
-					class="size-em-15 font-weight-bold vertical-middle"
-				>Logo Position</span>
+				<div class="bg-base color-white pa-10 ">라이더 쇼핑의 모든것</div>
+				<div
+					class="mt-20 mb-30 size-px-24 font-weight-bold vertical-middle"
+				>Delimall</div>
 			</div>
 			<div class="pa-10">
 				<input

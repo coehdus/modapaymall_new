@@ -75,10 +75,29 @@
 				this.$emit('toggleSide')
 			}
 			,logout: function(){
-				if(confirm('로그아웃 하시겠습니까?')){
-					sessionStorage.removeItem('delimallT')
-					sessionStorage.removeItem('delimallT2')
-					document.location.href= '/Login'
+				let auto_login = localStorage.getItem('delimallA')
+
+				if(auto_login) {
+
+					if(confirm('로그아웃시 자동로그인도 해제됩니다. 로그아웃 하시겠습니까?')) {
+
+						localStorage.setItem('delimallA', false)
+						localStorage.removeItem('delimallA')
+						localStorage.removeItem('delimallN')
+						localStorage.removeItem('delimallP')
+
+						sessionStorage.removeItem('delimallT')
+						sessionStorage.removeItem('delimallT2')
+						document.location.href= '/Login'
+					}
+
+				}else{
+
+					if(confirm('로그아웃 하시겠습니까?')){
+						sessionStorage.removeItem('delimallT')
+						sessionStorage.removeItem('delimallT2')
+						document.location.href= '/Login'
+					}
 				}
 			}
 		}

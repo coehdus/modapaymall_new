@@ -65,6 +65,7 @@
 
 				:cart_cnt="cart_cnt"
 				@push="toLocation"
+				@toggleSide="toggleSide"
 			></Bottom>
 		</div>
 		</template>
@@ -184,6 +185,7 @@
 					let skip = false
 					let except = ['auth']
 					let path = document.location.href
+
 					except.forEach(function (val) {
 						if (path.toLowerCase().indexOf(val) > -1) {
 							skip = true

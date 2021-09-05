@@ -179,11 +179,25 @@
 
 /* background */
 
-.bg-black { background-color: black; color: white;}
-.bg-gray { background-color: #eee}
-.bg-gray-light { background-color: #fafafa;}
+.bg-default { background-color: #eee}
+.bg-gray { background-color: gray; color: white}
+.bg-gray-light { background-color: #eee;}
+.bg-gray-dark { background-color: darkgray}
+.bg-dark { background-color: #828282}
 .bg-white { background-color: white}
 .bg-green { background-color: #0f9d58; color: white;}
+.bg-red { background-color: #bf360c; color: white;}
+.bg-orange { background-color: darkorange; color: white;}
+.bg-f5 { background-color: #f5f5f5}
+.bg-eee { background-color: #eee !important}
+.bg-select { background-color: black}
+.bg-blue { background-color: #0D47A1}
+.bg-light-gray { background-color: darkgray;}
+.bg-light-green { background-color: #81C784;}
+.bg-light-blue { background-color: #eee;}
+.bg-light-red { background-color: #EF9A9A;}
+.bg-black { background-color: black;}
+
 
 /* input */
 .select-list-type { border: 1px solid #ddd; width: 100%; padding: 13px; color: black; height: auto;}
@@ -204,6 +218,7 @@ input:read-only { background-color: #eee; color: #bbb;}
 .input-box { width: 100%; padding: 10px; border: 1px solid #ddd;}
 .input-box-5 { width: 100%; padding: 5px; border: 1px solid #ddd;}
 .box { border: 1px solid #ddd}
+.box-rl { border-right: 1px solid #ddd; border-left: 1px solid #ddd}
 .radius-5 { border-radius: 5px}
 .radius-10 { border-radius: 10px}
 

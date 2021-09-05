@@ -64,29 +64,56 @@
 					</li>
 				</ul>
 
-				<h6 class="pa-10 mt-10">결제 정보</h6>
+				<h6 class="pa-10 mt-10">주문 내역</h6>
 				<ul
 					class="box-mypage-list shadow ul-under-line size-px-14 bg-white"
 				>
 					<li
 						class="pa-10 justify-space-between"
-						@click="toPaymentList"
+						@click="toOrderList"
 					>
-						<span>결제 내역</span>
+						<span>주문 완료</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 					<li
 						class="pa-10 justify-space-between"
 						@click="toQnA"
 					>
-						<span>1:1 문의 내역</span>
+						<span>주문 취소</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 					<li
 						class="pa-10 justify-space-between"
 						@click="toQnA"
 					>
-						<span>문의 내역</span>
+						<span>취소/반품/교환 내역</span>
+						<span><v-icon>mdi-chevron-right</v-icon></span>
+					</li>
+				</ul>
+
+				<h6 class="pa-10 mt-10">고객센터</h6>
+				<ul
+					class="box-mypage-list shadow ul-under-line size-px-14 bg-white"
+				>
+					<li
+						class="pa-10 justify-space-between"
+						@click="toNotice"
+					>
+						<span>공지사항</span>
+						<span><v-icon>mdi-chevron-right</v-icon></span>
+					</li>
+					<li
+						class="pa-10 justify-space-between"
+						@click="toQnA"
+					>
+						<span>1:1 문의</span>
+						<span><v-icon>mdi-chevron-right</v-icon></span>
+					</li>
+					<li
+						class="pa-10 justify-space-between"
+						@click="toReview"
+					>
+						<span>상품 리뷰</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 				</ul>
@@ -149,8 +176,8 @@ export default{
 				this.$router.push({ name: 'Login'})
 			}
 		}
-		,toPaymentList: function(){
-			this.$router.push({ name: 'PaymentList'})
+		,toOrderList: function(){
+			this.$router.push({ name: 'OrderList'})
 		}
 		,toPassword: function(){
 			this.$router.push('Password')
@@ -160,7 +187,13 @@ export default{
 			this.$emit('setNotify', { type: type, message: message })
 		}
 		,toQnA: function(){
-
+			this.$emit('push', 'CustomerCenter')
+		}
+		,toNotice: function(){
+			this.$emit('push', 'CustomerCenter')
+		}
+		,toReview: function(){
+			this.$emit('push', 'CustomerCenter')
 		}
 	}
 	,created: function(){

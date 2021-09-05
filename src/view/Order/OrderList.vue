@@ -1,12 +1,29 @@
 <template>
 	<div
-		class="full-height "
+		class="full-height flex-column "
 	>
+		<div class="tab justify-space-between under-line">
+			<div
+				class="flex-1 pa-10 text-center "
+				:class="{ on: search.type == ''}"
+				@click="getTypeData('')"
+			>주문전체</div>
+			<div
+				class="flex-1 pa-10 text-center box-rl"
+				:class="{ on: search.type == 'order'}"
+				@click="getTypeData('order')"
+			>주문완료</div>
+			<div
+				class="flex-1 pa-10 text-center "
+				:class="{ on: search.type == 'cancel'}"
+				@click="getTypeData('cancel')"
+			>주문취소</div>
+		</div>
 		<div
-			class="pa-10 full-height pb-30 bg-gray-light"
+			class="pa-10 flex-column full-height pb-30 bg-gray-light overflow-y-auto"
 		>
 			<ul
-				class="full-height overflow-y-auto"
+				class=" "
 			>
 				<li
 					v-for="(item, index) in item_list"
@@ -14,32 +31,30 @@
 					class=" bg-white mb-20 box-shadow position-relative"
 				>
 					<div
-						class="pa-10 bg-gray-light under-line justify-space-between"
 						@click="toResult(item.order_num_new)"
+						class="pa-10 under-line justify-space-between"
+						:class="'bg-' + item.o_status_color"
 					>
 						<span>{{ item.order_num_new}}</span>
 						<v-icon >mdi mdi-arrow-right-bold-box-outline</v-icon>
 					</div>
 					<div
-						class="pa-10"
+						class=""
 					>
-						<div class="justify-space-between under-line-dashed pb-10">
+						<div
+							class="justify-space-between under-line-dashed pa-10"
+						>
 							<span class="color-blue">{{ item.order_price | makeComma }}</span>
 							<span>
 								<span
 									class="mr-10"
-									:class="item.o_status_color"
+									:class="'color-' + item.o_status_color"
 								>{{ item.o_status_name }}</span>
-
-								<button
-									v-if="item.is_cancel"
-									class="btn-danger size-px-12 prl-10"
-									@click="viewCancel(item, index)"
-								>주문 취소</button>
 							</span>
 						</div>
 						<ul
 							@click="toResult(item.order_num_new)"
+							class="under-line pa-10"
 						>
 							<li
 								v-for="odt in item.odt_list"
@@ -70,9 +85,26 @@
 								</div>
 							</li>
 						</ul>
+						<div
+							class="pa-10 text-right"
+						>
+							<button
+								v-if="item.is_cancel"
+								class="btn-danger size-px-12 prl-10"
+								@click="viewCancel(item, index)"
+							>주문 취소</button>
+						</div>
 					</div>
 				</li>
 			</ul>
+			<Pagination
+				:program="program"
+				:align="'center'"
+				:options="search"
+				type="more"
+
+				@click="getData"
+			></Pagination>
 		</div>
 		<Modal
 			:is_modal="is_modal"
@@ -96,10 +128,11 @@
 
 <script>
 	import Modal from "@/components/Modal";
+	import Pagination from "../../components/Pagination";
 	export default{
 		name: 'OrderList'
 		,
-		components: {Modal},
+		components: {Pagination, Modal},
 		props: ['Axios', 'member_info', 'TOKEN']
 		,data: function() {
 			return {
@@ -113,6 +146,7 @@
 					TOKEN: this.TOKEN
 					,sDate: ''
 					,eDate: ''
+					,type: ''
 				}
 				,items: [
 
@@ -138,21 +172,21 @@
 					switch (item.o_status){
 						default: case "1":
 							item.o_status_name = "입금 대기"
-							item.o_status_color = ""
+							item.o_status_color = "gray"
 							break;
 
 						case "2":
 							item.o_status_name = "결제완료"
-							item.o_status_color = "color-green"
+							item.o_status_color = "green"
 							break
 						case "3":
 							item.o_status_name = "취소 요청"
-							item.o_status_color = "color-orange"
+							item.o_status_color = "orange"
 							item.is_cancel = false
 							break
 						case "4":
 							item.o_status_name = "주문 취소"
-							item.o_status_color = "color-red"
+							item.o_status_color = "red"
 							item.is_cancel = false
 							break;
 					}
@@ -224,13 +258,16 @@
 			getData: async function(){
 				try{
 					const result = await this.Axios({
-						method: 'post'
+						method: 'get'
 						,url: 'order/getOrderList'
 						,data: this.search
 					})
 
 					if(result.success){
-						this.items = result.data.result.result
+						let item = this.items
+						console.log(typeof item)
+						this.items = item.concat(result.data.result)
+						this.$set(this.search, 'total_count', result.data.tCnt)
 						this.$emit('setNotify', { type: 'success', message: result.message })
 					}else{
 						this.$emit('setNotify', { type: 'error', message: result.message })
@@ -270,13 +307,24 @@
 					console.log(e)
 				}
 			}
+			,getTypeData: function(type){
+				this.items = []
+				this.search.type = type
+				this.$set(this.search, 'page', 1)
+				this.getData()
+			}
 		}
 		,created() {
 			this.$emit('onLoad', this.program)
 			this.getData()
 		}
+		,watch: {
+
+		}
 	}
 </script>
 <style>
 	.pdt-img img { width: 100% }
+
+	.tab .on { background-color: #333; color: #bbb}
 </style>

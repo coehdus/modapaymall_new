@@ -2,14 +2,31 @@
 	<div
 		class="bottom justify-space-between text-center box-shadow-top position-relative bg-white position-relative"
 	>
+
+
+		<span
+			class="flex-1 ptb-10 flex-column"
+			@click="onSide"
+		>
+			<v-icon
+			>mdi mdi-menu</v-icon>
+		</span>
+
 		<span
 			class="flex-1 ptb-10 flex-column"
 			:class="{on: is_home}"
 			@click="toHome"
 		>
 			<v-icon
-			>mdi mdi-store</v-icon>
-			홈
+			>mdi mdi-home-outline</v-icon>
+		</span>
+
+		<span
+			class="flex-1 ptb-10 flex-column"
+			@click="toMyPage"
+			:class="{on: is_mypage}"
+		>
+			<v-icon>mdi mdi-account-outline</v-icon>
 		</span>
 		<span
 			class="flex-1 ptb-10 flex-column position-relative"
@@ -17,25 +34,18 @@
 			:class="{on: is_cart}"
 		>
 			<v-icon>mdi mdi-cart-outline</v-icon>
-			장바구니
 			<span
 				v-if="cart_cnt"
 				class="cart-count "
 			>{{ cart_cnt }}</span>
 		</span>
 		<span
+			v-if="false"
 			class="flex-1 ptb-10 flex-column"
 			@click="toOrderList"
 			:class="{on: is_delivery}"
 		>
-			<v-icon>mdi mdi-truck-fast</v-icon>배송조회
-		</span>
-		<span
-			class="flex-1 ptb-10 flex-column"
-			@click="toMyPage"
-			:class="{on: is_mypage}"
-		>
-			<v-icon>mdi mdi-account-settings</v-icon>마이페이지
+			<v-icon>mdi mdi-truck-fast</v-icon>
 		</span>
 	</div>
 </template>
@@ -92,11 +102,17 @@
 			,toOrderList: function (){
 				this.$emit('push', 'OrderList')
 			}
+			,onSide: function(){
+				this.$emit('toggleSide')
+			}
 		}
 	}
 </script>
 
 <style>
+/*
 	.on { background-color: black; color: white;}
 	.on i { color: white !important;}
+
+ */
 </style>

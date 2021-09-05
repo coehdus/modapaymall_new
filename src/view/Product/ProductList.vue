@@ -2,7 +2,10 @@
 	<div
 		class=" full-height flex-column"
 	>
-		<div class="pa-10  flex-row under-line overflow-x-auto">
+		<div
+			v-if="!item.uid"
+			class="pa-10  flex-row under-line overflow-x-auto"
+		>
 			<button
 				v-for="category in category_list"
 				:key="'category_' + category.category_code"

@@ -2,10 +2,6 @@
 	<div
 		class="header-box-menu flex-row justify-space-between bg-white"
 	>
-		<v-icon
-			class="pa-10"
-			@click="onSide"
-		>mdi mdi-menu</v-icon>
 
 		<input
 			type="hidden"
@@ -36,9 +32,6 @@
 			}
 		}
 		,methods:{
-			onSide: function(){
-				this.$emit('toggleSide')
-			}
 		}
 	}
 </script>

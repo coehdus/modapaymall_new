@@ -83,6 +83,11 @@ const routes = [
 		,component: () => import('@/view/Account/ShippingList.vue')
 	}
 	,{
+		path: prefix + 'CustomerCenter'
+		,name: 'CustomerCenter'
+		,component: () => import('@/view/Customer/CustomerCenter.vue')
+	}
+	,{
 		path: '*',
 		name:'404', 
 		component: () => import('@/view/Error/NotFound.vue')

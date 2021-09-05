@@ -1,6 +1,18 @@
 <template>
 	<div :class="'text-' + align">
-		<div class="pagination mt-10">
+		<div
+			v-if="type == 'more'"
+		>
+			<div
+				v-if="page_config.page < page_config.total_page"
+				class="pa-10 box bg-white box-shadow"
+				@click="click(nextPage)"
+			>더 보기</div>
+		</div>
+		<div
+			v-else
+			class="pagination mt-10"
+		>
 			<div class="pg-prev">
 				<a @click="click(prevGroup)"><i class="xi-angle-left"></i></a>
 			</div>
@@ -21,7 +33,7 @@
 <script>
 	export default{
 		name: 'Pagination'
-		,props: ['program', 'options', 'align']
+		,props: ['program', 'options', 'align', 'type']
 		,data: function(){
 			return {
 				page_config: {
@@ -60,10 +72,16 @@
 				}
 				return next
 			}
+			,nextPage: function(){
+				let page = this.page_config.page + 1
+
+				return page
+			}
 		}
 		,methods: {
 			click: function(page){
 				this.$set(this.options, 'page', page)
+				this.$emit('click')
 				//this.$router.push(this.options.link + page)
 			}
 		}

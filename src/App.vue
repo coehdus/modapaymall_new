@@ -75,7 +75,8 @@ export default {
 			console.log('isAuth finished !!')
 		}
 		,toLogin: function(){
-			this.$router.push({ name: 'Login' })
+			//this.$router.push({ name: 'Login' })
+			document.location.href = '/Auth/Login'
 		}
 		,getBaseInfo: async function(){
 			try{
