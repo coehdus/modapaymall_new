@@ -134,9 +134,6 @@
 					if(item.is_base != 1){
 						item.is_base = ''
 					}
-					if(item.pdt_info){
-						item.pdt_info = item.pdt_info.
-					}
 					return item
 				})
 			}

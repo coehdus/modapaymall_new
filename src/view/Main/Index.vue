@@ -1,9 +1,6 @@
 <template>
 	<div class="flex-column full-height bg-withe">
 
-		<template
-			v-if="!item.uid"
-		>
 		<div
 			class="box-main-banner position-relative"
 		>
@@ -40,7 +37,6 @@
 		</div>
 
 		<div
-			v-if="!item.uid"
 			class="pa-10 justify-space-between "
 		>
 			<select
@@ -71,7 +67,6 @@
 
 		<div class="flex-column">
 			<ul
-				v-if="!item.uid"
 				class=" main-pdt overflow-y-auto"
 				:class="list_type"
 			>
@@ -143,7 +138,6 @@
 				class="pa-10"
 			></Pagination>
 		</div>
-		</template>
 
 		<ProductDetail
 			v-if="item.uid"
@@ -156,6 +150,7 @@
 			@setNotify="setNotify"
 			@getCart="$emit('getCart')"
 			@push="$emit('push', 'Cart')"
+			@getCartList="$emit('getCartList')"
 		></ProductDetail>
 	</div>
 </template>
@@ -234,7 +229,7 @@
 			}
 			,clear(){
 				this.$set(this, 'item', {})
-				this.setProgram(this.program)
+				//this.setProgram(this.program)
 			}
 			,setProgram(program){
 				this.$emit('onLoad', program)

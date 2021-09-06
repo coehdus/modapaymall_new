@@ -3,7 +3,6 @@
 		class=" full-height "
 	>
 		<div
-			v-if="!item.uid"
 			class="pa-10  flex-row under-line overflow-x-auto"
 		>
 			<button
@@ -17,7 +16,6 @@
 		</div>
 
 		<div
-			v-if="!item.uid"
 			class="pa-10 justify-space-between "
 		>
 			<select
@@ -46,7 +44,6 @@
 			</span>
 		</div>
 		<template
-			v-if="!item.uid"
 		>
 			<div
 				v-if="items.length > 0"
@@ -252,7 +249,7 @@ export default{
 		}
 		,clear(){
 			this.$set(this, 'item', {})
-			this.setProgram(this.program)
+			//this.setProgram(this.program)
 		}
 		,setNotify({ type, message}){
 			this.$emit('setNotify', { type: type, message: message })

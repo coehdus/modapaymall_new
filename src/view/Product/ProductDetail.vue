@@ -1,6 +1,7 @@
 <template>
 	<div
-		class="full-height flex-column"
+		class="full-height flex-column position-fixed  full-width bg-white"
+		style="left: 0; top: 0; z-index: 999"
 	>
 		<div
 			class="bg-title justify-space-between"
@@ -9,7 +10,6 @@
 				:title="program.name"
 				@click="toBack"
 			><v-icon class="">mdi-chevron-left</v-icon><span class=" font-weight-bold size-em-12 vertical-middle">{{ program.name }}</span></button>
-
 
 			<span
 				class=" ptb-5 flex-column "
@@ -208,6 +208,7 @@
 			>
 				<button
 					class="flex-1 btn btn-default mr-10"
+					@click="setBuy"
 				>바로구매</button>
 				<button
 					class="flex-1 btn btn-identify"
@@ -329,6 +330,31 @@
 					console.log(E)
 				}
 			}
+			,setBuy: async function() {
+				if(this.options.length <= 0){
+					this.$emit('setNotify', { type: 'error', message: '옵션을 선택하세요'})
+					return false
+				}
+				let item = this.item
+				item.options = JSON.stringify(this.options)
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'order/postBuy'
+						,data: item
+					})
+
+					if(result.success){
+						await this.$router.push({ name: 'OrderBuy'})
+					}else{
+						this.$emit('setNotify', { type: 'error', message: result.message })
+					}
+				}catch (e) {
+					console.log(e)
+					this.$emit('setNotify', { type: 'error', message: 'DB 오류'})
+				}
+			}
+
 			,setCart: async function(){
 				if(this.options.length <= 0){
 					this.$emit('setNotify', { type: 'error', message: '옵션을 선택하세요'})
@@ -544,7 +570,7 @@
 			}
 		}
 		,created() {
-			this.$emit('onLoad', this.program)
+			//this.$emit('onLoad', this.program)
 			this.getData()
 		}
 		,watch:{

@@ -115,7 +115,7 @@
 			</div>
 
 			<template
-				v-if="cart_items.length > 0"
+				v-if="use_item.length > 0"
 			>
 				<ul class="mt-10">
 					<li
@@ -329,6 +329,12 @@ export default{
 			,shop_info: {
 
 			}
+			,buy_items: [
+
+			]
+			,use_item: [
+
+			]
 		}
 	}
 	,computed: {
@@ -340,9 +346,9 @@ export default{
 		,total_price: function(){
 			let price = 0;
 
-			for(let i = 0; i < this.cart_items.length; i ++){
-				if(!this.cart_items[i].is_not_select) {
-					price += (Number(this.cart_items[i].pdt_price) + Number(this.cart_items[i].op_price)) * this.cart_items[i].op_cnt
+			for(let i = 0; i < this.use_item.length; i ++){
+				if(!this.use_item[i].is_not_select) {
+					price += (Number(this.use_item[i].pdt_price) + Number(this.use_item[i].op_price)) * this.use_item[i].op_cnt
 				}
 			}
 
@@ -373,7 +379,7 @@ export default{
 			item.delivery_price = this.total_delivery_price
 
 			if(Object.keys(this.item_list).length > 0) {
-				for(const [key, val] of Object.entries(this.cart_items)) {
+				for(const [key, val] of Object.entries(this.use_item)) {
 					console.log(key)
 					if(val.is_not_select){
 						continue
@@ -389,7 +395,7 @@ export default{
 		,item_list: function(){
 			let items = {}
 
-			for(const [key ,val] of Object.entries(this.cart_items)){
+			for(const [key ,val] of Object.entries(this.use_item)){
 				console.log('key: ' + key)
 
 				if(val.is_not_select){
@@ -500,9 +506,33 @@ export default{
 		,toResult: function(){
 			this.$router.push({ name: 'OrderResult', params: { order_number: this.order_number }})
 		}
+		,getBuyItem: async function(){
+			try{
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getBuyItem'
+					,data: {
+						TOKEN: sessionStorage.getItem('delimallT')
+					}
+				})
+
+				if(result.success){
+					this.use_item = result.data.result
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}
+		}
 	}
 	,created: function(){
 		this.$emit('onLoad', this.program)
+		if(this.$route.name == 'OrderBuy'){
+			this.getBuyItem()
+		}else{
+			this.use_item = this.cart_items
+		}
 	}
 }
 </script>
