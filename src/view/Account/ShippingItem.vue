@@ -1,7 +1,7 @@
 <template>
 	<div class="full-height flex-column ">
 		<div
-			class="bg-title position-relative justify-space-between "
+			class="bg-title position-relative justify-space-between bg-white"
 		>
 			<button
 				:title="program.name"
@@ -10,9 +10,9 @@
 
 		</div>
 		<div
-			class="pa-10 mt-10"
+			class="pa-10 mt-10 bg-white"
 		>
-			<div class="justify-space-between">
+			<div class="justify-space-between ">
 				<input
 					v-model="item.shipping_name"
 					placeholder="배송지명"

@@ -63,7 +63,7 @@ const routes = [
 		,component: () => import('@/view/Order/OrderResult.vue')
 	}
 	,{
-		path: prefix + 'Order/List'
+		path: prefix + 'Order/List/:type?'
 		,name: 'OrderList'
 		,component: () => import('@/view/Order/OrderList.vue')
 	}
@@ -83,7 +83,7 @@ const routes = [
 		,component: () => import('@/view/Account/ShippingList.vue')
 	}
 	,{
-		path: prefix + 'CustomerCenter'
+		path: prefix + 'CustomerCenter/:type?'
 		,name: 'CustomerCenter'
 		,component: () => import('@/view/Customer/CustomerCenter.vue')
 	}

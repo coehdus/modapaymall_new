@@ -113,13 +113,13 @@
 			<h6 class="mt-30">상세정보</h6>
 			<div
 				class="mt-10 input-box pdt-info"
-				v-html="item.pdt_info.replaceAll('/API/', 'http://delimall.co.kr/API/')"
+				v-html="item.pdt_info"
 			></div>
 
 			<h6 class="mt-30">반품/교환정보</h6>
 			<div
 				class="mt-10 input-box pdt-notice"
-				v-html="item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')"
+				v-html="item.pdt_notice"
 			></div>
 
 		</div>

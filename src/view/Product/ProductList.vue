@@ -1,6 +1,6 @@
 <template>
 	<div
-		class=" full-height flex-column"
+		class=" full-height "
 	>
 		<div
 			v-if="!item.uid"
@@ -15,6 +15,7 @@
 				@click="toCategory(category)"
 			>{{ category.category_name }}</button>
 		</div>
+
 		<div
 			v-if="!item.uid"
 			class="pa-10 justify-space-between "
@@ -47,63 +48,77 @@
 		<template
 			v-if="!item.uid"
 		>
-			<ul
+			<div
 				v-if="items.length > 0"
-				class=" main-pdt overflow-y-auto"
-				:class="list_type"
 			>
-				<li
-					v-for="item in items"
-					:key="item.pdt_uid"
-					class="main-box-pdt position-relative"
-
-					@click="goDetail(item)"
+				<ul
+					class=" main-pdt overflow-y-auto"
+					:class="list_type"
 				>
-					<div class="pdt-img ">
-						<img
-							v-if="item.pdt_img1"
-							:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
-						/>
-						<v-icon
-							v-else
-							class="mdi mdi-image none-img"
-						></v-icon>
-					</div>
-					<div class="pdt-info ">
-						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-						<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
+					<li
+						v-for="item in item_list"
+						:key="item.pdt_uid"
+						class="main-box-pdt position-relative"
 
-						<div
-							v-if="list_type == 'list'"
-							class="color-blue "
-							style="right: 10px; top: -10px;"
-						>
-							<template
-								v-if="item.agency_pdt_type"
-							>
-					<span
-						v-if="item.agency_pdt_type.indexOf('new') > -1"
-						class="label label-new mr-5"
-					>NEW</span>
-								<span
-									v-if="item.agency_pdt_type.indexOf('hot') > -1"
-									class="label label-hot mr-5"
-								>HOT</span>
-								<span
-									v-if="item.agency_pdt_type.indexOf('recomm') > -1"
-									class="label label-recomm mr-5"
-								>추천</span>
-								<span
-									v-if="item.agency_pdt_type.indexOf('season') > -1"
-									class="label label-season"
-								>계절</span>
-							</template>
-
+						@click="goDetail(item)"
+					>
+						<div class="pdt-img ">
+							<img
+								v-if="item.pdt_img1"
+								:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
+							/>
+							<v-icon
+								v-else
+								class="mdi mdi-image none-img"
+							></v-icon>
 						</div>
-					</div>
+						<div class="pdt-info ">
+							<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
+							<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
 
-				</li>
-			</ul>
+							<div
+								v-if="list_type == 'list'"
+								class="color-blue "
+								style="right: 10px; top: -10px;"
+							>
+								<template
+									v-if="item.agency_pdt_type"
+								>
+						<span
+							v-if="item.agency_pdt_type.indexOf('new') > -1"
+							class="label label-new mr-5"
+						>NEW</span>
+									<span
+										v-if="item.agency_pdt_type.indexOf('hot') > -1"
+										class="label label-hot mr-5"
+									>HOT</span>
+									<span
+										v-if="item.agency_pdt_type.indexOf('recomm') > -1"
+										class="label label-recomm mr-5"
+									>추천</span>
+									<span
+										v-if="item.agency_pdt_type.indexOf('season') > -1"
+										class="label label-season"
+									>계절</span>
+								</template>
+
+							</div>
+						</div>
+
+					</li>
+				</ul>
+
+				<Pagination
+					:program="program"
+					:align="'center'"
+					:options="search"
+					type="more"
+
+					@click="getData"
+
+					class="pa-10"
+				></Pagination>
+			</div>
 			<div
 				v-else
 				class="flex-column full-height justify-center bg-white"
@@ -127,6 +142,7 @@
 			@setNotify="setNotify"
 			@getCartList="$emit('getCartList')"
 			@push="toCart"
+
 		></ProductDetail>
 	</div>
 </template>
@@ -134,10 +150,11 @@
 <script>
 
 import ProductDetail from "@/view/Product/ProductDetail";
+import Pagination from "@/components/Pagination";
 
 export default{
 	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category']
-	,components: { ProductDetail }
+	,components: {Pagination, ProductDetail }
 	,data: function(){
 		return {
 			program: {
@@ -168,10 +185,15 @@ export default{
 		}
 	}
 	,computed:{
-		lists: function(){
+		item_list: function(){
 
 			return this.items.filter(function(item){
-
+				if(item.pdt_info){
+					item.pdt_info = item.pdt_info.replaceAll('/API/', 'http://delimall.co.kr/API/')
+				}
+				if(item.pdt_notice){
+					item.pdt_notice = item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')
+				}
 				return item
 			})
 		}
@@ -204,20 +226,15 @@ export default{
 
 			try {
 				const result = await this.Axios({
-					method: 'post'
+					method: 'get'
 					, url: 'product/getProductList'
 					, data: this.search
 				})
 
 				if (result.success) {
-					this.$set(this, 'items', result.data.content.result)
-
-					if (this.items.length > 0) {
-						this.$set(this.search, 'total_count', result.data.content.tCnt)
-						this.$set(this.search, 'list_cnt', result.data.content.cnt)
-					}else{
-						this.$set(this.search, 'total_count', 0)
-					}
+					let item = this.items
+					this.items = item.concat(result.data.result)
+					this.$set(this.search, 'total_count', result.data.tCnt)
 
 				} else {
 					this.$emit('setNotify', {type: 'error', message: result.message})

@@ -53,7 +53,7 @@
 					,title: true
 					,bottom: true
 				}
-				,type: 'notice'
+				,type: this.$route.params.type ? this.$route.params.type : 'notice'
 			}
 		}
 

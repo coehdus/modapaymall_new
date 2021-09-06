@@ -146,7 +146,7 @@
 					TOKEN: this.TOKEN
 					,sDate: ''
 					,eDate: ''
-					,type: ''
+					,type: this.$route.params.type
 				}
 				,items: [
 
@@ -265,7 +265,6 @@
 
 					if(result.success){
 						let item = this.items
-						console.log(typeof item)
 						this.items = item.concat(result.data.result)
 						this.$set(this.search, 'total_count', result.data.tCnt)
 						this.$emit('setNotify', { type: 'success', message: result.message })

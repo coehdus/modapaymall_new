@@ -70,23 +70,16 @@
 				>
 					<li
 						class="pa-10 justify-space-between"
-						@click="toOrderList"
+						@click="toOrderList('order')"
 					>
 						<span>주문 완료</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 					<li
 						class="pa-10 justify-space-between"
-						@click="toQnA"
+						@click="toOrderList('cancel')"
 					>
 						<span>주문 취소</span>
-						<span><v-icon>mdi-chevron-right</v-icon></span>
-					</li>
-					<li
-						class="pa-10 justify-space-between"
-						@click="toQnA"
-					>
-						<span>취소/반품/교환 내역</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 				</ul>
@@ -176,8 +169,8 @@ export default{
 				this.$router.push({ name: 'Login'})
 			}
 		}
-		,toOrderList: function(){
-			this.$router.push({ name: 'OrderList'})
+		,toOrderList: function(type){
+			this.$emit('push', 'OrderList', { type: type })
 		}
 		,toPassword: function(){
 			this.$router.push('Password')
@@ -187,13 +180,13 @@ export default{
 			this.$emit('setNotify', { type: type, message: message })
 		}
 		,toQnA: function(){
-			this.$emit('push', 'CustomerCenter')
+			this.$emit('push', 'CustomerCenter', { type: 'qna'})
 		}
 		,toNotice: function(){
 			this.$emit('push', 'CustomerCenter')
 		}
 		,toReview: function(){
-			this.$emit('push', 'CustomerCenter')
+			this.$emit('push', 'CustomerCenter', { type: 'review'})
 		}
 	}
 	,created: function(){

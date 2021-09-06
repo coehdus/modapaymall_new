@@ -69,67 +69,80 @@
 			</span>
 		</div>
 
-		<ul
-			v-if="!item.uid"
-			class=" main-pdt overflow-y-auto"
-			:class="list_type"
-		>
-			<template
-				v-if="items.length > 0"
+		<div class="flex-column">
+			<ul
+				v-if="!item.uid"
+				class=" main-pdt overflow-y-auto"
+				:class="list_type"
 			>
-			<li
-				v-for="item in items"
-				:key="item.pdt_uid"
-				class="main-box-pdt position-relative"
+				<template
+					v-if="items.length > 0"
+				>
+				<li
+					v-for="item in item_list"
+					:key="item.uid"
+					class="main-box-pdt position-relative"
 
-				@click="goDetail(item)"
-			>
-				<div class="pdt-img ">
-					<img
-						v-if="item.pdt_img1"
-						:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
-					/>
-					<v-icon
-						v-else
-						class="mdi mdi-image none-img"
-					></v-icon>
-				</div>
-				<div class="pdt-info ">
-					<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-					<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
-
-					<div
-						v-if="list_type == 'list'"
-						class="color-blue "
-						style="right: 10px; top: -10px;"
-					>
-						<template
-							v-if="item.agency_pdt_type"
-						>
-					<span
-						v-if="item.agency_pdt_type.indexOf('new') > -1"
-						class="label label-new mr-5"
-					>NEW</span>
-							<span
-								v-if="item.agency_pdt_type.indexOf('hot') > -1"
-								class="label label-hot mr-5"
-							>HOT</span>
-							<span
-								v-if="item.agency_pdt_type.indexOf('recomm') > -1"
-								class="label label-recomm mr-5"
-							>추천</span>
-							<span
-								v-if="item.agency_pdt_type.indexOf('season') > -1"
-								class="label label-season"
-							>계절</span>
-						</template>
-
+					@click="goDetail(item)"
+				>
+					<div class="pdt-img ">
+						<img
+							v-if="item.pdt_img1"
+							:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
+						/>
+						<v-icon
+							v-else
+							class="mdi mdi-image none-img"
+						></v-icon>
 					</div>
-				</div>
+					<div class="pdt-info ">
+						<div class="pdt-title color-gray">{{  item.pdt_name }} {{ item.uid }}</div>
+						<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
 
-			</li>
-			</template>
-		</ul>
+						<div
+							v-if="list_type == 'list'"
+							class="color-blue "
+							style="right: 10px; top: -10px;"
+						>
+							<template
+								v-if="item.agency_pdt_type"
+							>
+						<span
+							v-if="item.agency_pdt_type.indexOf('new') > -1"
+							class="label label-new mr-5"
+						>NEW</span>
+								<span
+									v-if="item.agency_pdt_type.indexOf('hot') > -1"
+									class="label label-hot mr-5"
+								>HOT</span>
+								<span
+									v-if="item.agency_pdt_type.indexOf('recomm') > -1"
+									class="label label-recomm mr-5"
+								>추천</span>
+								<span
+									v-if="item.agency_pdt_type.indexOf('season') > -1"
+									class="label label-season"
+								>계절</span>
+							</template>
+
+						</div>
+					</div>
+
+				</li>
+				</template>
+			</ul>
+
+			<Pagination
+				:program="program"
+				:align="'center'"
+				:options="search"
+				type="more"
+
+				@click="getData"
+
+				class="pa-10"
+			></Pagination>
+		</div>
 		</template>
 
 		<ProductDetail
@@ -151,10 +164,11 @@
 	
 
 	import ProductDetail from "../Product/ProductDetail";
+	import Pagination from "@/components/Pagination";
 	export default{
 		name: 'Main'
 		,
-		components: {ProductDetail},
+		components: {Pagination, ProductDetail},
 		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN']
 		,data: function(){
 			return {
@@ -172,7 +186,6 @@
 
 				]
 				,items: [
-					{}, {}, {}, {}
 				]
 				,item: {
 
@@ -180,20 +193,37 @@
 				,search: {
 					TOKEN: this.TOKEN
 					,sort: 'new'
+					,list_cnt: 10
+					,page: 1
 				}
 				,list_type: localStorage.getItem('list_type') ? localStorage.getItem('list_type') : 'grid'
+			}
+		}
+		,computed: {
+			item_list: function (){
+				return this.items.filter(function(item){
+					if(item.pdt_info){
+						item.pdt_info = item.pdt_info.replaceAll('/API/', 'http://delimall.co.kr/API/')
+					}
+					if(item.pdt_notice){
+						item.pdt_notice = item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')
+					}
+					return item
+				})
 			}
 		}
 		,methods: {
 			getData: async function(){
 				const result = await this.Axios({
-					method: 'post'
+					method: 'get'
 					,url: 'product/getMainProduct'
 					,data: this.search
 				})
 
 				if(result.success){
-					this.items = result.data.result.result
+					let item = this.items
+					this.items = item.concat(result.data.result)
+					this.$set(this.search, 'total_count', result.data.tCnt)
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message})
 				}

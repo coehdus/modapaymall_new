@@ -5,7 +5,7 @@
 			class="full-height"
 		>
 			<div
-				class="bg-title position-relative justify-space-between "
+				class="bg-title position-relative justify-space-between bg-white"
 			>
 				<button
 					:title="program.name"
@@ -23,7 +23,7 @@
 					v-for="item in item_list"
 					:key="item.uid"
 
-					class="pa-10 box-shadow mb-10"
+					class="pa-10 box-shadow mb-10 bg-white"
 				>
 					<div
 						class="ptb-10 justify-space-between under-line-dashed"
@@ -133,6 +133,9 @@
 					item.TOKEN = self.TOKEN
 					if(item.is_base != 1){
 						item.is_base = ''
+					}
+					if(item.pdt_info){
+						item.pdt_info = item.pdt_info.
 					}
 					return item
 				})
