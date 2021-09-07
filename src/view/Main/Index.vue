@@ -42,7 +42,7 @@
 			<select
 				v-model="search.sort"
 				class="pa-5 box bg-white"
-				@change="getData"
+				@change="setSort"
 			>
 				<option
 					v-for="sort in codes.P002.items"
@@ -92,7 +92,7 @@
 					</div>
 					<div class="pdt-info ">
 						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-						<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
+						<div class="price font-weight-bold">{{ item.agency_sale_price | makeComma }} 원</div>
 
 						<div
 							v-if="list_type == 'list'"
@@ -247,6 +247,11 @@
 			,setListType: function(list_type){
 				this.list_type = list_type
 				localStorage.setItem('list_type', list_type)
+			}
+			,setSort: function(){
+				this.items = []
+				this.search.page = 1
+				this.getData()
 			}
 		}
 		,created: function(){

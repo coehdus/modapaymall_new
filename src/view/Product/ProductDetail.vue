@@ -69,7 +69,7 @@
 			>
 				<div
 					class="pdt-price"
-				>{{  item.pdt_price | makeComma }}</div>
+				>{{  item.agency_sale_price | makeComma }}</div>
 				<div
 					class="pdt-rate"
 				>평점</div>
@@ -77,7 +77,7 @@
 
 
 			<div
-				v-if="item.is_sold != 1"
+				v-if="item.is_sold == 2"
 				class="mt-10 flex-row justify-space-between"
 			>
 				<div
@@ -293,9 +293,9 @@
 		,computed: {
 			total_price: function(){
 				let price = 0
-				let pdt_price = this.item.pdt_price
+				let agency_sale_price = this.item.agency_sale_price
 				this.options.forEach(function(item){
-					price += Number(item.odt_cnt) * (Number(pdt_price) + Number(item.odt_price))
+					price += Number(item.odt_cnt) * (Number(agency_sale_price) + Number(item.odt_price))
 				})
 				return price
 			}
@@ -310,8 +310,8 @@
 			getData: async function(){
 				try{
 					const result = await this.Axios({
-						method: 'post'
-						, url: 'product/product_info'
+						method: 'get'
+						, url: 'product/getProduct'
 						, data: {
 							pdt_uid: this.item.uid
 						}
@@ -465,7 +465,7 @@
 										pdt_uid: this.item.uid
 										,pdt_name: this.item.pdt_name
 										,pdt_img: this.item.pdt_img1
-										,pdt_price: this.item.pdt_price
+										,agency_sale_price: this.item.agency_sale_price
 										,pdt_option: this.options
 									})
 
@@ -480,7 +480,7 @@
 								pdt_uid: this.item.uid
 								,pdt_name: this.item.pdt_name
 								,pdt_img: this.item.pdt_img1
-								,pdt_price: this.item.pdt_price
+								,agency_sale_price: this.item.agency_sale_price
 								,pdt_option: this.options
 							})
 
@@ -496,7 +496,7 @@
 							pdt_uid: this.item.uid
 							,pdt_name: this.item.pdt_name
 							,pdt_img: this.item.pdt_img1
-							,pdt_price: this.item.pdt_price
+							,agency_sale_price: this.item.agency_sale_price
 							,pdt_option: this.options
 						})
 						cart_items.push(company_items)
