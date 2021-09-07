@@ -25,7 +25,7 @@
 	import { Base64 } from 'js-base64'
 
 	import Layout from '@/view/Layout/Layout.vue'
-	//import {codes} from "@/resources/config/codes";
+	import {codes} from "@/resources/config/codes";
 
 export default {
 
@@ -41,7 +41,7 @@ export default {
 		,Base64: Base64
 		,metaInfo: metaInfo
 		,TOKEN: ''
-		,codes: null
+		,codes: codes
 		,member_info: {
 
 		}
@@ -130,6 +130,7 @@ export default {
 				list[code.main_code].items.push(code)
 			})
 
+			Object.assign(list, this.codes)
 			this.$set(this, 'codes', list)
 			console.log(list)
 		}

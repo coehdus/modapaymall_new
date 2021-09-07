@@ -82,8 +82,8 @@
 				>
 					<div class="pdt-img ">
 						<img
-							v-if="item.pdt_img1"
-							:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
+							v-if="item.pdt_img"
+							:src="item.pdt_img"
 						/>
 						<v-icon
 							v-else
@@ -91,7 +91,7 @@
 						></v-icon>
 					</div>
 					<div class="pdt-info ">
-						<div class="pdt-title color-gray">{{  item.pdt_name }} {{ item.uid }}</div>
+						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
 						<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
 
 						<div
@@ -164,7 +164,7 @@
 		name: 'Main'
 		,
 		components: {Pagination, ProductDetail},
-		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN']
+		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter']
 		,data: function(){
 			return {
 				program: {
@@ -196,6 +196,8 @@
 		}
 		,computed: {
 			item_list: function (){
+
+				let self = this
 				return this.items.filter(function(item){
 					if(item.pdt_info){
 						item.pdt_info = item.pdt_info.replaceAll('/API/', 'http://delimall.co.kr/API/')
@@ -203,6 +205,11 @@
 					if(item.pdt_notice){
 						item.pdt_notice = item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')
 					}
+
+					if(item.pdt_img1){
+						item.pdt_img = self.codes.img_url + item.pdt_img1
+					}
+
 					return item
 				})
 			}

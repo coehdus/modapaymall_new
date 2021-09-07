@@ -88,6 +88,15 @@ Vue.filter('makeTell', val => {
 	}
 })
 
+Vue.filter('imgUrl', val => {
+	if(val){
+		val = 'http://delimall.co.kr/API/data/product/' + val
+		return val
+	}else{
+		return ''
+	}
+})
+
 Vue.filter('takeInitial', val => {
 	if(val){
 		const kor = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];

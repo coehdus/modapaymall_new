@@ -178,7 +178,7 @@
 			this.getData()
 		}
 		,watch: {
-			codes: {
+			'codes.P002': {
 				immediate: true
 				,deep: true
 				,handler: function(call){
