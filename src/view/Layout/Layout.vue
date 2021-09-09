@@ -56,8 +56,10 @@
 				@onLoad="setProgram"
 				@getCartList="getCartList"
 
-				class=" overflow-y-auto"
 				@push="toLocation"
+				@onLoading="onLoading"
+				@offLoading="offLoading"
+				class=" overflow-y-auto"
 			></router-view>
 
 			<Bottom
@@ -171,6 +173,14 @@
 				this.$router.push({ name: path, params: params}).catch(function(e){
 					console.log(e)
 				});
+			}
+			,onLoading: function(){
+				this.is_loading = true
+			}
+			,offLoading: function(){
+				setTimeout(() => {
+					this.is_loading = false
+				}, 500)
 			}
 		}
 		,created: function(){

@@ -5,6 +5,7 @@
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-under-line { border-bottom: 1px solid #ddd}
+.text-through { text-decoration: line-through}
 
 .size-px-8 { font-size: 8px !important}
 .size-px-9 { font-size: 9px !important}
@@ -68,6 +69,7 @@
 .letter-space-2 { letter-spacing: -2px}
 
 /* text color */
+.color-base { color: #bbb !important;}
 .color-plus { color: #5fa8d3 !important;}
 .color-minus { color: #f44336 !important;}
 .color-success { color: #15ab94 !important;}
@@ -79,11 +81,14 @@
 .color-green { color: #15ab94 !important; }
 .color-gray { color: #bbb !important;}
 .color-red { color: red !important;}
+
 .color-red-light { color: #FF5D46 !important;}
 
 .color-purple-light { color: #6f7dff }
 
 .color-black { color: black !important;}
+.color-eee { color: #eee !important;}
+.color-bbb { color: #bbb !important;}
 
 .vertical-middle { vertical-align: middle !important;}
 .vertical-top { vertical-align: top !important;}
@@ -94,10 +99,18 @@
 /* padding & margin */
 
 .pa-5 { padding: 5px !important;}
+.pa-5-10 { padding: 5px 10px !important;}
+.pa-5-15 { padding: 5px 15px !important;}
 .pa-10 { padding: 10px !important;}
+.pa-10-15 { padding: 10px 15px !important;}
+.pa-10-20 { padding: 10px 20px !important;}
+.pa-15-10 { padding: 15px 10px !important;}
+.pa-15-20 { padding: 15px 20px !important;}
 .pa-20 { padding: 20px;}
+.pa-20-10 { padding: 20px 10px;}
 .pa-30 { padding: 30px;}
 
+.pl-5 { padding-left: 5px}
 .pl-10 { padding-left: 10px}
 .pl-20 { padding-left: 20px}
 .pl-30 { padding-left: 30px}
@@ -113,6 +126,7 @@
 .ptb-20 { padding: 20px 0 !important;}
 .ptb-30 { padding: 30px 0 !important;}
 
+.prl-5 { padding: 0 5px !important;}
 .prl-10 { padding: 0 10px !important;}
 .prl-20 { padding: 0 20px !important;}
 .prl-30 { padding: 0 30px !important;}
@@ -196,7 +210,8 @@
 .bg-light-green { background-color: #81C784;}
 .bg-light-blue { background-color: #eee;}
 .bg-light-red { background-color: #EF9A9A;}
-.bg-black { background-color: black;}
+.bg-black { background-color: black; color: #eee}
+.bg-base { background-color: #333; color: #eee;}
 
 
 /* input */

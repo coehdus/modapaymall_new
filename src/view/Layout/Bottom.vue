@@ -1,14 +1,13 @@
 <template>
 	<div
-		class="bottom justify-space-between text-center box-shadow-top position-relative bg-white position-relative"
+		class="bottom justify-space-between text-center box-shadow-top position-relative bg-base position-relative"
 	>
-
-
 		<span
 			class="flex-1 ptb-10 flex-column"
 			@click="onSide"
 		>
 			<v-icon
+				class="color-base"
 			>mdi mdi-menu</v-icon>
 		</span>
 
@@ -18,6 +17,7 @@
 			@click="toHome"
 		>
 			<v-icon
+				class="color-base"
 			>mdi mdi-home-outline</v-icon>
 		</span>
 
@@ -26,14 +26,18 @@
 			@click="toMyPage"
 			:class="{on: is_mypage}"
 		>
-			<v-icon>mdi mdi-account-outline</v-icon>
+			<v-icon
+				class="color-base"
+			>mdi mdi-account-outline</v-icon>
 		</span>
 		<span
 			class="flex-1 ptb-10 flex-column position-relative"
 			@click="toCart"
 			:class="{on: is_cart}"
 		>
-			<v-icon>mdi mdi-cart-outline</v-icon>
+			<v-icon
+				class="color-base"
+			>mdi mdi-cart-outline</v-icon>
 			<span
 				v-if="cart_cnt"
 				class="cart-count "
@@ -110,9 +114,7 @@
 </script>
 
 <style>
-/*
-	.on { background-color: black; color: white;}
-	.on i { color: white !important;}
 
- */
+	.on { background-color: #bbb; color: #333;}
+	.on i { color: #333 !important;}
 </style>

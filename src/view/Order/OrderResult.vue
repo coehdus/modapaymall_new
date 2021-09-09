@@ -8,7 +8,7 @@
 		<div
 			class="pa-10 full-height pb-30 overflow-y-auto  bg-gray-light"
 		>
-			<div class="mt-30">
+			<div class="mt-10">
 
 				<h6>주문번호</h6>
 				<div
@@ -82,9 +82,9 @@
 							<li
 								v-for="(product, product_index) in item.items"
 								:key="'product_' + product_index"
-								class=" under-line justify-space-between"
+								class=" under-line full-height justify-space-between"
 							>
-								<div class="pa-10 flex-1 odt-img justify-center flex-column">
+								<div class="pa-10 flex-1 full-height pdt-img justify-center flex-column">
 									<img
 										v-if="product.pdt_img"
 										:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
@@ -294,3 +294,7 @@
 		}
 	}
 </script>
+
+<style>
+	.pdt-img { width: 80px; height: 80px; overflow: hidden}
+</style>

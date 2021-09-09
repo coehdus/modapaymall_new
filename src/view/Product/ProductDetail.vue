@@ -104,7 +104,7 @@
 						<option
 							v-for="opt in pdt_option.opt_cont.split(',')"
 							:key="'option_' + index + '_' + opt"
-							:value="opt"
+							:value="pdt_option.opt_name + ' : ' + opt"
 						>{{ opt }}</option>
 					</select>
 				</div>
@@ -113,14 +113,28 @@
 			<h6 class="mt-30">상세정보</h6>
 			<div
 				class="mt-10 input-box pdt-info"
-				v-html="item.pdt_info"
-			></div>
+			>
+				<Viewer
+					v-if="item.pdt_info"
+					:initialValue="item.pdt_info"
+				/>
+				<div
+					v-else
+				>상품 정보가 없습니다</div>
+			</div>
 
 			<h6 class="mt-30">반품/교환정보</h6>
 			<div
 				class="mt-10 input-box pdt-notice"
-				v-html="item.pdt_notice"
-			></div>
+			>
+				<Viewer
+					v-if="item.pdt_notice"
+					:initialValue="item.pdt_notice"
+				/>
+				<div
+					v-else
+				>반폼/교환 정보가 없습니다</div>
+			</div>
 
 		</div>
 
@@ -144,6 +158,8 @@
 					style="border: 1px solid #ddd; margin-top: -50px"
 				>mdi mdi-chevron-double-up</v-icon>
 			</div>
+
+			<!-- 선택 옵션 -->
 			<ul
 				v-show="is_show_options"
 			>
@@ -156,38 +172,41 @@
 						class=" flex-row justify-space-between"
 					>
 						<span
-							class="flex-1 font-weight-bold color-black span-pdt-cnt"
+							class="flex-2 color-black span-pdt-cnt size-px-11 mr-5"
 						>{{ odt.odt }}</span>
 
 						<span
 							v-if="item.is_sold == 1 || (item.is_sold == 2 && item.pdt_stock < 1)"
-							class=" color-red"
+							class=" color-red ml-10"
 						>품절</span>
 						<span
 							v-else
-							class="flex-1 flex-row justify-space-between box-pdt-cnt"
+							class="flex-1  flex-column justify-center"
 						>
-							<button
-								@click="setCnt(odt, 'down')"
-								class="flex-1 mdi mdi-minus"
-							></button>
-							<input
-								v-model="odt.odt_cnt"
-								type="number"
-								name="pdt_cnt"
-								class="flex-1 bg-gray-light"
-								readonly
-							/>
-							<button
-								@click="setCnt(odt, 'up')"
-								class="flex-1 mdi mdi-plus"
-								:class="{ 'mr-10': pdt_options.length}"
-							></button>
-							<button
-								v-if="pdt_options.length"
-								@click="removeItem(index)"
-								class="flex-1 color-red mdi mdi-close"
-							></button>
+							<span class="justify-space-between box-pdt-cnt">
+								<button
+									@click="setCnt(odt, 'down')"
+									class="flex-1 mdi mdi-minus"
+								></button>
+								<input
+									v-model="odt.odt_cnt"
+									type="number"
+									name="pdt_cnt"
+									class="flex-1 bg-gray-light"
+									readonly
+								/>
+								<button
+									@click="setCnt(odt, 'up')"
+									class="flex-1 mdi mdi-plus"
+									:class="{ 'mr-5': pdt_options.length}"
+								></button>
+								<button
+									small
+									v-if="pdt_options.length"
+									@click="removeItem(index)"
+									class="flex-1 color-red mdi mdi-close"
+								></button>
+							</span>
 						</span>
 					</div>
 				</li>
@@ -243,11 +262,15 @@
 </template>
 
 <script>
+
+	import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+	import { Viewer } from "@toast-ui/vue-editor";
+
 	import Modal from "@/components/Modal";
 	export default {
 		name: 'ProductDetail'
 		,props: ['Axios', 'item', 'cart_cnt']
-		,components: { Modal}
+		,components: { Modal, Viewer}
 		,data: function(){
 			return {
 				program: {
@@ -586,6 +609,8 @@
 				deep: true
 				,handler: function (call){
 					let full = true
+
+					// 전체 옵션 선택여부 체크
 					call.forEach(function(item){
 						if(!item){
 							full = false
@@ -593,6 +618,7 @@
 						}
 					})
 
+					// 전체 옵션 선택시 상품으로 추가
 					if(full){
 						let val = {
 							odt: call.toString()

@@ -1,11 +1,11 @@
 <template>
 	<div
-		class="bg-title position-relative justify-space-between "
+		class="bg-title position-relative justify-space-between bg-base"
 	>
 		<button
 			:title="program.name"
 			@click="toBack()"
-		><v-icon large class="">mdi-chevron-left</v-icon><span class=" font-weight-bold size-em-15 vertical-middle">{{ program.name }}</span></button>
+		><v-icon large class="color-base vertical-middle">mdi-chevron-left</v-icon><span class=" font-weight-bold size-em-15 vertical-middle color-base ">{{ program.name }}</span></button>
 
 		<span
 			v-if="is_cart_view"

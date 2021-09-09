@@ -9,7 +9,7 @@
 				v-for="category in category_list"
 				:key="'category_' + category.category_code"
 				class="prl-10 size-px-12 radius-10 mr-10"
-				:class="category.category_code == category_now.category_code ? 'bg-black' : 'bg-gray'"
+				:class="category.category_code == category_now.category_code ? 'bg-black' : 'bg-gray color-bbb'"
 				style="flex-shrink: 0;"
 				@click="toCategory(category)"
 			>{{ category.category_name }}</button>
@@ -71,7 +71,17 @@
 						</div>
 						<div class="pdt-info ">
 							<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-							<div class="price font-weight-bold">{{ item.pdt_price | makeComma }} 원</div>
+							<div
+								v-if="item.is_sale"
+								class="price font-weight-bold"
+							>{{ item.agency_sale_price | makeComma }} 원</div>
+							<div
+								v-else
+								class="price font-weight-bold justify-space-between"
+							>
+								<span class="text-through color-gray">{{ item.agency_sale_price | makeComma }} 원</span>
+								<span class="mr-5 color-red">품절</span>
+							</div>
 
 							<div
 								v-if="list_type == 'list'"
@@ -191,6 +201,9 @@ export default{
 				if(item.pdt_notice){
 					item.pdt_notice = item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')
 				}
+				if(item.is_sold == 0 || (item.is_sold == 2 && item.pdt_stock > 0)){
+					item.is_sale = true
+				}
 				return item
 			})
 		}
@@ -219,7 +232,7 @@ export default{
 	,methods: {
 		getData: async function() {
 
-			this.loading = true
+			this.$emit('onLoading')
 
 			try {
 				const result = await this.Axios({
@@ -240,7 +253,7 @@ export default{
 				console.log(E)
 				this.$emit('setNotify', {type: 'error', message: E})
 			} finally {
-				this.loading = false
+				this.$emit('offLoading')
 			}
 		}
 		,goDetail(item){

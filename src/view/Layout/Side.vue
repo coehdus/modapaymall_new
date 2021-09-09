@@ -11,9 +11,17 @@
 			class="side-container flex-column"
 		>
 			<div
-				class="flex-row justify-space-between under-line pa-20 bg-base color-white"
+				class="flex-row justify-space-between under-line pa-20-10 bg-base color-white"
 			>
-				<span class="color-white">{{ member_info.member_name }} 님</span>
+				<span class="color-white">
+					{{ member_info.member_name }} 님
+
+					<button
+						class="size-px-10 box prl-10 bg-gray color-eee ml-10 line-height-160"
+						@click="logout"
+					>로그아웃</button>
+				</span>
+
 				<v-icon
 					@click="toggleSide"
 					class="color-white"
@@ -46,10 +54,6 @@
 					Ver 1.0.0
 				</div>
 				<div>
-					<button
-						class="btn btn-identify"
-						@click="logout"
-					>로그아웃</button>
 				</div>
 			</div>
 		</div>

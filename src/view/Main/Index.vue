@@ -92,7 +92,17 @@
 					</div>
 					<div class="pdt-info ">
 						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-						<div class="price font-weight-bold">{{ item.agency_sale_price | makeComma }} 원</div>
+						<div
+							v-if="item.is_sale"
+							class="price font-weight-bold"
+						>{{ item.agency_sale_price | makeComma }} 원</div>
+						<div
+							v-else
+							class="price font-weight-bold justify-space-between"
+						>
+							<span class="text-through color-gray">{{ item.agency_sale_price | makeComma }} 원</span>
+							<span class="mr-5 color-red">품절</span>
+						</div>
 
 						<div
 							v-if="list_type == 'list'"
@@ -210,24 +220,35 @@
 						item.pdt_img = self.codes.img_url + item.pdt_img1
 					}
 
+					if(item.is_sold == 0 || (item.is_sold == 2 && item.pdt_stock > 0)){
+						item.is_sale = true
+					}
+
 					return item
 				})
 			}
 		}
 		,methods: {
 			getData: async function(){
-				const result = await this.Axios({
-					method: 'get'
-					,url: 'product/getMainProduct'
-					,data: this.search
-				})
+				this.$emit('onLoading')
+				try {
+					const result = await this.Axios({
+						method: 'get'
+						, url: 'product/getMainProduct'
+						, data: this.search
+					})
 
-				if(result.success){
-					let item = this.items
-					this.items = item.concat(result.data.result)
-					this.$set(this.search, 'total_count', result.data.tCnt)
-				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					if (result.success) {
+						let item = this.items
+						this.items = item.concat(result.data.result)
+						this.$set(this.search, 'total_count', result.data.tCnt)
+					} else {
+						this.$emit('setNotify', {type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.$emit('offLoading')
 				}
 			}
 			,goDetail(item){

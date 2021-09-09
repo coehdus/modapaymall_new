@@ -9,7 +9,7 @@
 				<div
 					class="mt-10 pa-10 bg-white box-shadow"
 				>
-					<div class="input-box-5">{{ member_info.member_name }}</div>
+					<div class="input-box-5 bg-gray-light">{{ member_info.member_name }}</div>
 					<div
 						class="mt-10 position-relative"
 					>
@@ -33,24 +33,79 @@
 					class="justify-space-between"
 				>
 					<h6 class="flex-4">배송지 정보</h6>
-					<button class="flex-1 btn btn-blue" style="padding: 0px 5px; font-size: 11px; font-weight: normal">배송지 목록</button>
+					<button
+						class="flex-1 btn btn-blue prl-5 size-px-11 font-weight-normal"
+						@click="showSipping"
+					>배송지 목록</button>
 				</div>
 				<div
 					class="mt-10 bg-white pa-10 box-shadow"
 				>
+
 					<div
-						class="position-relative"
+						class="justify-space-between"
+					>
+						<label
+							class="size-em-09"
+						>
+							<v-icon
+								v-if="!item.shipping_uid || item.shipping_uid == 'new'"
+								@click="item.shipping_uid = 'not'"
+								class="size-px-20 color-blue"
+							>mdi mdi-checkbox-marked</v-icon>
+							<v-icon
+								v-else
+								@click="item.shipping_uid = 'new'"
+								class="size-px-20"
+							>mdi mdi-checkbox-blank-outline</v-icon>
+							신규 배송지로 등록
+
+						</label>
+
+						<label
+							class="size-em-09"
+						>
+							<v-icon
+								v-if="item.is_base == '0'"
+								@click="item.is_base = '1'"
+								class="size-px-20"
+							>mdi mdi-checkbox-blank-outline</v-icon>
+							<v-icon
+								v-else
+								@click="item.is_base = '0'"
+								class="size-px-20 color-blue"
+							>mdi mdi-checkbox-marked</v-icon>
+							기본 배송지로 사용
+						</label>
+					</div>
+					<div
+						class="mt-10 position-relative"
 					>
 						<label>
-						<input
-							v-model="item.d_name"
-							class="input-box-5"
-							placeholder="이름"
-						/>
-						<v-icon
-							class="position-absolute"
-							style="right: 10px; top: 7px;"
-						>mdi mdi-keyboard</v-icon>
+							<input
+								v-model="item.shipping_name"
+								class="input-box-5"
+								placeholder="배송지 명"
+							/>
+							<v-icon
+								class="position-absolute"
+								style="right: 10px; top: 7px;"
+							>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
+					<div
+						class="mt-10 position-relative"
+					>
+						<label>
+							<input
+								v-model="item.d_name"
+								class="input-box-5"
+								placeholder="이름"
+							/>
+							<v-icon
+								class="position-absolute"
+								style="right: 10px; top: 7px;"
+							>mdi mdi-keyboard</v-icon>
 						</label>
 					</div>
 					<div
@@ -83,7 +138,7 @@
 						>주소 검색</button>
 					</div>
 					<input
-						v-model="item.d_addr"
+						v-model="item.d_addr1"
 						type="text" placeholder="기본 주소"
 						class="mt-10 input-box-5"
 						readonly
@@ -149,7 +204,7 @@
 										class=" pa-10 under-line-dashed"
 									>
 										<div class="justify-space-between">
-											<span>옵션</span>
+											<span>선택 옵션</span>
 											<span>{{ option.odt }}</span>
 										</div>
 										<div
@@ -157,7 +212,7 @@
 										>
 											<span
 												class="flex-2 color-blue"
-											>{{ option.odt_price | makeComma }}</span>
+											>{{ option.odt_price | makeComma }} 원</span>
 
 											<span>{{ option.odt_cnt }} 개</span>
 										</div>
@@ -169,14 +224,14 @@
 						<div
 							class="pa-10 justify-space-between under-line-dashed"
 						>
-							<span>배송비 <br/><span class="size-px-11">{{ item.company.delivery }}</span></span>
-							<span>{{ item.company.delivery_price | makeComma }}</span>
+							<span>상품 합계</span>
+							<span class="color-blue">{{ item.company.total_price | makeComma }} 원</span>
 						</div>
 						<div
-							class="pa-10 justify-space-between"
+							class="pa-10 justify-space-between "
 						>
-							<span>합계</span>
-							<span class="color-blue">{{ item.company.total_price | makeComma }}</span>
+							<span>배송비 <br/><span class="size-px-11">{{ item.company.delivery }}</span></span>
+							<span>{{ item.company.delivery_price | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>
@@ -224,7 +279,8 @@
 					>
 						<div>
 							무통장 입금 안내
-							<div class="mt-10">{{ item.site_bank }}</div>
+							<div class="mt-10 mb-10">{{ item.site_bank }}</div>
+
 							<label
 								class="mt-10 position-relative"
 							>
@@ -293,15 +349,66 @@
 			@callBack="addPost"
 		></DaumPost>
 
+		<Modal
+			:is_modal="is_modal"
+			:option="modal_option"
+
+			@close="is_modal = !is_modal"
+		>
+			<div slot="modal-content">
+				<ul
+					v-if="shipping_list.length > 0"
+				>
+					<li
+						v-for="shipping in shipping_list"
+						:key="shipping.uid"
+
+						class="pa-10 box-shadow mb-10 bg-white"
+					>
+						<div
+							class="ptb-10 justify-space-between under-line-dashed"
+						>
+						<span
+							:class="{ 'color-green font-weight-bold': shipping.is_base == 1 }"
+						>{{ shipping.shipping_name }}</span>
+							<span>
+							<v-icon
+								class="color-blue"
+								@click="setShipping(shipping)"
+							>mdi mdi-arrow-right-bold-box-outline</v-icon>
+						</span>
+						</div>
+						<div class="ptb-10  justify-space-between under-line-dashed">
+							<span>{{ shipping.name }}</span>
+							<span>{{ shipping.tell }}</span>
+						</div>
+
+						<div class="ptb-10">{{ shipping.post }} {{ shipping.addr1 }} </div>
+						<div class="">{{ shipping.addr2 }}</div>
+					</li>
+				</ul>
+
+				<div
+					v-else
+					class="full-height flex-column justify-center overflow-y-auto"
+				>
+					<div class="text-center">
+						<p class="mt-20">등록된 주소록 정보가 없습니다.</p>
+					</div>
+				</div>
+			</div>
+		</Modal>
+
 	</div>
 </template>
 
 <script>
 import DaumPost from '@/components/Daum/DaumPost'
+import Modal from "@/components/Modal";
 export default{
-	name: 'Cart'
-	,props: ['Axios', 'cart_items', 'member_info']
-	,components: { DaumPost }
+	name: 'OrderForm'
+	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN']
+	,components: {Modal, DaumPost }
 	,data: function(){
 		return {
 			program: {
@@ -313,18 +420,20 @@ export default{
 			,daumPostUp: false
 			,order_number: ''
 			,item: {
-				TOKEN: sessionStorage.getItem('delimallT')
+				TOKEN: this.TOKEN
 				,pay_div: 'bank'
 				,member_tell: '1234'
 				,member_email: 'aaa@bbb.com'
 				,d_name: '받는분'
 				,d_tell: '12345'
 				,d_post: '123456'
-				,d_addr: '주소'
+				,d_addr1: '주소'
 				,d_addr2: '상세주소'
 				,site_bank: '은행 123-45-6789'
 				,bank_info: ''
 				,c_uid: []
+				,is_base: '0'
+				,shipping_uid: null
 			}
 			,shop_info: {
 
@@ -333,6 +442,15 @@ export default{
 
 			]
 			,use_item: [
+
+			]
+			,is_modal: false
+			,modal_option: {
+				title: '배송지 목록'
+				,top: true
+				,bottom: false
+			}
+			,shipping_list: [
 
 			]
 		}
@@ -465,13 +583,14 @@ export default{
 
 				items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid] = option
 			}
-			console.log(items)
+
 			return items
 		}
 	}
 	,methods: {
 
 		save: async function(){
+			this.$emit('onLoading')
 			try{
 				const result = await this.Axios({
 					method: 'post'
@@ -488,6 +607,8 @@ export default{
 				}
 			}catch (e) {
 				console.log(e)
+			}finally {
+				this.$emit('offLoading')
 			}
 		}
 		,daumPost: function (type) {
@@ -498,7 +619,7 @@ export default{
 		, addPost: function (call) {
 
 			this.$set(this.item, 'd_post', call.zonecode)
-			this.$set(this.item, 'd_addr', call.address)
+			this.$set(this.item, 'd_addr1', call.address)
 
 			this.daumPostUp = false
 			this.$emit('setOverlay')
@@ -525,6 +646,40 @@ export default{
 				console.log(e)
 			}
 		}
+		,getShippingList: async function(){
+			try {
+				const result = await this.Axios({
+					method: 'post'
+					,url: 'member/getShippingList'
+					,data: {
+						TOKEN: this.TOKEN
+					}
+				})
+				if(result.success){
+					this.shipping_list = result.data
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}
+		}
+		,showSipping: function(){
+			this.is_modal = true
+		}
+		,setShipping: function(shipping) {
+
+			this.item.shipping_uid = shipping.uid
+			this.item.shipping_name = shipping.shipping_name
+			this.item.d_name = shipping.name
+			this.item.d_tell = shipping.tell
+			this.item.d_post = shipping.post
+			this.item.d_addr1 = shipping.addr1
+			this.item.d_addr2 = shipping.addr2
+			this.item.is_base = shipping.is_base
+
+			this.is_modal = false
+		}
 	}
 	,created: function(){
 		this.$emit('onLoad', this.program)
@@ -533,6 +688,8 @@ export default{
 		}else{
 			this.use_item = this.cart_items
 		}
+
+		this.getShippingList()
 	}
 }
 </script>

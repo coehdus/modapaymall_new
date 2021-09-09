@@ -2,7 +2,7 @@
 	<div class="full-height bg-gray-light">
 		<div
 			v-if="!is_item"
-			class="full-height"
+			class="full-height flex-column"
 		>
 			<div
 				class="bg-title position-relative justify-space-between bg-white"
@@ -16,6 +16,9 @@
 					@click="setItem(item)"
 				>mdi mdi-pencil-box</v-icon>
 			</div>
+			<template
+				v-if="items.length > 0"
+			>
 			<ul
 				class="pa-10"
 			>
@@ -51,6 +54,19 @@
 					<div class="">{{ item.addr2 }}</div>
 				</li>
 			</ul>
+			</template>
+			<div
+				v-else
+				class="full-height flex-column justify-center overflow-y-auto"
+			>
+				<div class="text-center">
+					<v-icon
+						large
+						class="color-base size-px-48"
+					>mdi mdi-cloud-off-outline</v-icon>
+					<p class="mt-20">등록된 주소록정보가 없습니다.</p>
+				</div>
+			</div>
 
 			<Modal
 				:is_modal="is_modal"

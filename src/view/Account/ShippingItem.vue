@@ -24,20 +24,15 @@
 					:class="{'btn-success': item.is_base == 1}"
 				>
 					<v-icon
-						v-if="item.is_base"
+						v-if="item.is_base == 1"
 						class="color-white"
+						@click="item.is_base = 0"
 					>mdi mdi-checkbox-marked-outline</v-icon>
 					<v-icon
 						v-else
+						@click="item.is_base = 1"
 					>mdi mdi-checkbox-blank-outline</v-icon>
 					기본 배송지
-
-					<input
-						v-show="false"
-						v-model="item.is_base"
-						type="checkbox"
-						value="1"
-					/>
 				</label>
 
 			</div>
