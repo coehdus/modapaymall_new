@@ -34,11 +34,10 @@
 					<div
 
 						class="pa-10 justify-space-between "
-						:class="'bg-' + item.o_status_color"
 						@click="toResult(item.order_num_new)"
 					>
-						<span class="color-eee">{{ item.wDate | transDate }}</span>
-						<v-icon class="color-eee">mdi mdi-arrow-right-bold-box-outline</v-icon>
+						<span class="">{{ item.wDate | transDate }}</span>
+						<v-icon class="">mdi mdi-arrow-right-bold-box-outline</v-icon>
 					</div>
 
 					<div
@@ -127,6 +126,8 @@
 				type="more"
 
 				@click="getData"
+
+				class="mt-10"
 			></Pagination>
 		</div>
 		<Modal
@@ -155,24 +156,30 @@
 			v-if="item_cancel.uid"
 			:Axios="Axios"
 			:item="item_cancel"
+			:TOKEN="TOKEN"
 
 			@click="clearItem"
 			@setReason="setReason"
 			@setCancelFile="setCancelFile"
 			@setNotify="setNotify"
 			@cancel="cancel"
+			@onLoading="onLoading"
+			@offLoading="offLoading"
 		></OrderCancel>
 
 		<OrderConfirm
 			v-if="item_confirm.uid"
 			:Axios="Axios"
 			:item="item_confirm"
+			:TOKEN="TOKEN"
 
 			@click="clearItem"
 			@setReason="setReason"
 			@setCancelFile="setCancelFile"
 			@setNotify="setNotify"
 			@confirm="confirm"
+			@onLoading="onLoading"
+			@offLoading="offLoading"
 		></OrderConfirm>
 	</div>
 </template>
@@ -397,9 +404,6 @@
 			,isCancel: function(odt){
 				this.item_cancel = odt
 			}
-			,setCancel: function(item){
-				this.item_cancel = item
-			}
 			,clearItem: function(){
 				this.item = {}
 				this.item_cancel = {}
@@ -427,6 +431,12 @@
 			,cancel: function(step) {
 				this.$set(this.item_confirm, 'order_status', step)
 				this.clearItem()
+			}
+			,onLoading: function(){
+				this.$emit('onLoading')
+			}
+			,offLoading: function(){
+				this.$emit('offLoading')
 			}
 		}
 		,created() {

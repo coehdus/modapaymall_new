@@ -84,7 +84,7 @@
 <script>
 export default {
 	name: 'OrderCancel'
-	,props: ['Axios', 'item']
+	,props: ['Axios', 'item', 'TOKEN']
 	,data: function(){
 		return{
 			program: {
@@ -100,7 +100,8 @@ export default {
 				,{ key: 4, value: '4', name: '기타', price: '반품비: 본인부담'}
 			]
 			,cancel_item: {
-				type: 'return'
+				TOKEN: this.TOKEN
+				,type: 'return'
 				,file: null
 				,reason: 1
 				,reason_text: ''
@@ -127,6 +128,7 @@ export default {
 			this.$set(this.cancel_item, 'file', file)
 		}
 		,save: async function(){
+			this.$emit('onLoading')
 			try {
 				const result = await this.Axios({
 					method: 'post'
@@ -143,6 +145,8 @@ export default {
 			}catch (e) {
 				console.log(e)
 				this.$emit('setNotify', {type: 'error', message: '시스템 오류'})
+			}finally {
+				this.$emit('offLoading')
 			}
 		}
 	}

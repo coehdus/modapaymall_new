@@ -137,17 +137,25 @@ export default {
 			this.$set(this.item, 'file', file)
 		}
 		,save: async function(){
-			const result = await this.Axios({
-				method: 'post'
-				,url: 'order/postOdtConfirm'
-				,data: this.item
-			})
 
-			if(result.success){
-				this.$emit('confirm')
-				this.$emit('setNotify', { type: 'success', message: result.message})
-			}else{
-				this.$emit('setNotify', { type: 'error', message: result.message})
+			this.$emit('onLoading')
+			try {
+				const result = await this.Axios({
+					method: 'post'
+					, url: 'order/postOdtConfirm'
+					, data: this.item
+				})
+
+				if (result.success) {
+					this.$emit('confirm')
+					this.$emit('setNotify', {type: 'success', message: result.message})
+				} else {
+					this.$emit('setNotify', {type: 'error', message: result.message})
+				}
+			}catch(e){
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
 			}
 		}
 	}

@@ -70,9 +70,9 @@
 				>
 					<li
 						class="pa-10 justify-space-between"
-						@click="toOrderList('order')"
+						@click="toOrderList('')"
 					>
-						<span>주문 완료</span>
+						<span>주문 목록</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
 					<li
