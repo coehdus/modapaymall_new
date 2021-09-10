@@ -9,7 +9,7 @@
 				<div
 					class="mt-10 size-px-16 text-center input-box box-shadow bg-white"
 				>
-					{{ item.result.order_num_new }}
+					{{ item.order_num_new }}
 				</div>
 
 				<h6 class="mt-10">결제 정보</h6>
@@ -18,14 +18,14 @@
 				>
 					<div class="input-box justify-space-between">
 						<span>결제금액</span>
-						<span><span class="color-blue">{{ item.result.order_price | makeComma }}</span> 원</span>
+						<span><span class="color-blue">{{ item.order_price | makeComma }}</span> 원</span>
 					</div>
 					<div class=" mt-5 input-box justify-space-between">
 						<span>결제</span>
 						<span>{{ pay_div }}</span>
 					</div>
 					<div class=" mt-5 input-box ">
-						{{ item.result.pay_info }}
+						{{ item.pay_info }}
 					</div>
 				</div>
 			</div>
@@ -107,11 +107,11 @@
 				<div
 					class="mt-10 pa-10 bg-white box-shadow"
 				>
-					<div class="input-box">{{ item.result.member_name }}</div>
-					<div class="mt-5 input-box">{{ item.result.member_tell }}</div>
-					<div class="mt-5 input-box">{{ item.result.member_email }}</div>
-					<div class="mt-5 input-box">{{ item.result.member_post }} {{ item.result.member_addr1 }}</div>
-					<div class="mt-5 input-box">{{ item.result.member_addr2 }}</div>
+					<div class="input-box">{{ item.member_name }}</div>
+					<div class="mt-5 input-box">{{ item.member_tell }}</div>
+					<div class="mt-5 input-box">{{ item.member_email }}</div>
+					<div class="mt-5 input-box">{{ item.member_post }} {{ item.member_addr1 }}</div>
+					<div class="mt-5 input-box">{{ item.member_addr2 }}</div>
 				</div>
 			</div>
 			<div class="mt-30">
@@ -123,12 +123,12 @@
 					class="mt-10 bg-white pa-10 box-shadow"
 				>
 					<input
-						v-model="item.result.d_name"
+						v-model="item.d_name"
 						class="input-box"
 						placeholder="이름"
 					/>
 					<input
-						v-model="item.result.d_tell"
+						v-model="item.d_tell"
 						class="mt-10 input-box"
 						placeholder="연락처"
 					/>
@@ -137,7 +137,7 @@
 						@click="daumPost('default')"
 					>
 						<input
-							v-model="item.result.d_post"
+							v-model="item.d_post"
 							class="input-box flex-3 mr-10"
 							placeholder="우편번호"
 							readonly
@@ -147,7 +147,7 @@
 						>주소 검색</button>
 					</div>
 					<input
-						v-model="item.result.d_addr1"
+						v-model="item.d_addr1"
 						type="text" placeholder="기본 주소"
 						class="mt-10 input-box"
 						readonly
@@ -155,7 +155,7 @@
 						@click="daumPost('default')"
 					/>
 					<input
-						v-model="item.result.d_addr2"
+						v-model="item.d_addr2"
 						type="text" placeholder="상세 주소를 입력하세요"
 						class="mt-10 input-box"
 						maxlength="50"
@@ -169,33 +169,24 @@
 
 <script>
 export default {
-	name: 'OrderResult'
-	,props: ['Axios']
+	name: 'OrderDetail'
+	,props: ['Axios', 'item']
 	,data: function(){
 		return {
 			program: {
-				name: '주문완료'
+				name: '주문상세'
 				,top: false
 				,title: false
 				,bottom: true
-			}
-			,item: {
-				result: {
-
-				}
-				, odt_list: [
-
-				]
-				, order_number: this.$route.params.order_number
 			}
 		}
 	}
 	,computed: {
 		pay_div: function(){
 			let div = ''
-			if(this.item.result.pay_div == 'bank'){
+			if(this.item.pay_div == 'bank'){
 				div = '무통장 입금'
-			}else if(this.item.result.pay_div == 'card'){
+			}else if(this.item.pay_div == 'card'){
 				div = '카드 결제'
 			}
 			return div

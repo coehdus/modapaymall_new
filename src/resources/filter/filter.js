@@ -56,7 +56,8 @@ Vue.filter("transDateWeek", val => {
 })
 Vue.filter("transDate", val => {
 	if(val){
-		return val.substring(0, 4) + '.' + val.substring(4, 6) + '.' + val.substring(6, 8)
+		val = val.replaceAll('-', '')
+		return val.substring(0, 4) + '-' + val.substring(4, 6) + '-' + val.substring(6, 8)
 	}else{
 		return ''
 	}
