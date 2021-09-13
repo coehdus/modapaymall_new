@@ -68,9 +68,19 @@ const routes = [
 		,component: () => import('@/view/Order/OrderResult.vue')
 	}
 	,{
-		path: prefix + 'Order/List/:type?'
+		path: prefix + 'Order/List/:type/:page?'
 		,name: 'OrderList'
 		,component: () => import('@/view/Order/OrderList.vue')
+	}
+	,{
+		path: prefix + 'Order/Odt/Confirm/:odt_uid'
+		,name: 'OdtConfirm'
+		,component: () => import('@/view/Order/OdtConfirm.vue')
+	}
+	,{
+		path: prefix + 'Order/Odt/Return/:odt_uid'
+		,name: 'OdtReturn'
+		,component: () => import('@/view/Order/OdtReturn.vue')
 	}
 	,{
 		path: prefix + 'Account/MyPage'

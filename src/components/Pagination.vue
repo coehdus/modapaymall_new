@@ -5,7 +5,7 @@
 		>
 			<div
 				v-if="page_config.page < page_config.total_page"
-				class="pa-10 box bg-white box-shadow"
+				class="pa-10 box bg-white box-shadow "
 				@click="click(nextPage)"
 			>더 보기</div>
 		</div>
@@ -13,18 +13,32 @@
 			v-else
 			class="pagination mt-10"
 		>
-			<div class="pg-prev">
-				<a @click="click(prevGroup)"><i class="xi-angle-left"></i></a>
-			</div>
-			<div class="pg-body">
-				<div class="pg-num"
-					v-for="item in (setLength)"
-					:class="{ active: page_config.page == page_config.page_group * page_config.page_cnt - page_config.page_cnt + item}"
-					:key="item"
-				><a @click="click(page_config.page_group * page_config.page_cnt - page_config.page_cnt + item)">{{ page_config.page_group * page_config.page_cnt - page_config.page_cnt + item }}</a></div>
-			</div>
-			<div class="pg-next">
-				<a @click="click(nextGroup)"><i class="xi-angle-right"></i></a>
+
+			<div class="mt-10 justify-center">
+				<div class="pg-prev  mr-10 ">
+					<v-icon
+						class="box color-icon bg-white"
+						@click="click(prevGroup)"
+					>mdi mdi-chevron-left</v-icon>
+				</div>
+				<div class="">
+					<button
+
+						v-for="item in (setLength)"
+						class="box prl-10 mr-10 bg-page size-px-14 bg-white"
+						style="line-height: 170%"
+						:class="{ active: page_config.page == page_config.page_group * page_config.page_cnt - page_config.page_cnt + item}"
+						:key="item"
+						@click="click(page_config.page_group * page_config.page_cnt - page_config.page_cnt + item)"
+
+					>{{ page_config.page_group * page_config.page_cnt - page_config.page_cnt + item }}</button>
+				</div>
+				<div class="pg-next">
+					<v-icon
+						class="box color-icon bg-white"
+						@click="click(nextGroup)"
+					>mdi mdi-chevron-right</v-icon>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -41,7 +55,7 @@
 					,page_group: 1
 					,total_count: 1
 					,list_cnt: 10
-					,page_cnt: 10
+					,page_cnt: 5
 					,total_page: 1
 					,total_group: 1
 				}
@@ -81,7 +95,7 @@
 		,methods: {
 			click: function(page){
 				this.$set(this.options, 'page', page)
-				this.$emit('click')
+				this.$emit('click', page)
 				//this.$router.push(this.options.link + page)
 			}
 		}
@@ -124,3 +138,10 @@
 		}
 	}
 </script>
+
+<style>
+.active {
+	background-color: #333 !important;
+	color: #eee;
+}
+</style>

@@ -222,8 +222,6 @@
 <style lang="css" src="@/assets/css/reset.css"></style>
 <style lang="css" src="@/assets/css/base.css"></style>
 
-<style lang="css" src="@/assets/css/dream/reset.css"></style>
-
 <style>
 
 .cart-count {

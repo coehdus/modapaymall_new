@@ -70,7 +70,7 @@
 				>
 					<li
 						class="pa-10 justify-space-between"
-						@click="toOrderList('')"
+						@click="toOrderList('all')"
 					>
 						<span>주문 목록</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>

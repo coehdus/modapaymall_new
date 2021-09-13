@@ -1,102 +1,140 @@
 <template>
-	<div class="full-height flex-column">
-
+	<div
+		class="full-height flex-column position-fixed bg-gray-light"
+		style="width: 100%; z-index: 1; top: 0; left: 0;"
+	>
 		<div
-			class="pa-10 full-height pb-30 overflow-y-auto  bg-gray-light"
+			class="bg-title bg-base"
+			:class="program.class"
 		>
-			<div class="mt-30">
-				<h6>주문번호</h6>
-				<div
-					class="mt-10 size-px-16 text-center input-box box-shadow bg-white"
-				>
-					{{ item.order_num_new }}
-				</div>
+			<button
+				@click="$emit('click')"
+			><v-icon large class="color-eee">mdi-chevron-left</v-icon><span class="color-eee font-weight-bold size-em-15 vertical-middle">{{ program.name }}</span></button>
+		</div>
+		<div
+			class="pa-10 full-height pb-30 overflow-y-auto "
+		>
+			<div class="">
 
-				<h6 class="mt-10">결제 정보</h6>
-				<div
-					class="mt-10 pa-10 bg-white box-shadow"
-				>
-					<div class="input-box justify-space-between">
-						<span>결제금액</span>
-						<span><span class="color-blue">{{ item.order_price | makeComma }}</span> 원</span>
+				<h6>주문정보</h6>
+				<div class="pa-10 box-shadow bg-white">
+					<div
+						class="justify-space-between font-weight-bold under-line-dashed pb-10"
+					>
+						<span>주문번호</span>
+						<span>{{ item.order_num_new }}</span>
 					</div>
-					<div class=" mt-5 input-box justify-space-between">
-						<span>결제</span>
-						<span>{{ pay_div }}</span>
-					</div>
-					<div class=" mt-5 input-box ">
-						{{ item.pay_info }}
+
+					<div
+						class="mt-10 justify-space-between"
+					>
+						<span class="font-weight-bold">주문일시</span>
+						<span>{{ item.wDate }}</span>
 					</div>
 				</div>
 			</div>
-			<div class="mt-30">
+
+			<div class="mt-10">
 				<h6>상품 정보</h6>
 				<div></div>
 			</div>
 
 			<template
-				v-if="item.odt_list.length > 0"
+				v-if="item.supply_list.length > 0"
 			>
-				<ul class="mt-10">
+				<ul class="">
 					<li
 						v-for="(item, item_index) in item_list"
 						:key="item_index"
 						class="under-line mb-10  bg-white box-shadow"
 					>
 						<div
-							class="pa-10 under-line "
+							class="pa-10 under-line font-weight-bold"
 						><v-icon>mdi mdi-home-modern</v-icon>{{ item.company.seller_name }}</div>
 						<ul>
 							<li
-								v-for="(product, product_index) in item.items"
+								v-for="(odt, product_index) in item.items"
 								:key="'product_' + product_index"
-								class=" under-line justify-space-between"
+								class="pa-10 under-line full-height justify-space-between"
 							>
-								<div class="pa-10 flex-1 odt-img justify-center flex-column">
+								<div class="flex-1 full-height pdt-img justify-center flex-column mr-10">
 									<img
-										v-if="product.pdt_img"
-										:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
+										v-if="odt.pdt_img"
+										:src="odt.pdt_img"
 									/>
 									<v-icon
 										v-else
 									>mdi mdi-image</v-icon>
 								</div>
 								<div class="flex-3">
-									<div class=" ptb-10 under-line">{{ product.pdt_name }}</div>
+									<div class="under-line justify-space-between">
+										{{ odt.pdt_name }}
+
+										<span
+											class="font-weight-bold"
+											:class="'color-' + odt.order_status_color"
+										>{{ odt.order_status_name }}</span>
+									</div>
 									<div
-										v-for="(option, index) in product.options"
+										v-for="(option, index) in odt.options"
 										:key="'odt_' + index"
-										class=" pa-10 under-line-dashed"
+										class="under-line-dashed"
 									>
-										<div class="justify-space-between">
-											<span>옵션</span>
+										<div class="  color-gray">
+											<span>선택옵션: </span>
 											<span>{{ option.odt }}</span>
 										</div>
 										<div
-											class="mt-10 justify-space-between"
+											class=" justify-space-between"
 										>
 											<span
-												class="flex-2 color-blue"
-											>{{ option.odt_price | makeComma }}</span>
+												class="flex-2 font-weight-bold"
+											>{{ option.pdt_price | makeComma }} 원</span>
 
-											<span>{{ option.odt_cnt }} 개</span>
+											<span>수량: {{ option.odt_cnt }} 개</span>
 										</div>
 									</div>
-
+									<div class="mt-10 size-px-10">
+										<span
+											v-if="odt.is_step21"
+											class="box prl-10 bg-red"
+											@click="toOdtStatus('step21')"
+										>주문 취소</span>
+										<span
+											v-if="odt.is_step31"
+											class="box prl-10 bg-orange"
+											@click="toOdtStatus('step31')"
+										>교환 요청</span>
+										<span
+											v-if="odt.is_step41"
+											class="box prl-10 bg-orange"
+											@click="toOdtStatus('step41')"
+										>반품 요청</span>
+										<span
+											v-if="odt.is_step5"
+											class="box prl-10 bg-green"
+											@click="toOdtStatus('step5')"
+										>구매 확정</span>
+										<span
+											v-if="odt.shipping_num"
+											class="box prl-10 ml-5"
+											@click="toShipping(odt)"
+										>배송조회</span>
+									</div>
 								</div>
 							</li>
 						</ul>
 						<div
 							class="pa-10 justify-space-between under-line-dashed"
 						>
-							<span>배송비 <span class="size-px-11">{{ item.company.delivery }}</span></span>
-							<span>{{ item.company.delivery_price | makeComma }}</span>
+							<span class="font-weight-bold">상품 합계</span>
+							<span class="color-blue font-weight-bold">{{ item.company.total_price | makeComma }} 원</span>
 						</div>
 						<div
-							class="pa-10 justify-space-between"
+							class="pa-10 justify-space-between "
 						>
-							<span>합계</span>
-							<span class="color-blue">{{ item.company.total_price | makeComma }}</span>
+							<span class="font-weight-bold">배송비 <span class="size-px-11">{{ item.company.delivery }}</span></span>
+							<span class="font-weight-bold">{{ item.company.delivery_price | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>
@@ -105,72 +143,74 @@
 			<div class="mt-10">
 				<h6>주문자 정보</h6>
 				<div
-					class="mt-10 pa-10 bg-white box-shadow"
+					class="pa-10 bg-white box-shadow"
 				>
-					<div class="input-box">{{ item.member_name }}</div>
-					<div class="mt-5 input-box">{{ item.member_tell }}</div>
-					<div class="mt-5 input-box">{{ item.member_email }}</div>
-					<div class="mt-5 input-box">{{ item.member_post }} {{ item.member_addr1 }}</div>
-					<div class="mt-5 input-box">{{ item.member_addr2 }}</div>
-				</div>
-			</div>
-			<div class="mt-30">
-				<div
-				>
-					<h6 class="flex-4">배송지 정보</h6>
-				</div>
-				<div
-					class="mt-10 bg-white pa-10 box-shadow"
-				>
-					<input
-						v-model="item.d_name"
-						class="input-box"
-						placeholder="이름"
-					/>
-					<input
-						v-model="item.d_tell"
-						class="mt-10 input-box"
-						placeholder="연락처"
-					/>
-					<div
-						class="mt-10 flex-row"
-						@click="daumPost('default')"
-					>
-						<input
-							v-model="item.d_post"
-							class="input-box flex-3 mr-10"
-							placeholder="우편번호"
-							readonly
-						/>
-						<button
-							class="btn btn-blue flex-1"
-						>주소 검색</button>
+					<div class=" justify-space-between under-line-dashed pb-10">
+						<span class="font-weight-bold">이름</span>
+						<span>{{ item.member_name }}</span>
 					</div>
-					<input
-						v-model="item.d_addr1"
-						type="text" placeholder="기본 주소"
-						class="mt-10 input-box"
-						readonly
-						maxlength="80"
-						@click="daumPost('default')"
-					/>
-					<input
-						v-model="item.d_addr2"
-						type="text" placeholder="상세 주소를 입력하세요"
-						class="mt-10 input-box"
-						maxlength="50"
-					/>
+					<div class="mt-5  justify-space-between under-line-dashed pb-10">
+						<span class="font-weight-bold">연락처</span>
+						<span>{{ item.member_tell }}</span>
+					</div>
+					<div class="mt-5  justify-space-between ">
+						<span class="font-weight-bold">이메일</span>
+						<span>{{ item.member_email }}</span></div>
 				</div>
 			</div>
 
+			<div class="mt-10">
+
+				<h6>배송지 정보</h6>
+
+				<div
+					class="bg-white pa-10 box-shadow"
+				>
+					<div class=" justify-space-between under-line-dashed">
+						<span class="font-weight-bold">받는분 이름</span>
+						<span class="font-weight-bold">{{ item.d_name }}</span>
+					</div>
+					<div class="mt-10  justify-space-between under-line-dashed">
+						<span class="font-weight-bold">받는분 연락처</span>
+						<span class="font-weight-bold">{{ item.d_tell }}</span>
+					</div>
+					<div class="mt-10 text-right font-weight-bold">
+						{{ item.d_post }}
+						{{ item.d_addr1 }}
+						{{ item.d_addr2 }}
+					</div>
+
+				</div>
+			</div>
+
+			<h6 class="mt-10">결제 정보</h6>
+			<div
+				class="pa-10 bg-white box-shadow font-weight-bold"
+			>
+				<div class=" justify-space-between under-line-dashed">
+					<span class="font-weight-bold">결제금액</span>
+					<span><span class="color-blue font-weight-bold">{{ item.order_price | makeComma }}</span> 원</span>
+				</div>
+				<div class=" mt-5  justify-space-between under-line-dashed">
+					<span class="font-weight-bold">결제</span>
+					<span>{{ pay_div }}</span>
+				</div>
+				<div class=" mt-5  justify-space-between under-line-dashed">
+					<span class="">결제 상태</span>
+					<span>{{ order_status }}</span>
+				</div>
+				<div class=" mt-5 text-right ">
+					{{ item.pay_info }}
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'OrderDetail'
-	,props: ['Axios', 'item']
+	name: 'OrderResult'
+	,props: ['Axios', 'order_num_new', 'codes']
 	,data: function(){
 		return {
 			program: {
@@ -178,6 +218,15 @@ export default {
 				,top: false
 				,title: false
 				,bottom: true
+			}
+			,item: {
+				result: {
+
+				}
+				, supply_list: [
+
+				]
+				, order_number: this.order_num_new
 			}
 		}
 	}
@@ -191,70 +240,80 @@ export default {
 			}
 			return div
 		}
+		,order_status: function(){
+			let status = ''
+			if(this.item.o_status == 1){
+				status = '입금대기'
+			}else{
+				status = '결제완료'
+			}
+			return status
+		}
 		,item_list: function(){
 			let items = {}
 
-			for(const [key ,val] of Object.entries(this.item.odt_list)){
-				console.log('key: ' + key)
+			let self = this
+			for(const [s_key ,s_val] of Object.entries(this.item.supply_list)) {
+				console.log(s_key)
 
-				if(val.is_not_select){
-					continue
-				}
-				let company = items[val.seller_id]
+				let company = items[s_val.seller_id]
 
-				if(!company){
+				if (!company) {
 					company = {
 						company: {
 							total_price: 0
 						}
-						,items: {}
+						, items: {}
 					}
 				}
 
-				items[val.seller_id] = company
+				items[s_val.seller_id] = company
 
-				items[val.seller_id]['company']['seller_id'] = val.seller_id
-				items[val.seller_id]['company']['seller_name'] = val.shop_name
-				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_price) + Number(val.op_price)) * val.op_cnt)
-				items[val.seller_id]['company']['delivery_type'] = val.delivery_type
-				items[val.seller_id]['company']['delivery_price'] = val.delivery_price
+				items[s_val.seller_id]['company']['seller_id'] = s_val.seller_id
+				items[s_val.seller_id]['company']['seller_name'] = s_val.shop_name
+				items[s_val.seller_id]['company']['total_price'] = s_val.total_price
+				items[s_val.seller_id]['company']['delivery_type'] = s_val.delivery_type
+				items[s_val.seller_id]['company']['delivery_price'] = s_val.delivery_price
 
-				if(val.delivery_type == '무료'){
-					items[val.seller_id]['company']['delivery_price'] = val.delivery_type
-					items[val.seller_id]['company']['delivery'] = ''
-				}else{
-					if(val.free_price > 0){
-						items[val.seller_id]['company']['delivery'] = val.free_price + ' 이상 구매시 무료'
-						if(val.free_price < items[val.seller_id]['company']['total_price']){
-							items[val.seller_id]['company']['delivery_price'] = 0
+				for (const [key, val] of Object.entries(s_val.odt_list)) {
+					console.log('key: ' + key)
+
+					let product = items[s_val.seller_id]['items'][val.pdt_uid]
+
+					if (!product || product === undefined) {
+						val.order_status_name = self.codes.odt_status[val.order_status].name
+						val.order_status_color = self.codes.odt_status[val.order_status].color
+						val.options = {}
+						if(val.pdt_img1){
+							val.pdt_img = self.codes.img_url + val.pdt_img1
+						}
+						switch(val.order_status){
+							case 'step4':
+								val.is_step5 = true
+								val.is_step31 = true
+								val.is_step41 = true
+								break;
+							case 'step1':
+								val.is_step21 = true
+								break;
+						}
+						product = val
+					}
+
+					items[s_val.seller_id]['items'][val.pdt_uid] = product
+
+					let option = items[s_val.seller_id]['items'][val.pdt_uid]['options'][val.uid]
+					if (!option || option === undefined) {
+						option = {
+							odt: val.op_name
+							, odt_cnt: val.op_cnt
+							, odt_price: val.op_price
+							, pdt_price: val.pdt_price
 						}
 					}
+
+					items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid] = option
 				}
-
-				let product = items[val.seller_id]['items'][val.pdt_uid]
-
-				if(!product || product === undefined){
-					product = {
-						pdt_uid: val.pdt_uid
-						,pdt_img: val.pdt_img1
-						,pdt_name: val.pdt_name
-						,pdt_price: val.pdt_price
-						,options: {}
-					}
-				}
-
-				items[val.seller_id]['items'][val.pdt_uid] = product
-
-				let option = items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid]
-				if(!option || option === undefined){
-					option = {
-						odt: val.op_name
-						,odt_cnt: val.op_cnt
-						,odt_price: Number(val.pdt_price) + Number(val.op_price)
-					}
-				}
-
-				items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid] = option
 			}
 			console.log(items)
 			return items
@@ -265,7 +324,7 @@ export default {
 			try{
 				const result = await this.Axios({
 					method: 'post'
-					,url: 'order/getOrderResult'
+					,url: 'order/getOrderDetail'
 					,data: this.item
 				})
 
@@ -278,6 +337,9 @@ export default {
 				console.log(e)
 			}
 		}
+		,toShipping: function(odt){
+			this.$emit('toShipping', odt)
+		}
 	}
 	,created() {
 		this.$emit('onLoad', this.program)
@@ -285,3 +347,7 @@ export default {
 	}
 }
 </script>
+
+<style>
+.pdt-img { width: 80px; height: auto; overflow: hidden}
+</style>

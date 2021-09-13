@@ -5,8 +5,8 @@
 		<div class="tab justify-space-between under-line">
 			<div
 				class="flex-1 pa-10 text-center "
-				:class="{ on: search.type == ''}"
-				@click="getTypeData('')"
+				:class="{ on: search.type == 'all'}"
+				@click="getTypeData('all')"
 			>주문전체</div>
 			<div
 				class="flex-1 pa-10 text-center box-rl"
@@ -34,7 +34,7 @@
 					<div
 
 						class="pa-10 justify-space-between "
-						@click="toResult(item.order_num_new)"
+						@click="toResult(item)"
 					>
 						<span class="">{{ item.wDate | transDate }}</span>
 						<v-icon class="">mdi mdi-arrow-right-bold-box-outline</v-icon>
@@ -96,13 +96,28 @@
 									</div>
 								</div>
 								<div class="mt-10  ">
-
 									<button
 										v-if="odt.is_cancel"
 										class="box prl-10 size-px-11 bg-red "
-										@click="isCancel(odt)"
-									>교환 / 반품 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+										@click="isOdtUpdate(odt, odt_step_cancel)"
+									>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
+									<button
+										v-if="odt.is_return"
+										class="box prl-10 size-px-11 bg-orange "
+										@click="toOdtReturn(odt)"
+									>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+
+									<button
+										v-if="odt.is_confirm"
+										class="box prl-10 size-px-11 bg-green "
+										@click="toOdtConfirm(odt)"
+									>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+
+									<button
+										class="box prl-10 size-px-11 ml-5"
+										@click="toShipping(odt)"
+									>배송조회 <v-icon small class="">mdi mdi-chevron-right</v-icon></button>
 								</div>
 							</li>
 						</ul>
@@ -123,18 +138,17 @@
 				:program="program"
 				:align="'center'"
 				:options="search"
-				type="more"
 
-				@click="getData"
+				@click="toPage"
 
 				class="mt-10"
 			></Pagination>
 		</div>
+
 		<Modal
 			:is_modal="is_modal"
 			:option="modal_option"
 
-			@click="toCancel"
 			@close="is_modal = !is_modal"
 		>
 			<div
@@ -143,20 +157,21 @@
 			>
 				<button
 					class="btn btn-danger"
-					@click="toCancel"
-				>주문 취소</button>
+					@click="toOdtCancel"
+				>확인</button>
+				<button
+					class="btn btn-default"
+					@click="clearItem"
+				>닫기</button>
 			</div>
 		</Modal>
 
 		<OrderDetail
-			v-if="item.uid"
-		></OrderDetail>
-
-		<OrderCancel
-			v-if="item_cancel.uid"
+			v-if="item_result.uid"
 			:Axios="Axios"
-			:item="item_cancel"
+			:order_num_new="item_result.order_num_new"
 			:TOKEN="TOKEN"
+			:codes="codes"
 
 			@click="clearItem"
 			@setReason="setReason"
@@ -165,22 +180,8 @@
 			@cancel="cancel"
 			@onLoading="onLoading"
 			@offLoading="offLoading"
-		></OrderCancel>
-
-		<OrderConfirm
-			v-if="item_confirm.uid"
-			:Axios="Axios"
-			:item="item_confirm"
-			:TOKEN="TOKEN"
-
-			@click="clearItem"
-			@setReason="setReason"
-			@setCancelFile="setCancelFile"
-			@setNotify="setNotify"
-			@confirm="confirm"
-			@onLoading="onLoading"
-			@offLoading="offLoading"
-		></OrderConfirm>
+			@toShipping="toShipping"
+		></OrderDetail>
 	</div>
 </template>
 
@@ -188,12 +189,11 @@
 	import Modal from "@/components/Modal";
 	import Pagination from "../../components/Pagination";
 	import OrderDetail from "@/view/Order/OrderDetail";
-	import OrderCancel from "@/view/Order/OrderCancel";
-	import OrderConfirm from "@/view/Order/OrderConfirm";
+
 	export default{
 		name: 'OrderList'
 		,
-		components: {OrderConfirm, OrderCancel, OrderDetail, Pagination, Modal},
+		components: {OrderDetail, Pagination, Modal},
 		props: ['Axios', 'member_info', 'TOKEN', 'codes']
 		,data: function() {
 			return {
@@ -208,6 +208,8 @@
 					,sDate: ''
 					,eDate: ''
 					,type: this.$route.params.type
+					,page: this.$route.params.page
+					, list_cnt: 2
 				}
 				,items: [
 
@@ -215,18 +217,28 @@
 				,is_modal: false
 				,modal_option: {
 					top: true
-					,title: '주문 취소'
-					,content: '해당 주문을 취소하시겠습니까?'
+					,title: '주문취소'
+					,content: '해당 주문상품을 취소하시겠습니까?'
 					,bottom: true
 				}
 				,cancel_item: ''
 				,item: {
 
 				}
+				,odt_step_confirm: 'step5'
+				,odt_step_cancel: 'step21'
+				,odt_step_change: 'step31'
+				,odt_step_return: 'step41'
 				,item_cancel: {
 
 				}
+				,item_return: {
+
+				}
 				,item_confirm: {
+
+				}
+				,item_result: {
 
 				}
 			}
@@ -265,19 +277,26 @@
 						if(odt.pdt_img){
 							odt.pdt_img = self.codes.img_url + odt.pdt_img
 						}
+						odt.is_shipping = true
+
 						switch (odt.order_status){
 							default: case 'step1':
 								odt.order_status_name = '주문접수'
 								odt.order_status_color = ''
+								odt.is_shipping = false
+								odt.is_cancel = true
 								break
 							case 'step2':
 								odt.order_status_name = '배송준비중'
 								odt.order_status_color = ''
+								odt.is_cancel = true
+
 								item.is_cancel = false
 								break
 							case 'step3':
 								odt.order_status_name = '배송중'
 								odt.order_status_color = 'blue'
+
 								item.is_cancel = false
 								break
 							case 'step4':
@@ -285,56 +304,70 @@
 								odt.order_status_color = 'green'
 								odt.is_cancel = true
 								odt.is_confirm = true
+								odt.is_return = true
+
 								item.is_cancel = false
 								break
 							case 'step5':
 								odt.order_status_name = '구매확정'
 								odt.order_status_color = 'green'
+
 								item.is_cancel = false
 								break
 							case 'step21':
 								odt.order_status_name = '주문 취소 요청'
 								odt.order_status_color = 'orange'
-								item.is_cancel = false
+								odt.is_shipping = false
+
+								item.is_step21 = false
 								break
 							case 'step22':
 								odt.order_status_name = '주문 취소 완료'
 								odt.order_status_color = 'red'
+								odt.is_shipping = false
+
 								item.is_cancel = false
 								break
 							case 'step31':
 								odt.order_status_name = '교환 요청'
 								odt.order_status_color = 'orange'
+
 								item.is_cancel = false
 								break
 							case 'step32':
 								odt.order_status_name = '교환 처리중'
 								odt.order_status_color = 'orange'
+
 								item.is_cancel = false
 								break
 							case 'step33':
 								odt.order_status_name = '교환 배송중'
 								odt.order_status_color = 'blue'
+
 								item.is_cancel = false
 								break
 							case 'step34':
 								odt.order_status_name = '교환 완료'
 								odt.order_status_color = 'green'
+
 								item.is_cancel = false
 								break
 							case 'step41':
 								odt.order_status_name = '반품 요청'
 								odt.order_status_color = 'orange'
+
 								item.is_cancel = false
 								break
 							case 'step42':
 								odt.order_status_name = '반품 처리중'
 								odt.order_status_color = 'orange'
+
 								item.is_cancel = false
 								break
 							case 'step43':
 								odt.order_status_name = '반품 완료'
 								odt.order_status_color = 'red'
+
 								item.is_cancel = false
 								break
 						}
@@ -345,6 +378,7 @@
 		}
 		,methods: {
 			getData: async function(){
+				this.$emit('onLoading')
 				try{
 					const result = await this.Axios({
 						method: 'get'
@@ -362,10 +396,12 @@
 					}
 				}catch(e){
 					console.log(e)
+				}finally {
+					this.$emit('offLoading')
 				}
 			}
-			,toResult: function(order_number){
-				this.$router.push({ name: 'OrderResult', params: { order_number: order_number }})
+			,toResult: function(item){
+				this.item_result = item
 			}
 			,viewCancel: function(item, index){
 				this.is_modal = true
@@ -374,9 +410,34 @@
 
 				console.log(item)
 			}
-			,toCancel: async  function(){
+			,toOdtCancel: async function(){
+				this.$emit('onLoading')
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'order/postOdtUpdate'
+						,data: {
+							uid: this.item_cancel.uid
+							,TOKEN: this.TOKEN
+							,next_step: this.odt_step_cancel
+						}
+					})
 
-				console.log(this.cancel_item)
+					if(result.success){
+						this.$router.go(this.$router.currentRoute)
+						this.$emit('setNotify', { type: 'success', message: result.message})
+					}else{
+						this.$emit('setNotify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.$emit('offLoad')
+				}
+			}
+			,toOrderCancel: async function(){
+
+				this.$emit('onLoading')
 				try{
 					const result = await this.Axios({
 						method: 'post'
@@ -393,30 +454,36 @@
 					}
 				}catch (e) {
 					console.log(e)
+				}finally {
+					this.$emit('offLoad')
 				}
 			}
 			,getTypeData: function(type){
-				this.items = []
-				this.search.type = type
-				this.$set(this.search, 'page', 1)
-				this.getData()
+				this.$router.push({ name: 'OrderList', params: { type: type}})
 			}
 			,isCancel: function(odt){
 				this.item_cancel = odt
 			}
+			,isReturn: function(odt){
+				this.item_return = odt
+			}
 			,clearItem: function(){
+				this.is_modal = false
 				this.item = {}
 				this.item_cancel = {}
+				this.item_return = {}
 				this.item_confirm = {}
+				this.item_result = {}
+				this.$emit('offLoading')
 			}
 			,setReason: function(reason){
-				this.$set(this.item_cancel, 'reason', reason)
+				this.$set(this.item_return, 'reason', reason)
 			}
 			,setCancelFile: function(e){
 				console.log(e)
 				let file = e.data.files[0]
 
-				this.$set(this.item_cancel, 'img', file)
+				this.$set(this.item_return, 'img', file)
 			}
 			,isConfirm: function(odt){
 				this.item_confirm = odt
@@ -437,6 +504,32 @@
 			}
 			,offLoading: function(){
 				this.$emit('offLoading')
+			}
+			,toShipping: function(odt){
+				let code = this.codes.G000.items
+				let url = ''
+				for(let i = 0; i < code.length; i++){
+					if(code[i].total_code == odt.shipping_name){
+						url = code[i].code_value + odt.shipping_num
+						break
+					}
+				}
+				console.log(url)
+				window.open(url, 'shipping')
+			}
+			,toPage: function(page){
+				this.$router.push({ name: 'OrderList', params: { type: this.search.type, page: page}})
+			}
+			,isOdtUpdate: function(odt, step){
+				this.is_modal = true
+				this.modal_option.type = step
+				this.item_cancel = odt
+			}
+			,toOdtConfirm: function(odt){
+				this.$router.push({ name: 'OdtConfirm', params: { odt_uid: odt.uid }})
+			}
+			,toOdtReturn: function(odt){
+				this.$router.push({ name: 'OdtReturn', params: { odt_uid: odt.uid }})
 			}
 		}
 		,created() {

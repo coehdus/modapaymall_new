@@ -1,27 +1,17 @@
 <template>
 	<div
-		class="full-height flex-column position-fixed bg-white"
-		style="width: 100%; z-index: 1; top: 0; left: 0;"
+		class="full-height flex-column  bg-white"
 	>
-		<div
-			class="bg-title bg-base"
-			:class="program.class"
-		>
-			<button
-				@click="$emit('click')"
-			><v-icon large class="color-eee">mdi-chevron-left</v-icon><span class="color-eee font-weight-bold size-em-15 vertical-middle">{{ program.name }}</span></button>
-		</div>
-
 		<div class="mt-10 pa-10 full-height flex-column overflow-y-auto">
 			<div>
 				<h6 class="size-px-14">구매 상품</h6>
 				<div
 					class=" justify-space-between "
 				>
-					<span class="flex-1 pdt-img mr-10 flex-column justify-center">
+					<span class="flex-1 pdt-img mr-10 flex-column justify-center mr-10">
 						<img
-							v-if="item.pdt_img"
-							:src="item.pdt_img"
+							v-if="pdt_img"
+							:src="pdt_img"
 						/>
 						<v-icon
 							v-else
@@ -97,8 +87,8 @@
 
 <script>
 export default {
-	name: 'OrderConfirm'
-	,props: ['Axios', 'item']
+	name: 'OdtConfirm'
+	,props: ['Axios', 'codes', 'TOKEN']
 	,data: function(){
 		return{
 			program: {
@@ -117,6 +107,9 @@ export default {
 				type: 'return'
 				,file: null
 			}
+			,item: {
+
+			}
 		}
 	}
 	,computed: {
@@ -128,6 +121,13 @@ export default {
 				return '사진을 첨부해주세요'
 			}
 		}
+		,pdt_img: function(){
+			if(this.item.pdt_img1) {
+				return this.codes.img_url + this.item.pdt_img1
+			}else{
+				return ''
+			}
+		}
 	}
 	,methods: {
 		setCancelFile: function(e){
@@ -136,14 +136,46 @@ export default {
 
 			this.$set(this.item, 'file', file)
 		}
+		,getData: async function(){
+
+			this.$emit('onLoading')
+			try {
+				const result = await this.Axios({
+					method: 'get'
+					, url: 'order/getOdt'
+					, data: {
+						TOKEN: this.TOKEN
+						,odt_uid: this.$route.params.odt_uid
+					}
+				})
+
+				if (result.success) {
+					this.item = result.data
+					this.$emit('setNotify', {type: 'success', message: result.message})
+				} else {
+					this.$emit('setNotify', {type: 'error', message: result.message})
+				}
+			}catch(e){
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
 		,save: async function(){
 
 			this.$emit('onLoading')
 			try {
 				const result = await this.Axios({
 					method: 'post'
-					, url: 'order/postOdtConfirm'
-					, data: this.item
+					, url: 'order/postOdtUpdate'
+					, data: {
+						TOKEN: this.TOKEN
+						,uid: this.item.uid
+						,review_point: this.item.review_point
+						,review_contents: this.item.review_contents
+						,review_file: this.item.file
+						,next_step: 'step5'
+					}
 				})
 
 				if (result.success) {
@@ -160,7 +192,12 @@ export default {
 		}
 	}
 	,created() {
-		this.$emit('setProgram', this.program)
+		this.$emit('onLoad', this.program)
+		this.getData()
 	}
 }
 </script>
+
+<style>
+	.pdt-img { width: 80px; overflow: hidden}
+</style>
