@@ -1,16 +1,7 @@
 <template>
 	<div
-		class="full-height flex-column position-fixed bg-gray-light"
-		style="width: 100%; z-index: 1; top: 0; left: 0;"
+		class="full-height flex-column bg-gray-light"
 	>
-		<div
-			class="bg-title bg-base"
-			:class="program.class"
-		>
-			<button
-				@click="$emit('click')"
-			><v-icon large class="color-eee">mdi-chevron-left</v-icon><span class="color-eee font-weight-bold size-em-15 vertical-middle">{{ program.name }}</span></button>
-		</div>
 		<div
 			class="pa-10 full-height pb-30 overflow-y-auto "
 		>
@@ -210,13 +201,13 @@
 <script>
 export default {
 	name: 'OrderResult'
-	,props: ['Axios', 'order_num_new', 'codes']
+	,props: ['Axios', 'codes', 'TOKEN']
 	,data: function(){
 		return {
 			program: {
 				name: '주문상세'
 				,top: false
-				,title: false
+				,title: true
 				,bottom: true
 			}
 			,item: {
@@ -321,11 +312,15 @@ export default {
 	}
 	,methods:{
 		getData: async function(){
+			this.$emit('onLoading')
 			try{
 				const result = await this.Axios({
-					method: 'post'
+					method: 'get'
 					,url: 'order/getOrderDetail'
-					,data: this.item
+					,data: {
+						TOKEN: this.TOKEN
+						,order_num_new: this.$route.params.order_num_new
+					}
 				})
 
 				if(result.success){
@@ -335,6 +330,8 @@ export default {
 				}
 			}catch (e) {
 				console.log(e)
+			}finally {
+				this.$emit('offLoading')
 			}
 		}
 		,toShipping: function(odt){

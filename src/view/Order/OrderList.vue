@@ -34,7 +34,7 @@
 					<div
 
 						class="pa-10 justify-space-between "
-						@click="toResult(item)"
+						@click="toDetail(item)"
 					>
 						<span class="">{{ item.wDate | transDate }}</span>
 						<v-icon class="">mdi mdi-arrow-right-bold-box-outline</v-icon>
@@ -165,35 +165,17 @@
 				>닫기</button>
 			</div>
 		</Modal>
-
-		<OrderDetail
-			v-if="item_result.uid"
-			:Axios="Axios"
-			:order_num_new="item_result.order_num_new"
-			:TOKEN="TOKEN"
-			:codes="codes"
-
-			@click="clearItem"
-			@setReason="setReason"
-			@setCancelFile="setCancelFile"
-			@setNotify="setNotify"
-			@cancel="cancel"
-			@onLoading="onLoading"
-			@offLoading="offLoading"
-			@toShipping="toShipping"
-		></OrderDetail>
 	</div>
 </template>
 
 <script>
 	import Modal from "@/components/Modal";
 	import Pagination from "../../components/Pagination";
-	import OrderDetail from "@/view/Order/OrderDetail";
 
 	export default{
 		name: 'OrderList'
 		,
-		components: {OrderDetail, Pagination, Modal},
+		components: { Pagination, Modal},
 		props: ['Axios', 'member_info', 'TOKEN', 'codes']
 		,data: function() {
 			return {
@@ -400,8 +382,8 @@
 					this.$emit('offLoading')
 				}
 			}
-			,toResult: function(item){
-				this.item_result = item
+			,toDetail: function(item){
+				this.$router.push({ name: 'OrderDetail', params: {order_num_new: item.order_num_new}})
 			}
 			,viewCancel: function(item, index){
 				this.is_modal = true

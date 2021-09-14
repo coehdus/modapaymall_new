@@ -20,16 +20,34 @@
 			>리뷰관리</div>
 		</div>
 		<div
-			class=""
+			class="full-height"
 		>
 			<NoticeList
 				v-if="type == 'notice'"
+				:Axios="Axios"
+				:TOKEN="TOKEN"
+
+				@onLoading="$emit('onLoading')"
+				@offLoading="$emit('offLoading')"
+				@setNotify="setNotify"
 			></NoticeList>
 			<QnAList
 				v-if="type == 'qna'"
+
+				:Axios="Axios"
+				:TOKEN="TOKEN"
+				@onLoading="$emit('onLoading')"
+				@offLoading="$emit('offLoading')"
+				@setNotify="setNotify"
 			></QnAList>
 			<ReviewList
 				v-if="type == 'review'"
+
+				:Axios="Axios"
+				:TOKEN="TOKEN"
+				@onLoading="$emit('onLoading')"
+				@offLoading="$emit('offLoading')"
+				@setNotify="setNotify"
 			></ReviewList>
 		</div>
 	</div>
@@ -44,7 +62,7 @@
 		name: 'CustomerCenter'
 		,
 		components: {ReviewList, QnAList, NoticeList},
-		props: ['Axios']
+		props: ['Axios', 'codes', 'TOKEN']
 		,data: function(){
 			return {
 				program: {
@@ -56,7 +74,11 @@
 				,type: this.$route.params.type ? this.$route.params.type : 'notice'
 			}
 		}
-
+		,methods: {
+			setNotify: function({ type, message }){
+				this.$emit('setNotify', { type: type, message: message })
+			}
+		}
 		,created() {
 			this.$emit('onLoad', this.program)
 		}
