@@ -2,7 +2,6 @@
 	<div
 		class="header-box-menu flex-row justify-space-between bg-white"
 	>
-
 		<input
 			type="hidden"
 			name="search_type"

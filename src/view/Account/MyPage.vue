@@ -180,13 +180,13 @@ export default{
 			this.$emit('setNotify', { type: type, message: message })
 		}
 		,toQnA: function(){
-			this.$emit('push', 'CustomerCenter', { type: 'qna'})
+			this.$emit('push', 'CustomerCenter', { b_code: 'b_qna'})
 		}
 		,toNotice: function(){
-			this.$emit('push', 'CustomerCenter')
+			this.$emit('push', 'CustomerCenter', { b_code: 'b_notice'})
 		}
 		,toReview: function(){
-			this.$emit('push', 'CustomerCenter', { type: 'review'})
+			this.$emit('push', 'CustomerCenter', { b_code: 'b_after' })
 		}
 	}
 	,created: function(){

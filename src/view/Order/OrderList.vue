@@ -66,7 +66,7 @@
 							>
 								<div class="under-line-dashed pb-10 justify-space-between">
 									<button
-										class="box prl-10 size-px-11"
+										class="font-weight-bold"
 										:class="'color-' + odt.order_status_color"
 									>{{ odt.order_status_name }}</button>
 									<button
@@ -76,7 +76,7 @@
 									>구매 확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 								</div>
 								<div
-									class="justify-space-between ptb-10 under-line-dashed"
+									class="justify-space-between ptb-10 "
 								>
 									<span class="flex-1 pdt-img mr-10 flex-column justify-center">
 										<img
@@ -95,7 +95,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="mt-10  ">
+								<div
+									v-if="item.is_cancel"
+									class="mt-10  under-line-dashed pb-10"
+								>
 									<button
 										v-if="odt.is_cancel"
 										class="box prl-10 size-px-11 bg-red "
@@ -115,12 +118,17 @@
 									>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
 									<button
+										v-if="odt.is_shipping"
 										class="box prl-10 size-px-11 ml-5"
 										@click="toShipping(odt)"
 									>배송조회 <v-icon small class="">mdi mdi-chevron-right</v-icon></button>
 								</div>
 							</li>
 						</ul>
+						<div class="pa-10 top-line justify-space-between ">
+							<span class="font-weight-bold" :class="'color-' + item.o_status_color">{{ item.o_status_name }}</span>
+							<span class="font-weight-bold">결제 금액: {{ item.order_price | makeComma }} 원</span>
+						</div>
 						<div
 							v-if="false"
 							class="pa-10 text-right"
@@ -191,7 +199,7 @@
 					,eDate: ''
 					,type: this.$route.params.type
 					,page: this.$route.params.page
-					, list_cnt: 2
+					, list_cnt: 10
 				}
 				,items: [
 
@@ -235,7 +243,7 @@
 
 					switch (item.o_status){
 						default: case "1":
-							item.o_status_name = "입금 대기"
+							item.o_status_name = "결제대기"
 							item.o_status_color = "gray"
 							break;
 
@@ -249,7 +257,7 @@
 							item.is_cancel = false
 							break
 						case "4":
-							item.o_status_name = "주문 취소"
+							item.o_status_name = "결제취소"
 							item.o_status_color = "red"
 							item.is_cancel = false
 							break;

@@ -13,7 +13,6 @@
 			v-else
 			class="pagination mt-10"
 		>
-
 			<div class="mt-10 justify-center">
 				<div class="pg-prev  mr-10 ">
 					<v-icon

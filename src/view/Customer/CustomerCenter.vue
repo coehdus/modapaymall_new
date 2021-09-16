@@ -4,44 +4,46 @@
 			class="tab justify-space-between"
 		>
 			<div
-				@click="type = 'notice'"
+				@click="toBbs(b_code_notice)"
 				class="pa-10 flex-1 box text-center"
-				:class="{ on: type == 'notice'}"
+				:class="{ on: b_code == b_code_notice}"
 			>공지사항</div>
 			<div
-				@click="type = 'qna'"
+				@click="toBbs(b_code_qna)"
 				class="pa-10 flex-1 box text-center"
-				:class="{ on: type == 'qna'}"
+				:class="{ on: b_code == b_code_qna}"
 			>1:1문의</div>
 			<div
-				@click="type = 'review'"
+				@click="toBbs(b_code_after)"
 				class="pa-10 flex-1 box text-center"
-				:class="{ on: type == 'review'}"
+				:class="{ on: b_code == b_code_after}"
 			>리뷰관리</div>
 		</div>
 		<div
 			class="full-height"
 		>
 			<NoticeList
-				v-if="type == 'notice'"
+				v-if="b_code == b_code_notice"
 				:Axios="Axios"
 				:TOKEN="TOKEN"
+				:Viewer="Viewer"
 
 				@onLoading="$emit('onLoading')"
 				@offLoading="$emit('offLoading')"
 				@setNotify="setNotify"
 			></NoticeList>
 			<QnAList
-				v-if="type == 'qna'"
+				v-if="b_code == b_code_qna"
 
 				:Axios="Axios"
 				:TOKEN="TOKEN"
 				@onLoading="$emit('onLoading')"
 				@offLoading="$emit('offLoading')"
 				@setNotify="setNotify"
+				@push="push"
 			></QnAList>
 			<ReviewList
-				v-if="type == 'review'"
+				v-if="b_code == b_code_after"
 
 				:Axios="Axios"
 				:TOKEN="TOKEN"
@@ -58,25 +60,36 @@
 	import NoticeList from "./NoticeList";
 	import QnAList from "./QnAList";
 	import ReviewList from "./ReviewList";
+	import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 	export default {
 		name: 'CustomerCenter'
-		,
-		components: {ReviewList, QnAList, NoticeList},
-		props: ['Axios', 'codes', 'TOKEN']
+		,components: {ReviewList, QnAList, NoticeList}
+		,props: ['Axios', 'codes', 'TOKEN']
 		,data: function(){
 			return {
 				program: {
 					name: '고객센터'
-					,top: false
-					,title: true
-					,bottom: true
+					, top: false
+					, title: true
+					, bottom: true
 				}
-				,type: this.$route.params.type ? this.$route.params.type : 'notice'
+				, b_code: this.$route.params.b_code ? this.$route.params.b_code : this.b_code_notice
+				, Viewer: null
+				, b_code_notice: 'b_notice'
+				, b_code_qna: 'b_qna'
+				, b_code_after: 'b_after'
 			}
 		}
 		,methods: {
 			setNotify: function({ type, message }){
 				this.$emit('setNotify', { type: type, message: message })
+			}
+			,toBbs: function(b_code){
+				this.$emit('push', 'CustomerCenter', { b_code: b_code })
+			}
+			,push: function( name, params){
+				console.log(params)
+				this.$emit('push', name, { params: params })
 			}
 		}
 		,created() {

@@ -1,5 +1,5 @@
 <template>
-	<div class="full-height flex-xl-column">
+	<div class="full-height flex-xl-column ">
 		<template
 			v-if="items.length > 0"
 		>
@@ -7,15 +7,34 @@
 			<li
 				v-for="item in items"
 				:key="'item_' + item.uid"
+				class="under-line"
 			>
 				<div
-					class="justify-space-between"
+					class="pa-10 justify-space-between "
+					:class="item_content != item.uid ? 'bg-gray-light' : 'bg-gray'"
+					@click="item_content != item.uid ? item_content = item.uid : item_content = null"
 				>
-					{{ item.b_title }}
-					{{ item.wDate }}
+					<span>{{ item.b_title }}</span>
+					<v-icon
+						v-if="item_content != item.uid"
+					>mdi mdi-menu-down</v-icon>
+					<v-icon
+						v-else
+					>mdi mdi-menu-up</v-icon>
 				</div>
-				<div>
-					{{ item.content }}
+				<div
+					v-if="item_content == item.uid"
+					class=" "
+				>
+					<div class="pa-10 justify-space-between under-line-dashed">
+						<span>{{ item.m_name }}</span>
+						<span>{{ item.wDate }}</span>
+					</div>
+					<Viewer
+						v-if="item.b_contents"
+						:initialValue="item.b_contents"
+						class="pa-10"
+					/>
 				</div>
 			</li>
 		</ul>
@@ -37,9 +56,14 @@
 </template>
 
 <script>
+
+	import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+	import { Viewer } from "@toast-ui/vue-editor";
+
 	export default {
 		name: 'NoticeList'
 		,props: ['Axios', 'TOKEN']
+		,components: { Viewer}
 		,data: function() {
 			return {
 				program: {
@@ -50,12 +74,13 @@
 				}
 				,search:{
 					TOKEN: this.TOKEN
-					,b_code: 'b_notice'
+					,b_code: this.$route.params.b_code
 					,is_ajax: true
 				}
 				,items: [
 
 				]
+				,item_content: null
 			}
 		}
 		,methods: {

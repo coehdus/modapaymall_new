@@ -103,9 +103,14 @@ const routes = [
 		,component: () => import('@/view/Account/ShippingList.vue')
 	}
 	,{
-		path: prefix + 'CustomerCenter/:type?'
+		path: prefix + 'CustomerCenter/:b_code/:page?'
 		,name: 'CustomerCenter'
 		,component: () => import('@/view/Customer/CustomerCenter.vue')
+	}
+	,{
+		path: prefix + 'Bbs/Item/:b_code'
+		,name: 'BbsItem'
+		,component: () => import('@/view/Bbs/BbsItem.vue')
 	}
 	,{
 		path: '*',

@@ -57,6 +57,7 @@
 				@getCartList="getCartList"
 
 				@push="toLocation"
+				@goBack="goBack"
 				@onLoading="onLoading"
 				@offLoading="offLoading"
 				class=" overflow-y-auto"
@@ -168,6 +169,9 @@
 				}catch (e) {
 					console.log(e)
 				}
+			}
+			,goBack: function(){
+				this.$router.back()
 			}
 			,toLocation: function(path, params){
 				this.$router.push({ name: path, params: params}).catch(function(e){
