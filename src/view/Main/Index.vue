@@ -6,6 +6,7 @@
 		>
 			<v-icon
 				class="position-absolute arrow-left"
+				@click="banner_prev"
 			>mdi mdi-chevron-left</v-icon>
 			<ul
 				class="ul-main-banner"
@@ -14,16 +15,20 @@
 					v-if="banner_items.length > 0"
 				>
 				<li
-					v-for="(banner, key) in banner_items"
-					:key="'banner_' + key"
+					v-for="(banner, banner_index) in banner_list"
+					v-show="banner_item.uid == banner.uid"
+					:key="'banner_' + banner_index"
+					@click="toLink(banner)"
 				>
-					<img
-						v-if="banner.img"
-						:src="banner.img"
-					/>
-					<v-icon
-						v-else
-					>mdi mdi-image</v-icon>
+					<transition
+						enter-class="enter"
+					>
+					<div
+						class="banner-img"
+						:style="'background: url(' + banner.banner_img + ') no-repeat center center;'"
+					>
+					</div>
+					</transition>
 				</li>
 				</template>
 				<li
@@ -33,6 +38,7 @@
 			</ul>
 			<v-icon
 				class="position-absolute arrow-right"
+				@click="banner_next"
 			>mdi mdi-chevron-right</v-icon>
 		</div>
 
@@ -166,10 +172,10 @@
 </template>
 
 <script>
-	
 
 	import ProductDetail from "../Product/ProductDetail";
 	import Pagination from "@/components/Pagination";
+
 	export default{
 		name: 'Main'
 		,
@@ -190,6 +196,10 @@
 				,banner_items: [
 
 				]
+				,banner_item: {
+
+				}
+				,banner_index: 0
 				,items: [
 				]
 				,item: {
@@ -202,6 +212,15 @@
 					,page: 1
 				}
 				,list_type: localStorage.getItem('list_type') ? localStorage.getItem('list_type') : 'grid'
+				,slide_option: {
+					perPage		: 1
+					,arrows 	: false
+					,autoplay   : false
+					,start		: 0
+					,focus		: 0
+					,pagination  : false
+				}
+				,interval_banner: null
 			}
 		}
 		,computed: {
@@ -224,6 +243,16 @@
 						item.is_sale = true
 					}
 
+					return item
+				})
+			}
+			,banner_list: function(){
+
+				let self = this
+				return this.banner_items.filter(function(item){
+					if(item.file_name){
+						item.banner_img = self.codes.banner_url + item.file_name
+					}
 					return item
 				})
 			}
@@ -251,6 +280,29 @@
 					this.$emit('offLoading')
 				}
 			}
+			,getBannerData: async function(){
+				try {
+					const result = await this.Axios({
+						method: 'get'
+						, url: 'main/getMainBanner'
+						, data: {
+							TOKEN: this.TOKEN
+						}
+					})
+
+					if (result.success) {
+						this.banner_items = result.data
+						this.banner_item = result.data[this.banner_index]
+						this.interval_banner = setInterval(() => {
+							this.banner_next()
+						}, 3000)
+					} else {
+						this.$emit('setNotify', {type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}
+			}
 			,goDetail(item){
 				item.TOKEN = sessionStorage.getItem('delimallT')
 				this.$set(this, 'item', item)
@@ -274,10 +326,36 @@
 				this.search.page = 1
 				this.getData()
 			}
+			,banner_prev: function(){
+				this.banner_index--
+				if(this.banner_index < 0){
+					this.banner_index = this.banner_items.length - 1
+				}
+
+				this.banner_item = this.banner_items[this.banner_index]
+			}
+			,banner_next: function(){
+				this.banner_index++
+				if(this.banner_index >= this.banner_items.length){
+					this.banner_index = 0
+				}
+
+				this.banner_item = this.banner_items[this.banner_index]
+			}
+			,toLink: function(banner){
+				if(banner.banner_link){
+					if(banner.is_out == '0'){
+						document.location.href = banner.banner_link
+					}else{
+						window.open(banner.banner_link, 'banner')
+					}
+				}
+			}
 		}
 		,created: function(){
 			this.$emit('onLoad', this.program)
 			this.getData()
+			this.getBannerData()
 		}
 	}
 	
@@ -358,5 +436,19 @@
 	.box-main-banner .arrow-right{
 		right: 10px;
 		top: calc(50% - 12px);
+	}
+
+	.ul-main-banner {
+		border-bottom: 1px solid #ddd
+	}
+	.ul-main-banner li {
+		min-height: 40px;
+		text-align: center;
+	}
+	.banner-img { width: 100%; padding: 50px}
+	.banner-img img { width: 100%; max-height: 120px}
+
+	.enter {
+		transition: opacity 1s
 	}
 </style>
