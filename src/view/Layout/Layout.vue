@@ -1,5 +1,8 @@
 <template>
-	<div class="full-height" style="overflow: hidden">
+	<div
+		class="full-height"
+		style="overflow: hidden"
+	>
 		<Loading
 			v-if="is_loading"
 		></Loading>

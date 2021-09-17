@@ -61,6 +61,7 @@
 	import QnAList from "./QnAList";
 	import ReviewList from "./ReviewList";
 	import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+
 	export default {
 		name: 'CustomerCenter'
 		,components: {ReviewList, QnAList, NoticeList}

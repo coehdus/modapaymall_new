@@ -32,11 +32,14 @@
 				<div
 					class="justify-space-between"
 				>
-					<h6 class="flex-4">배송지 정보</h6>
-					<button
-						class="flex-1 btn btn-blue prl-5 size-px-11 font-weight-normal"
-						@click="showSipping"
-					>배송지 목록</button>
+					<h6 class="flex-1">배송지 정보</h6>
+					<div class="flex-column justify-center">
+						<button
+							class="btn-blue size-px-11 prl-10 font-weight-normal"
+							@click="showSipping"
+						>배송지 목록</button>
+					</div>
+
 				</div>
 				<div
 					class="mt-10 bg-white pa-10 box-shadow"
@@ -196,19 +199,18 @@
 										v-else
 									>mdi mdi-image</v-icon>
 								</div>
-								<div class="flex-3">
-									<div class=" ptb-10 under-line">{{ product.pdt_name }}</div>
+								<div class="pa-10 flex-3">
+									<div class="  under-line-dashed ">{{ product.pdt_name }}</div>
 									<div
 										v-for="(option, index) in product.options"
 										:key="'odt_' + index"
-										class=" pa-10 under-line-dashed"
+										class="  under-line-dashed"
 									>
 										<div class="justify-space-between">
-											<span>선택 옵션</span>
-											<span>{{ option.odt }}</span>
+											<span>선택 옵션 {{ option.odt }}</span>
 										</div>
 										<div
-											class="mt-10 justify-space-between"
+											class=" justify-space-between under-line-dashed"
 										>
 											<span
 												class="flex-2 color-blue"

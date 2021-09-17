@@ -33,7 +33,7 @@
 								>No Image</span>
 							</div>
 							<div class="flex-3">
-								<div class=" ptb-10 under-line">{{ product.pdt_name }}</div>
+								<div class=" ptb-10 under-line font-weight-bold">{{ product.pdt_name }}</div>
 								<div
 									v-for="(option, index) in product.options"
 									:key="'odt_' + index"
@@ -54,13 +54,15 @@
 												v-else
 												class="color-green size-px-16"
 											>mdi mdi-checkbox-marked</v-icon>
-											<span> {{ option.odt }}</span>
+											<span class="ml-5 color-gray"> {{ option.odt }}</span>
 										</span>
-										<v-icon
-											small
-											class="color-red btn-remove-cart"
-											@click="removeCart(option.cart_index, option.odt_uid)"
-										>mdi mdi-close</v-icon>
+										<span>
+											<v-icon
+												small
+												class="color-red btn-remove-cart"
+												@click="removeCart(option.cart_index, option.odt_uid)"
+											>mdi mdi-close</v-icon>
+										</span>
 									</div>
 									<div
 										class="mt-10 justify-space-between"
@@ -93,6 +95,14 @@
 											></button>
 										</span>
 									</div>
+									<div
+										v-if="false"
+										class="mt-10 justify-space-between"
+									>
+										<div>개별 상품 배송비</div>
+										<div>{{ product.pdt_delivery | makeComma }} 원</div>
+
+									</div>
 								</div>
 
 							</div>
@@ -102,7 +112,7 @@
 						class="pa-10 justify-space-between under-line-dashed"
 					>
 						<span>배송비 <br/><span class="size-px-11">{{ item.company.delivery }}</span></span>
-						<span>{{ item.company.delivery_price | makeComma }}</span>
+						<span>{{ Number(item.company.delivery_price) + Number(item.company.pdt_delivery_price) | makeComma }}</span>
 					</div>
 					<div
 						class="pa-10 justify-space-between"
@@ -177,6 +187,7 @@
 					for (let i = 0; i < this.cart_items.length; i++) {
 						if (!this.cart_items[i].is_not_select) {
 							price += (Number(this.cart_items[i].pdt_price) + Number(this.cart_items[i].op_price)) * this.cart_items[i].op_cnt
+							//price += Number(this.cart_items[i].pdt_delivery)
 						}
 					}
 				}
@@ -190,6 +201,7 @@
 					for(const [key, val] of Object.entries(this.item_list)){
 						console.log(key)
 						price += Number(val.company.delivery_price)
+						//price += Number(val.company.pdt_delivery_price)
 					}
 				}
 
@@ -221,6 +233,7 @@
 						company = {
 							company: {
 								total_price: 0
+								,pdt_delivery_price: 0
 							}
 							,items: {}
 						}
@@ -236,13 +249,15 @@
 					items[val.seller_id]['company']['delivery_type'] = val.delivery_type
 					items[val.seller_id]['company']['delivery_price'] = val.delivery_price
 
-					if(val.delivery_type == '무료'){
+					// items[val.seller_id]['company']['pdt_delivery_price'] += (Number(val.pdt_delivery) * val.op_cnt)
+
+					if (val.delivery_type == '무료') {
 						items[val.seller_id]['company']['delivery_price'] = val.delivery_type
 						items[val.seller_id]['company']['delivery'] = ''
-					}else{
-						if(val.free_price > 0){
+					} else {
+						if (val.free_price > 0) {
 							items[val.seller_id]['company']['delivery'] = val.free_price + ' 이상 구매시 무료'
-							if(val.free_price <= items[val.seller_id]['company']['total_price'] || items[val.seller_id]['company']['total_price'] == 0){
+							if (val.free_price <= items[val.seller_id]['company']['total_price'] || items[val.seller_id]['company']['total_price'] == 0) {
 								items[val.seller_id]['company']['delivery_price'] = 0
 							}
 						}
@@ -256,6 +271,7 @@
 							,pdt_img: val.pdt_img1
 							,pdt_name: val.pdt_name
 							,pdt_price: val.pdt_price
+							,pdt_delivery: val.pdt_delivery
 							,options: {}
 						}
 					}

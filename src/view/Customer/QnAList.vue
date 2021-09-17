@@ -1,6 +1,6 @@
 <template>
 	<div class="full-height flex-xl-column ">
-		<div class="justify-space-between">
+		<div class="justify-space-between overflow-hidden" >
 			<input
 				v-model="search.search_value"
 				class="box vertical-middle flex-1 pa-10"

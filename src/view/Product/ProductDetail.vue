@@ -68,11 +68,20 @@
 				class="mt-20 flex-row justify-space-between"
 			>
 				<div
-					class="pdt-price"
-				>{{  item.agency_sale_price | makeComma }}</div>
-				<div
 					class="pdt-rate"
 				>평점</div>
+				<div
+					class="pdt-price"
+				>{{  item.agency_sale_price | makeComma }} 원</div>
+			</div>
+
+			<div
+				class="mt-10 justify-space-between"
+			>
+				<div>상품 개별 배송비</div>
+				<div
+					class="pdt-price"
+				>{{ item.pdt_delivery | makeComma}} 원</div>
 			</div>
 
 

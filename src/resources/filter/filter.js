@@ -19,6 +19,7 @@ Vue.filter("nl2br", (val) => {
 })
 
 Vue.filter("makeComma", val => {
+	val += ''
 	if(!val || val == 'null' || val == undefined){
 		return 0
 	}else{
