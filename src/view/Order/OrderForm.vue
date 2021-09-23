@@ -628,7 +628,7 @@ export default{
 			this.$emit('setOverlay')
 		}
 		,toResult: function(){
-			this.$router.push({ name: 'OrderResult', params: { order_number: this.order_number }})
+			this.$router.push({ name: 'OrderResult', params: { order_num_new: this.order_number }})
 		}
 		,getBuyItem: async function(){
 			try{

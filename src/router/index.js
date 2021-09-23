@@ -63,7 +63,7 @@ const routes = [
 		,component: () => import('@/view/Order/OrderForm.vue')
 	}
 	,{
-		path: prefix + 'Order/Result/:order_number'
+		path: prefix + 'Order/Result/:order_num_new'
 		,name: 'OrderResult'
 		,component: () => import('@/view/Order/OrderResult.vue')
 	}

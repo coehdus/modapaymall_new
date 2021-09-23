@@ -1,134 +1,140 @@
 <template>
-	<div class="full-height flex-column">
+	<div
+		class="full-height flex-column bg-gray-light"
+	>
 		<div
-			class="logo-position justify-center text-center pa-20 bg-base "
+			class="pa-10 full-height pb-30 overflow-y-auto "
 		>
-			<span class="text-center color-white size-px-20">{{ program.name }}</span>
-		</div>
-		<div
-			class="pa-10 full-height pb-30 overflow-y-auto  bg-gray-light"
-		>
-			<div class="mt-10">
+			<div class="">
 
-				<h6>주문번호</h6>
-				<div
-					class="mt-10 size-px-16 text-center input-box box-shadow bg-white"
-				>
-					{{ item.result.order_num_new }}
-				</div>
-
-				<div class="mt-30">
-					<h6>주문자 정보</h6>
+				<h6>주문정보</h6>
+				<div class="pa-10 box-shadow bg-white">
 					<div
-						class="mt-10 pa-10 bg-white box-shadow"
+						class="justify-space-between font-weight-bold under-line-dashed pb-10"
 					>
-						<div class="input-box justify-space-between">
-							<span>이름</span>
-							<span>{{ item.result.member_name }}</span>
-						</div>
-						<div class="mt-5 input-box justify-space-between">
-							<span>연락처</span>
-							<span>{{ item.result.member_tell }}</span>
-						</div>
-						<div class="mt-5 input-box justify-space-between">
-							<span>이메일</span>
-							<span>{{ item.result.member_email }}</span></div>
+						<span>주문번호</span>
+						<span>{{ item.order_num_new }}</span>
 					</div>
-				</div>
-
-				<div class="mt-30">
-
-					<h6>배송지 정보</h6>
 
 					<div
-						class="mt-10 bg-white pa-10 box-shadow"
+						class="mt-10 justify-space-between"
 					>
-						<div class="input-box justify-space-between">
-							<span>받는분 이름</span>
-							<span>{{ item.result.d_name }}</span>
-						</div>
-						<div class="mt-10 input-box justify-space-between">
-							<span>받는분 연락처</span>
-							<span>{{ item.result.d_tell }}</span>
-						</div>
-						<div class="mt-10 input-box">
-							{{ item.result.d_post }}
-							{{ item.result.d_addr1 }}
-							{{ item.result.d_addr2 }}
-						</div>
-
+						<span class="font-weight-bold">주문일시</span>
+						<span>{{ item.wDate }}</span>
 					</div>
 				</div>
 			</div>
 
-			<div class="mt-30">
+			<div class="mt-10">
+				<h6>주문자 정보</h6>
+				<div
+					class="pa-10 bg-white box-shadow"
+				>
+					<div class=" justify-space-between under-line-dashed pb-10">
+						<span class="font-weight-bold">이름</span>
+						<span>{{ item.member_name }}</span>
+					</div>
+					<div class="mt-5  justify-space-between under-line-dashed pb-10">
+						<span class="font-weight-bold">연락처</span>
+						<span>{{ item.member_tell }}</span>
+					</div>
+					<div class="mt-5  justify-space-between ">
+						<span class="font-weight-bold">이메일</span>
+						<span>{{ item.member_email }}</span></div>
+				</div>
+			</div>
+
+			<div class="mt-10">
+
+				<h6>배송지 정보</h6>
+
+				<div
+					class="bg-white pa-10 box-shadow"
+				>
+					<div class=" justify-space-between under-line-dashed">
+						<span class="font-weight-bold">받는분 이름</span>
+						<span class="font-weight-bold">{{ item.d_name }}</span>
+					</div>
+					<div class="mt-10  justify-space-between under-line-dashed">
+						<span class="font-weight-bold">받는분 연락처</span>
+						<span class="font-weight-bold">{{ item.d_tell }}</span>
+					</div>
+					<div class="mt-10 text-right font-weight-bold">
+						{{ item.d_post }}
+						{{ item.d_addr1 }}
+						{{ item.d_addr2 }}
+					</div>
+
+				</div>
+			</div>
+
+			<div class="mt-10">
 				<h6>상품 정보</h6>
 				<div></div>
 			</div>
 
 			<template
-				v-if="item.odt_list.length > 0"
+				v-if="item.supply_list.length > 0"
 			>
-				<ul class="mt-10">
+				<ul class="">
 					<li
-						v-for="(item, item_index) in item_list"
+						v-for="(supply, item_index) in item_list"
 						:key="item_index"
 						class="under-line mb-10  bg-white box-shadow"
 					>
 						<div
-							class="pa-10 under-line "
-						><v-icon>mdi mdi-home-modern</v-icon>{{ item.company.seller_name }}</div>
+							class="pa-10 under-line font-weight-bold"
+						><v-icon>mdi mdi-home-modern</v-icon>{{ supply.shop_name }}</div>
 						<ul>
 							<li
-								v-for="(product, product_index) in item.items"
+								v-for="(odt, product_index) in supply.odt_list"
 								:key="'product_' + product_index"
-								class=" under-line full-height justify-space-between"
+								class="pa-10 under-line full-height justify-space-between"
 							>
-								<div class="pa-10 flex-1 full-height pdt-img justify-center flex-column">
+								<div class="flex-1 full-height pdt-img justify-center flex-column mr-10">
 									<img
-										v-if="product.pdt_img"
-										:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
+										v-if="odt.pdt_img"
+										:src="odt.pdt_img"
 									/>
 									<v-icon
 										v-else
 									>mdi mdi-image</v-icon>
 								</div>
 								<div class="flex-3">
-									<div class=" ptb-10 under-line">{{ product.pdt_name }}</div>
+									<div class="under-line justify-space-between">
+										{{ odt.pdt_name }}
+									</div>
 									<div
-										v-for="(option, index) in product.options"
-										:key="'odt_' + index"
-										class=" pa-10 under-line-dashed"
+										class="under-line-dashed"
 									>
-										<div class="justify-space-between">
-											<span>옵션</span>
-											<span>{{ option.odt }}</span>
+										<div class="  color-gray">
+											<span>선택옵션: </span>
+											<span>{{ odt.op_name}}</span>
 										</div>
 										<div
-											class="mt-10 justify-space-between"
+											class=" justify-space-between"
 										>
 											<span
-												class="flex-2 color-blue"
-											>{{ option.odt_price | makeComma }}</span>
+												class="flex-2 font-weight-bold"
+											>{{ odt.pdt_price | makeComma }} 원</span>
 
-											<span>{{ option.odt_cnt }} 개</span>
+											<span>수량: {{ odt.op_cnt }} 개</span>
 										</div>
 									</div>
-
 								</div>
 							</li>
 						</ul>
 						<div
 							class="pa-10 justify-space-between under-line-dashed"
 						>
-							<span>배송비 <span class="size-px-11">{{ item.company.delivery }}</span></span>
-							<span>{{ item.company.delivery_price | makeComma }}</span>
+							<span class="font-weight-bold">상품 합계</span>
+							<span class="color-blue font-weight-bold">{{ supply.total_price | makeComma }} 원</span>
 						</div>
 						<div
-							class="pa-10 justify-space-between"
+							class="pa-10 justify-space-between "
 						>
-							<span>합계</span>
-							<span class="color-blue">{{ item.company.total_price | makeComma }}</span>
+							<span class="font-weight-bold">배송비 <span class="size-px-11">{{ supply.delivery_type_agency }}</span></span>
+							<span class="font-weight-bold">{{ supply.delivery_price_agency | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>
@@ -136,22 +142,22 @@
 
 			<h6 class="mt-10">결제 정보</h6>
 			<div
-				class="mt-10 pa-10 bg-white box-shadow"
+				class="pa-10 bg-white box-shadow font-weight-bold"
 			>
-				<div class="input-box justify-space-between">
-					<span>결제금액</span>
-					<span><span class="color-blue">{{ item.result.order_price | makeComma }}</span> 원</span>
+				<div class=" justify-space-between under-line-dashed">
+					<span class="font-weight-bold">결제금액</span>
+					<span><span class="color-blue font-weight-bold">{{ item.order_price | makeComma }}</span> 원</span>
 				</div>
-				<div class=" mt-5 input-box justify-space-between">
-					<span>결제</span>
+				<div class=" mt-5  justify-space-between under-line-dashed">
+					<span class="font-weight-bold">결제</span>
 					<span>{{ pay_div }}</span>
 				</div>
-				<div class=" mt-5 input-box justify-space-between">
-					<span>결제 상태</span>
+				<div class=" mt-5  justify-space-between under-line-dashed">
+					<span class="">결제 상태</span>
 					<span>{{ order_status }}</span>
 				</div>
-				<div class=" mt-5 input-box ">
-					{{ item.result.pay_info }}
+				<div class=" mt-5 text-right ">
+					{{ item.pay_info }}
 				</div>
 			</div>
 		</div>
@@ -159,142 +165,112 @@
 </template>
 
 <script>
-	export default {
-		name: 'OrderResult'
-		,props: ['Axios']
-		,data: function(){
-			return {
-				program: {
-					name: '주문완료'
-					,top: false
-					,title: false
-					,bottom: true
-				}
-				,item: {
-					result: {
-
-					}
-					, odt_list: [
-
-					]
-					, order_number: this.$route.params.order_number
-				}
+export default {
+	name: 'OrderResult'
+	,props: ['Axios', 'codes', 'TOKEN']
+	,data: function(){
+		return {
+			program: {
+				name: '주문완료'
+				,top: false
+				,title: true
+				,bottom: true
+				,not_back: true
 			}
-		}
-		,computed: {
-			pay_div: function(){
-				let div = ''
-				if(this.item.result.pay_div == 'bank'){
-					div = '무통장 입금'
-				}else if(this.item.result.pay_div == 'card'){
-					div = '카드 결제'
+			,item: {
+				result: {
+
 				}
-				return div
+				, supply_list: [
+
+				]
+				, order_number: this.order_num_new
 			}
-			,order_status: function(){
-				let status = ''
-					if(this.item.result.o_status == 1){
-						status = '입금대기'
-					}else{
-						status = '결제완료'
-					}
-				return status
-			}
-			,item_list: function(){
-				let items = {}
-
-				for(const [key ,val] of Object.entries(this.item.odt_list)){
-					console.log('key: ' + key)
-
-					if(val.is_not_select){
-						continue
-					}
-					let company = items[val.seller_id]
-
-					if(!company){
-						company = {
-							company: {
-								total_price: 0
-							}
-							,items: {}
-						}
-					}
-
-					items[val.seller_id] = company
-
-					items[val.seller_id]['company']['seller_id'] = val.seller_id
-					items[val.seller_id]['company']['seller_name'] = val.shop_name
-					items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_price) + Number(val.op_price)) * val.op_cnt)
-					items[val.seller_id]['company']['delivery_type'] = val.delivery_type
-					items[val.seller_id]['company']['delivery_price'] = val.delivery_price
-
-					if(val.delivery_type == '무료'){
-						items[val.seller_id]['company']['delivery_price'] = val.delivery_type
-						items[val.seller_id]['company']['delivery'] = ''
-					}else{
-						if(val.free_price > 0){
-							items[val.seller_id]['company']['delivery'] = val.free_price + ' 이상 구매시 무료'
-							if(val.free_price < items[val.seller_id]['company']['total_price']){
-								items[val.seller_id]['company']['delivery_price'] = 0
-							}
-						}
-					}
-
-					let product = items[val.seller_id]['items'][val.pdt_uid]
-
-					if(!product || product === undefined){
-						product = {
-							pdt_uid: val.pdt_uid
-							,pdt_img: val.pdt_img1
-							,pdt_name: val.pdt_name
-							,pdt_price: val.pdt_price
-							,options: {}
-						}
-					}
-
-					items[val.seller_id]['items'][val.pdt_uid] = product
-
-					let option = items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid]
-					if(!option || option === undefined){
-						option = {
-							odt: val.op_name
-							,odt_cnt: val.op_cnt
-							,odt_price: Number(val.pdt_price) + Number(val.op_price)
-						}
-					}
-
-					items[val.seller_id]['items'][val.pdt_uid]['options'][val.uid] = option
-				}
-				console.log(items)
-				return items
-			}
-		}
-		,methods:{
-			getData: async function(){
-				try{
-					const result = await this.Axios({
-						method: 'post'
-						,url: 'order/getOrderResult'
-						,data: this.item
-					})
-
-					if(result.success){
-						this.item = result.data
-					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message })
-					}
-				}catch (e) {
-					console.log(e)
-				}
-			}
-		}
-		,created() {
-			this.$emit('onLoad', this.program)
-			this.getData()
 		}
 	}
+	,computed: {
+		pay_div: function(){
+			let div = ''
+			if(this.item.pay_div == 'bank'){
+				div = '무통장 입금'
+			}else if(this.item.pay_div == 'card'){
+				div = '카드 결제'
+			}
+			return div
+		}
+		,order_status: function(){
+			let status = ''
+			if(this.item.o_status == 1){
+				status = '입금대기'
+			}else{
+				status = '결제완료'
+			}
+			return status
+		}
+		,item_list: function(){
+
+			let self = this
+			return this.item.supply_list.filter(function(item){
+
+				return item.odt_list.filter(function(odt){
+
+					odt.order_status_name = self.codes.odt_status[odt.order_status].name
+					odt.order_status_color = self.codes.odt_status[odt.order_status].color
+					odt.options = {}
+					if(odt.pdt_img1){
+						odt.pdt_img = self.codes.img_url + odt.pdt_img1
+					}
+					switch(odt.order_status){
+						case 'step4':
+							odt.is_step5 = true
+							odt.is_step31 = true
+							odt.is_step41 = true
+							break;
+						case 'step1':
+							odt.is_step21 = true
+							break;
+					}
+
+					return odt
+				})
+			})
+		}
+	}
+	,methods:{
+		getData: async function(){
+			this.$emit('onLoading')
+			try{
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getOrderDetail'
+					,data: {
+						TOKEN: this.TOKEN
+						,order_num_new: this.$route.params.order_num_new
+					}
+				})
+
+				if(result.success){
+					this.item = result.data
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message })
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
+		,toShipping: function(odt){
+			this.$emit('toShipping', odt)
+		}
+	}
+	,created() {
+		this.$emit('onLoad', this.program)
+		this.getData()
+	}
+}
 </script>
 
 <style>
-	.pdt-img { width: 80px; height: 80px; overflow: hidden}
+.pdt-img { width: 80px; height: auto; overflow: hidden}
 </style>
