@@ -16,7 +16,7 @@
 						<label>
 						<input
 							type="number"
-							v-model="item.member_tell"
+							v-model="member_info.member_tell"
 							class="input-box-5"
 							placeholder="연락처"
 						/>
@@ -281,7 +281,7 @@
 					>
 						<div>
 							무통장 입금 안내
-							<div class="mt-10 mb-10">{{ item.site_bank }}</div>
+							<div class="mt-10 mb-10">{{ shop_info.bank_info }}</div>
 
 							<label
 								class="mt-10 position-relative"
@@ -424,14 +424,14 @@ export default{
 			,item: {
 				TOKEN: this.TOKEN
 				,pay_div: 'bank'
-				,member_tell: '1234'
-				,member_email: 'aaa@bbb.com'
-				,d_name: '받는분'
-				,d_tell: '12345'
-				,d_post: '123456'
-				,d_addr1: '주소'
-				,d_addr2: '상세주소'
-				,site_bank: '은행 123-45-6789'
+				,member_tell: this.member_info.member_tell
+				,member_email: this.member_info.member_email
+				,d_name: ''
+				,d_tell: ''
+				,d_post: ''
+				,d_addr1: ''
+				,d_addr2: ''
+				,site_bank: ''
 				,bank_info: ''
 				,c_uid: []
 				,is_base: '0'
@@ -497,6 +497,7 @@ export default{
 			item.order_price = this.order_price
 			item.order_point = this.order_point
 			item.delivery_price = this.total_delivery_price
+			item.site_bank = this.shop_info.bank_info
 
 			if(Object.keys(this.item_list).length > 0) {
 				for(const [key, val] of Object.entries(this.use_item)) {
@@ -659,6 +660,14 @@ export default{
 				})
 				if(result.success){
 					this.shipping_list = result.data
+					if(this.shipping_list.length > 0){
+						this.item.shipping_name = result.data[0].shipping_name
+						this.item.d_name = result.data[0].name
+						this.item.d_tell = result.data[0].tell
+						this.item.d_post = result.data[0].post
+						this.item.d_addr1 = result.data[0].addr1
+						this.item.d_addr2 = result.data[0].addr2
+					}
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message})
 				}
@@ -682,6 +691,26 @@ export default{
 
 			this.is_modal = false
 		}
+
+		,getAgencyShop: async function(){
+			try {
+				const result = await this.Axios({
+					method: 'post'
+					,url: 'order/getAgencyShop'
+					,data: {
+						TOKEN: this.TOKEN
+					}
+				})
+				if(result.success){
+					this.shop_info = result.data
+				}else{
+					this.$router.back()
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}
+		}
 	}
 	,created: function(){
 		this.$emit('onLoad', this.program)
@@ -691,6 +720,7 @@ export default{
 			this.use_item = this.cart_items
 		}
 
+		this.getAgencyShop()
 		this.getShippingList()
 	}
 }
