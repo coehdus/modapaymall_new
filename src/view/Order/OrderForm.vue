@@ -16,14 +16,32 @@
 						<label>
 						<input
 							type="number"
-							v-model="member_info.member_tell"
+							v-model="item.member_tell"
 							class="input-box-5"
-							placeholder="연락처"
+							placeholder="연락처를 입력하세요"
+							:rules="[rules.max(item, 'member_tell', 15)]"
 						/>
 						<v-icon
 							class="position-absolute"
 							style="right: 10px; top: 7px"
 						>mdi mdi-keyboard</v-icon>
+						</label>
+					</div>
+					<div
+						class="mt-10 position-relative"
+					>
+						<label>
+							<input
+								type="email"
+								v-model="item.member_email"
+								class="input-box-5"
+								placeholder="이메일주소를 입력하세요"
+								:rules="[rules.max(item, 'member_email', 50)]"
+							/>
+							<v-icon
+								class="position-absolute"
+								style="right: 10px; top: 7px"
+							>mdi mdi-keyboard</v-icon>
 						</label>
 					</div>
 				</div>
@@ -89,6 +107,7 @@
 								v-model="item.shipping_name"
 								class="input-box-5"
 								placeholder="배송지 명"
+								maxlength="25"
 							/>
 							<v-icon
 								class="position-absolute"
@@ -104,6 +123,7 @@
 								v-model="item.d_name"
 								class="input-box-5"
 								placeholder="이름"
+								maxlength="25"
 							/>
 							<v-icon
 								class="position-absolute"
@@ -116,9 +136,11 @@
 					>
 						<label>
 						<input
+							type="number"
 							v-model="item.d_tell"
 							class=" input-box-5"
 							placeholder="연락처"
+							:rules="[rules.max(item, 'd_tell', 15)]"
 						/>
 						<v-icon
 							class="position-absolute"
@@ -131,10 +153,12 @@
 						@click="daumPost('default')"
 					>
 						<input
+							type="number"
 							v-model="item.d_post"
 							class="input-box-5 flex-3 mr-10"
 							placeholder="우편번호"
 							readonly
+							:rules="[rules.max(item, 'd_post', 7)]"
 						/>
 						<button
 							class=" btn-blue flex-1"
@@ -409,7 +433,7 @@ import DaumPost from '@/components/Daum/DaumPost'
 import Modal from "@/components/Modal";
 export default{
 	name: 'OrderForm'
-	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN']
+	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules']
 	,components: {Modal, DaumPost }
 	,data: function(){
 		return {
@@ -424,8 +448,8 @@ export default{
 			,item: {
 				TOKEN: this.TOKEN
 				,pay_div: 'bank'
-				,member_tell: this.member_info.member_tell
-				,member_email: this.member_info.member_email
+				,member_tell: this.member_info.member_tell ? this.member_info.member_tell : ''
+				,member_email: this.member_info.member_email ? this.member_info.member_email : ''
 				,d_name: ''
 				,d_tell: ''
 				,d_post: ''
@@ -468,7 +492,7 @@ export default{
 
 			for(let i = 0; i < this.use_item.length; i ++){
 				if(!this.use_item[i].is_not_select) {
-					price += (Number(this.use_item[i].pdt_price) + Number(this.use_item[i].op_price)) * this.use_item[i].op_cnt
+					price += (Number(this.use_item[i].pdt_sale_price) + Number(this.use_item[i].op_price)) * this.use_item[i].op_cnt
 				}
 			}
 
@@ -501,7 +525,7 @@ export default{
 
 			if(Object.keys(this.item_list).length > 0) {
 				for(const [key, val] of Object.entries(this.use_item)) {
-					console.log(key)
+					console.log(key + ' : ' + val)
 					if(val.is_not_select){
 						continue
 					}
@@ -537,7 +561,7 @@ export default{
 
 				items[val.seller_id]['company']['seller_id'] = val.seller_id
 				items[val.seller_id]['company']['seller_name'] = val.shop_name
-				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_price) + Number(val.op_price)) * val.op_cnt)
+				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_sale_price) + Number(val.op_price)) * val.op_cnt)
 				items[val.seller_id]['company']['delivery_type'] = val.delivery_type
 				items[val.seller_id]['company']['delivery_price'] = val.delivery_price
 
@@ -560,7 +584,7 @@ export default{
 						pdt_uid: val.pdt_uid
 						,pdt_img: val.pdt_img1
 						,pdt_name: val.pdt_name
-						,pdt_price: val.pdt_price
+						,pdt_price: val.pdt_sale_price
 						,options: {}
 					}
 				}
@@ -573,7 +597,7 @@ export default{
 						odt_uid: val.uid
 						,odt: val.op_name
 						,odt_cnt: val.op_cnt
-						,odt_price: Number(val.pdt_price) + Number(val.op_price)
+						,odt_price: Number(val.pdt_sale_price) + Number(val.op_price)
 						,cart_index: key
 						,is_not_select: val.is_not_select
 					}
