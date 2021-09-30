@@ -20,7 +20,7 @@
 					<div class="flex-3">
 						<div>{{ item.pdt_name}} <span class="color-gray size-em-09">선택 옵션: {{ item.op_name }}</span></div>
 						<div class="mt-5 ">
-							<span class="font-weight-bold">{{ item.odt_price | makeComma }} 원</span>
+							<span class="font-weight-bold">{{ item.pdt_price | makeComma }} 원</span>
 							<span class="size-em-09"> 수량: {{ item.op_cnt }}개</span>
 						</div>
 					</div>
@@ -54,6 +54,7 @@
 				<h6 class="size-px-14">상품평을 작성해주세요</h6>
 
 				<textarea
+					v-model="item.review_contents"
 					class="box "
 					placeholder="상품평 내용을 입력해주세요"
 					rows="6"

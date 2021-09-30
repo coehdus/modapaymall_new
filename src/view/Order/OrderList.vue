@@ -477,6 +477,7 @@
 			}
 			,isConfirm: function(odt){
 				this.item_confirm = odt
+				this.$router.push({ name: 'OdtConfirm', params: {odt_uid: odt.uid}})
 			}
 			,setNotify: function({ type, message }){
 				this.$emit('setNotify', { type: type, message: message})
