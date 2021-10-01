@@ -256,8 +256,21 @@
 						<div
 							class="pa-10 justify-space-between "
 						>
-							<span>배송비 <br/><span class="size-px-11">{{ item.company.delivery }}</span></span>
+							<span>
+								배송비 <br/>
+								<span class="size-px-11">{{ item.company.delivery }}</span>
+							</span>
 							<span>{{ item.company.delivery_price | makeComma }} 원</span>
+						</div>
+						<div
+							v-if="is_island_delivery"
+							class="pa-10 justify-space-between "
+						>
+							<div
+							>
+								도서/산간 추가배송비
+							</div>
+							<span>{{ item.company.island_price | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>
@@ -479,6 +492,7 @@ export default{
 			,shipping_list: [
 
 			]
+			,is_island_delivery: false
 		}
 	}
 	,computed: {
@@ -509,6 +523,9 @@ export default{
 				for(const [key, val] of Object.entries(this.item_list)){
 					console.log(key)
 					price += Number(val.company.delivery_price)
+					if(this.is_island_delivery){
+						price += Number(val.company.island_price)
+					}
 				}
 			}
 
@@ -564,6 +581,7 @@ export default{
 				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_sale_price) + Number(val.op_price)) * val.op_cnt)
 				items[val.seller_id]['company']['delivery_type'] = val.delivery_type
 				items[val.seller_id]['company']['delivery_price'] = val.delivery_price
+				items[val.seller_id]['company']['island_price'] = val.island_price
 
 				if(val.delivery_type == '무료'){
 					items[val.seller_id]['company']['delivery_price'] = 0
@@ -735,6 +753,35 @@ export default{
 				console.log(e)
 			}
 		}
+		,getIslandDelivery: async function(post){
+
+			let supply = []
+			for(let key in this.item_list){
+				supply.push(key)
+			}
+
+			try {
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getIslandDelivery'
+					,data: {
+						TOKEN: this.TOKEN
+						,post: post
+						,supply: supply
+					}
+				})
+				if(result.success){
+					this.is_island_delivery = result.data.is_island_delivery
+					if(result.data.is_island_delivery){
+						this.$emit('setNotify', { type: 'success', message: result.message})
+					}
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}
+		}
 	}
 	,created: function(){
 		this.$emit('onLoad', this.program)
@@ -746,6 +793,13 @@ export default{
 
 		this.getAgencyShop()
 		this.getShippingList()
+	}
+	,watch: {
+		'item.d_post':{
+			handler: function(call){
+				this.getIslandDelivery(call)
+			}
+		}
 	}
 }
 </script>
