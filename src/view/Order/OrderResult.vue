@@ -131,10 +131,17 @@
 							<span class="color-blue font-weight-bold">{{ supply.total_price | makeComma }} 원</span>
 						</div>
 						<div
-							class="pa-10 justify-space-between "
+							class="mt-10 prl-10 justify-space-between "
 						>
 							<span class="font-weight-bold">배송비 <span class="size-px-11">{{ supply.delivery_type_agency }}</span></span>
 							<span class="font-weight-bold">{{ supply.delivery_price_agency | makeComma }} 원</span>
+						</div>
+						<div
+							v-if="supply.island_delivery > 0"
+							class="prl-10 mb-10 justify-space-between "
+						>
+							<span class="font-weight-bold">도서 산간 추가배송비</span>
+							<span class="font-weight-bold">{{ supply.island_delivery | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>

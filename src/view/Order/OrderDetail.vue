@@ -129,23 +129,23 @@
 									<div class="mt-10 size-px-10">
 										<span
 											v-if="odt.is_step21"
-											class="box prl-10 bg-red"
-											@click="toOdtStatus('step21')"
+											class=" prl-10 bg-red"
+											@click="toOdtStatus(item,'step21')"
 										>주문 취소</span>
 										<span
 											v-if="odt.is_step31"
 											class="box prl-10 bg-orange"
-											@click="toOdtStatus('step31')"
+											@click="toOdtStatus(item,'step31')"
 										>교환 요청</span>
 										<span
 											v-if="odt.is_step41"
 											class="box prl-10 bg-orange"
-											@click="toOdtStatus('step41')"
+											@click="toOdtStatus(item,'step41')"
 										>반품 요청</span>
 										<span
 											v-if="odt.is_step5"
 											class="box prl-10 bg-green"
-											@click="toOdtStatus('step5')"
+											@click="toOdtStatus(item,'step5')"
 										>구매 확정</span>
 										<span
 											v-if="odt.shipping_num"
@@ -163,10 +163,17 @@
 							<span class="color-blue font-weight-bold">{{ supply.total_price | makeComma }} 원</span>
 						</div>
 						<div
-							class="pa-10 justify-space-between "
+							class="mt-10 prl-10 justify-space-between "
 						>
 							<span class="font-weight-bold">배송비 <span class="size-px-11">{{ supply.delivery_type_agency }}</span></span>
 							<span class="font-weight-bold">{{ supply.delivery_price_agency | makeComma }} 원</span>
+						</div>
+						<div
+							v-if="supply.island_delivery > 0"
+							class="mb-10 prl-10 justify-space-between "
+						>
+							<span class="font-weight-bold">도서산간 추가 배송비</span>
+							<span class="font-weight-bold">{{ supply.island_delivery | makeComma }} 원</span>
 						</div>
 					</li>
 				</ul>
@@ -293,6 +300,27 @@ export default {
 		}
 		,toShipping: function(odt){
 			this.$emit('toShipping', odt)
+		}
+		,toOdtStatus: async function(item, step){
+			try{
+				const result = await this.Axios({
+					method: 'post'
+					, url: 'order/postOdtUpdate'
+					, data: {
+						TOKEN: this.TOKEN
+						, uid: item.uid
+						, next_step: step
+					}
+				})
+
+				if(result.success){
+					this.$emit('setNotify', { type: 'success', message: result.message})
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch(e){
+				console.log(e)
+			}
 		}
 	}
 	,created() {
