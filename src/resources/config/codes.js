@@ -30,8 +30,7 @@ export const codes = {
 		,step22: { code: 22, name: '주문 취소 완료', color: 'red'}
 		,step31: { code: 31, name: '교환요청', color: 'orange'}
 		,step32: { code: 32, name: '교환처리중', color: 'orange'}
-		,step33: { code: 33, name: '교환 배송중', color: 'orange'}
-		,step34: { code: 34, name: '교환 완료', color: 'orange'}
+		,step33: { code: 33, name: '교환 완료', color: 'orange'}
 		,step41: { code: 41, name: '반품 요청', color: 'red'}
 		,step42: { code: 42, name: '반품 처리중', color: 'red'}
 		,step43: { code: 43, name: '반품 완료', color: 'red'}

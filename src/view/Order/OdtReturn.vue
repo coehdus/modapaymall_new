@@ -43,23 +43,31 @@
 
 			<div class="mt-10">
 				<h6 class="size-px-14">사유</h6>
-				<div
-					v-for="reason in reason_list"
-					:key="'reason_' + reason.key"
-					class="mt-10 pa-10 justify-space-between box mb-10 radius-10"
-					@click="$set(item, 'reason', reason.name)"
+				<template
+					v-if="reason_list.length > 0"
 				>
-					<v-icon
-						v-if="item.reason == reason.name"
-						class="color-blue mr-10"
-					>mdi mdi-radiobox-marked</v-icon>
-					<v-icon
-						v-else
-						class="mr-10"
-					>mdi mdi-radiobox-blank</v-icon>
-					<span class="flex-1 size-px-14">{{ reason.name }}</span>
-					<span class="size-em-09">{{  reason.price }}</span>
-				</div>
+					<template
+						v-for="(reason, index) in reason_list"
+					>
+						<div
+							v-if="index > 0"
+							:key="'reason_' + reason.total_code"
+							class="mt-10 pa-10 justify-space-between box mb-10 radius-10"
+							@click="setReason(reason.total_code)"
+						>
+							<v-icon
+								v-if="item.reason == reason.total_code"
+								class="color-blue mr-10"
+							>mdi mdi-radiobox-marked</v-icon>
+							<v-icon
+								v-else
+								class="mr-10"
+							>mdi mdi-radiobox-blank</v-icon>
+							<span class="flex-1 size-px-14">{{ reason.code_name }}</span>
+							<span class="size-em-09">{{  reason.code_text }}</span>
+						</div>
+					</template>
+				</template>
 			</div>
 
 			<div class="mt-10">
@@ -104,14 +112,7 @@ export default {
 				,title: true
 				,bottom: false
 			}
-			,reason_list: [
-				{ key: 1, value: '1', name: '단순 변심', price: '반품비: 본인부담'}
-				,{ key: 2, value: '2', name: '상품 오배송', price: '반품비: 무료'}
-				,{ key: 3, value: '3', name: '상품 파손', price: '반품비: 무료'}
-				,{ key: 4, value: '4', name: '기타', price: '반품비: 본인부담'}
-			]
 			,item: {
-
 			}
 			,type: 'step31'
 			,reason: ''
@@ -134,6 +135,20 @@ export default {
 				return ''
 			}
 		}
+		,reason_list: function(){
+			if(this.codes.R001){
+				return this.codes.R001.items.filter(function(item){
+					if(item.code_value == 1){
+						item.code_text = '택배비: 본인부담'
+					}else{
+						item.code_text = '택배비: 비용없음'
+					}
+					return item
+				})
+			}else{
+				return []
+			}
+		}
 	}
 	,methods: {
 		setCancelFile: function(e){
@@ -141,7 +156,8 @@ export default {
 			let file = e.target.files[0]
 
 			this.$set(this.cancel_item, 'file', file)
-		},getData: async function(){
+		}
+		,getData: async function(){
 
 			this.$emit('onLoading')
 			try {
@@ -175,16 +191,16 @@ export default {
 					, data: {
 						TOKEN: this.TOKEN
 						,uid: this.item.uid
-						,reason: this.item.reason
-						,reason_text: this.item.reason_text
-						,review_file: this.item.file
+						,reason: this.item.reason === undefined ? '' : this.item.reason
+						,reason_text: this.item.reason_text === undefined ? '' : this.item.reason_text
+						,review_file: this.item.file === undefined ? '' : this.item.file
 						,next_step: this.type
 					}
 				})
 
 				if (result.success) {
-					this.$emit('click')
 					this.$emit('setNotify', {type: 'success', message: result.message})
+					this.$router.back()
 				} else {
 					this.$emit('setNotify', {type: 'error', message: result.message})
 				}
@@ -194,6 +210,9 @@ export default {
 			}finally {
 				this.$emit('offLoading')
 			}
+		}
+		,setReason: function(reason){
+			this.$set(this.item, 'reason', reason)
 		}
 	}
 	,created() {
