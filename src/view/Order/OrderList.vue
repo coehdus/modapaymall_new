@@ -70,10 +70,10 @@
 										:class="'color-' + odt.order_status_color"
 									>{{ odt.order_status_name }}</button>
 									<button
-										v-if="odt.is_confirm"
-										class="box prl-10 size-px-11 bg-green "
-										@click="isConfirm(odt)"
-									>구매 확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+										v-if="odt.is_shipping"
+										class="box prl-10 size-px-11 ml-5 color-blue"
+										@click="toShipping(odt)"
+									>배송조회 <v-icon small >mdi mdi-chevron-right</v-icon></button>
 								</div>
 								<div
 									class="justify-space-between ptb-10 "
@@ -96,7 +96,6 @@
 									</div>
 								</div>
 								<div
-									v-if="item.is_cancel"
 									class="mt-10  under-line-dashed pb-10"
 								>
 									<button
@@ -106,22 +105,17 @@
 									>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
 									<button
-										v-if="odt.is_return"
-										class="box prl-10 size-px-11 bg-orange "
-										@click="toOdtReturn(odt)"
-									>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
-
-									<button
 										v-if="odt.is_confirm"
-										class="box prl-10 size-px-11 bg-green "
+										class="box prl-10 size-px-11 bg-green mr-5"
 										@click="toOdtConfirm(odt)"
 									>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
 									<button
-										v-if="odt.is_shipping"
-										class="box prl-10 size-px-11 ml-5"
-										@click="toShipping(odt)"
-									>배송조회 <v-icon small class="">mdi mdi-chevron-right</v-icon></button>
+										v-if="odt.is_return"
+										class="box prl-10 size-px-11 bg-orange mr-5 "
+										@click="toOdtReturn(odt)"
+									>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+
 								</div>
 							</li>
 						</ul>
@@ -271,92 +265,61 @@
 
 						switch (odt.order_status){
 							default: case 'step1':
-								odt.order_status_name = '주문접수'
-								odt.order_status_color = ''
 								odt.is_shipping = false
 								odt.is_cancel = true
 								break
 							case 'step2':
-								odt.order_status_name = '배송준비중'
-								odt.order_status_color = ''
-								odt.is_cancel = true
+								odt.is_cancel = false
+								odt.is_shipping = false
 
 								item.is_cancel = false
 								break
 							case 'step3':
-								odt.order_status_name = '배송중'
-								odt.order_status_color = 'blue'
 
 								item.is_cancel = false
 								break
 							case 'step4':
-								odt.order_status_name = '배송완료'
-								odt.order_status_color = 'green'
-								odt.is_cancel = true
+								odt.is_cancel = false
 								odt.is_confirm = true
 								odt.is_return = true
 
 								item.is_cancel = false
 								break
 							case 'step5':
-								odt.order_status_name = '구매확정'
-								odt.order_status_color = 'green'
 
 								item.is_cancel = false
 								break
 							case 'step21':
-								odt.order_status_name = '주문 취소 요청'
-								odt.order_status_color = 'orange'
 								odt.is_shipping = false
 
 								item.is_step21 = false
 								break
 							case 'step22':
-								odt.order_status_name = '주문 취소 완료'
-								odt.order_status_color = 'red'
 								odt.is_shipping = false
 
 								//item.is_cancel = false
 								break
 							case 'step31':
-								odt.order_status_name = '교환 요청'
-								odt.order_status_color = 'orange'
 
 								item.is_cancel = false
 								break
 							case 'step32':
-								odt.order_status_name = '교환 처리중'
-								odt.order_status_color = 'orange'
 
 								item.is_cancel = false
 								break
 							case 'step33':
-								odt.order_status_name = '교환 배송중'
-								odt.order_status_color = 'blue'
-
-								item.is_cancel = false
-								break
-							case 'step34':
-								odt.order_status_name = '교환 완료'
-								odt.order_status_color = 'green'
 
 								item.is_cancel = false
 								break
 							case 'step41':
-								odt.order_status_name = '반품 요청'
-								odt.order_status_color = 'orange'
 
 								item.is_cancel = false
 								break
 							case 'step42':
-								odt.order_status_name = '반품 처리중'
-								odt.order_status_color = 'orange'
 
 								item.is_cancel = false
 								break
 							case 'step43':
-								odt.order_status_name = '반품 완료'
-								odt.order_status_color = 'red'
 
 								item.is_cancel = false
 								break

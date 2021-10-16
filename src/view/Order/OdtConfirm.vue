@@ -180,7 +180,7 @@ export default {
 				})
 
 				if (result.success) {
-					this.$emit('confirm')
+					this.$router.back()
 					this.$emit('setNotify', {type: 'success', message: result.message})
 				} else {
 					this.$emit('setNotify', {type: 'error', message: result.message})

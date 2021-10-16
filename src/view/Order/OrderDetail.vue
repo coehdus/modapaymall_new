@@ -130,22 +130,22 @@
 										<span
 											v-if="odt.is_step21"
 											class=" prl-10 bg-red"
-											@click="toOdtStatus(item,'step21')"
+											@click="toOdtStatus(odt,'step21')"
 										>주문 취소</span>
 										<span
 											v-if="odt.is_step31"
 											class="box prl-10 bg-orange"
-											@click="toOdtStatus(item,'step31')"
+											@click="toOdtStatus(odt,'step31')"
 										>교환 요청</span>
 										<span
 											v-if="odt.is_step41"
 											class="box prl-10 bg-orange"
-											@click="toOdtStatus(item,'step41')"
+											@click="toOdtStatus(odt,'step41')"
 										>반품 요청</span>
 										<span
 											v-if="odt.is_step5"
 											class="box prl-10 bg-green"
-											@click="toOdtStatus(item,'step5')"
+											@click="toOdtStatus(odt,'step5')"
 										>구매 확정</span>
 										<span
 											v-if="odt.shipping_num"
@@ -252,8 +252,6 @@ export default {
 
 				return item.odt_list.filter(function(odt){
 
-					odt.order_status_name = self.codes.odt_status[odt.order_status].name
-					odt.order_status_color = self.codes.odt_status[odt.order_status].color
 					odt.options = {}
 					if(odt.pdt_img1){
 						odt.pdt_img = self.codes.img_url + odt.pdt_img1
@@ -299,7 +297,16 @@ export default {
 			}
 		}
 		,toShipping: function(odt){
-			this.$emit('toShipping', odt)
+			let code = this.codes.G000.items
+			let url = ''
+			for(let i = 0; i < code.length; i++){
+				if(code[i].total_code == odt.shipping_name){
+					url = code[i].code_value + odt.shipping_num
+					break
+				}
+			}
+			console.log(url)
+			window.open(url, 'shipping')
 		}
 		,toOdtStatus: async function(item, step){
 			try{
@@ -314,6 +321,7 @@ export default {
 				})
 
 				if(result.success){
+					await this.getData()
 					this.$emit('setNotify', { type: 'success', message: result.message})
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message})
