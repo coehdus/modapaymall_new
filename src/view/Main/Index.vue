@@ -25,7 +25,7 @@
 					>
 					<div
 						class="banner-img"
-						:style="'background: url(' + banner.banner_img + ') no-repeat center center;'"
+						:style="'background: url(' + banner.banner_img + ') no-repeat center center; background-size: 100%'"
 					>
 					</div>
 					</transition>
