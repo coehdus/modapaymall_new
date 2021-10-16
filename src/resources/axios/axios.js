@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-let domain = 'delimall.co.kr'
-let dev = 'http://delimall.co.kr/API'
-let server = 'http://delimall.co.kr/API'
+let domain = process.env.VUE_APP_DOMAIN
+let dev = process.env.VUE_APP_DEV
+let server = process.env.VUE_APP_SERVER
 let location = window.location.href
 
 let baseUrl = ''

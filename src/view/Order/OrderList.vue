@@ -316,7 +316,7 @@
 								odt.order_status_color = 'red'
 								odt.is_shipping = false
 
-								item.is_cancel = false
+								//item.is_cancel = false
 								break
 							case 'step31':
 								odt.order_status_name = '교환 요청'
