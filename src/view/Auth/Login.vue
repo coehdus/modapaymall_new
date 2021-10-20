@@ -11,7 +11,7 @@
 				<div class="bg-base color-white pa-10 ">라이더 쇼핑의 모든것</div>
 				<div
 					class="mt-20 mb-30 size-px-24 font-weight-bold vertical-middle"
-				>Delimall</div>
+				><img src="@/assets/images/delimall/logo.png" style="width: 50%"></div>
 			</div>
 			<div class="pa-10">
 				<input
@@ -20,6 +20,7 @@
 					:class="{  input: isIdInput, 'error-underline': error.type == 'id' }"
 					type="text" placeholder="아이디를 입력하세요."
 					maxlength="15"
+					@keyup.enter="login"
 				/>
 			</div>
 			<div class="pa-10 toggle-password">
@@ -30,6 +31,7 @@
 					:type="toggleType"
 					placeholder="비밀번호를 입력하세요."
 					maxlength="50"
+					@keyup.enter="login"
 				/>
 				<v-icon
 					v-if="toggleType == 'text'"

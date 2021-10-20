@@ -407,14 +407,13 @@
 		width: 100%;
 		background-color: #eee;
 		text-align: center;
-		height: 120px;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 	}
 
-	ul.grid .pdt-img img { display: block; margin: auto; width: 100%}
+	ul.grid .pdt-img img { display: block; margin: auto; width: 100%; height: 100%}
 
 	.pdt-img {
 		overflow: hidden

@@ -187,7 +187,7 @@
 			,offLoading: function(){
 				setTimeout(() => {
 					this.is_loading = false
-				}, 500)
+				}, 300)
 			}
 		}
 		,created: function(){

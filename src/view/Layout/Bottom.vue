@@ -115,6 +115,6 @@
 
 <style>
 
-	.on { background-color: #bbb; color: #333;}
+	.on { background-color: #eee; color: #fefefe;}
 	.on i { color: #333 !important;}
 </style>

@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<div
-			class="logo-position justify-center text-center pa-20 bg-base "
+			class="logo-position pa-20 text-center bg-fe"
 			@click="toMain"
 		>
-			<span class="text-center color-white">Logo Position</span>
+			<img src="@/assets/images/delimall/logo.png" style="width: 40%"/>
 		</div>
 	</div>
 </template>
