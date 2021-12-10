@@ -8,8 +8,9 @@
 			<div
 				class="pa-10 text-center"
 			>
-				<div class="bg-base color-white pa-10 ">라이더 쇼핑의 모든것</div>
+				<div class="bg-base color-white pa-10 ">{{ $production_title }}</div>
 				<div
+					v-if="$production"
 					class="mt-20 mb-30 size-px-24 font-weight-bold vertical-middle"
 				><img src="@/assets/images/delimall/logo.png" style="width: 50%"></div>
 			</div>
@@ -100,6 +101,7 @@ export default{
 				, bland: false
 				, wrap: 'loginNew'
 			}
+			,title: process.env.VUE_APP_TITLE_DEV
 			,item: {
 				member_id: ''
 				,member_pw: ''

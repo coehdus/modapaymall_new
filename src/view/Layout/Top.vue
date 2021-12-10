@@ -4,7 +4,14 @@
 			class="logo-position pa-20 text-center bg-fe"
 			@click="toMain"
 		>
-			<img src="@/assets/images/delimall/logo.png" style="width: 40%"/>
+			<img
+				v-if="$production"
+				src="@/assets/images/delimall/logo.png" style="width: 40%"
+			/>
+			<span
+				v-else
+				class="color-333 size-px-16 font-weight-bold"
+			>{{ $production_title }}</span>
 		</div>
 	</div>
 </template>
@@ -19,6 +26,9 @@
 			,toMain: function(){
 				this.$emit('push', 'Index')
 			}
+		}
+		,created() {
+			console.log(this.$production_title)
 		}
 	}
 </script>

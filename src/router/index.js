@@ -48,6 +48,11 @@ const routes = [
 		,component: () => import('@/view/Product/ProductList.vue')
 	}
 	,{
+		path: prefix + 'Product/Detail/:idx'
+		,name: 'ProductDetail'
+		,component: () => import('@/view/Product/ProductDetail.vue')
+	}
+	,{
 		path: prefix + 'Order/Cart'
 		,name: 'Cart'
 		,component: () => import('@/view/Order/Cart.vue')

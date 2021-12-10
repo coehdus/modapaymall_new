@@ -12,7 +12,7 @@
 				class="ul-main-banner"
 			>
 				<template
-					v-if="banner_items.length > 0"
+					v-if="false && banner_items.length > 0"
 				>
 				<li
 					v-for="(banner, banner_index) in banner_list"
@@ -84,7 +84,7 @@
 					:key="item.uid"
 					class="main-box-pdt position-relative"
 
-					@click="goDetail(item)"
+					@click="toDetail(item)"
 				>
 					<div class="pdt-img ">
 						<img
@@ -271,6 +271,7 @@
 						let item = this.items
 						this.items = item.concat(result.data.result)
 						this.$set(this.search, 'total_count', result.data.tCnt)
+						this.$storage.setQuery(this.search)
 					} else {
 						this.$emit('setNotify', {type: 'error', message: result.message})
 					}
@@ -303,9 +304,8 @@
 					console.log(e)
 				}
 			}
-			,goDetail(item){
-				item.TOKEN = sessionStorage.getItem('delimallT')
-				this.$set(this, 'item', item)
+			,toDetail(item){
+				this.$storage.push({ name: 'ProductDetail', params: { idx: item.uid }})
 			}
 			,clear(){
 				this.$set(this, 'item', {})

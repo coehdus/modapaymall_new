@@ -1,7 +1,6 @@
 <template>
 	<div
-		class="full-height flex-column position-fixed  full-width bg-white"
-		style="left: 0; top: 0; z-index: 999"
+		class="full-height flex-column full-width bg-white"
 	>
 		<div
 			class="bg-title justify-space-between"
@@ -65,17 +64,29 @@
 			</div>
 
 			<div
-				class="mt-20 flex-row justify-space-between"
+				class="mt-20 flex-row justify-space-between top-line pt-20"
 			>
 				<div
 					class="pdt-rate"
 				>평점</div>
 				<div
 					class="pdt-price"
-				>{{  item.agency_sale_price | makeComma }} 원</div>
+				>{{  item.pdt_point | makeComma }} 점</div>
 			</div>
 
 			<div
+				class="mt-10 flex-row justify-space-between top-line-dashed pt-10"
+			>
+				<div
+					class="pdt-rate"
+				>판매가</div>
+				<div
+					class="pdt-price"
+				>{{  item.pdt_price | makeComma }} 원</div>
+			</div>
+
+			<div
+				v-if="item.pdt_delivery > 0"
 				class="mt-10 justify-space-between"
 			>
 				<div>상품 개별 배송비</div>
@@ -119,7 +130,7 @@
 				</div>
 			</div>
 
-			<h6 class="mt-30">상세정보</h6>
+			<h6 class="mt-10">상세정보</h6>
 			<div
 				class="mt-10 input-box pdt-info"
 			>
@@ -278,16 +289,17 @@
 	import Modal from "@/components/Modal";
 	export default {
 		name: 'ProductDetail'
-		,props: ['Axios', 'item', 'cart_cnt']
+		,props: ['Axios', 'cart_cnt']
 		,components: { Modal, Viewer}
 		,data: function(){
 			return {
 				program: {
-					name: this.item.pdt_name
+					name: '상품 상세'
 					,top: false
 					,title: false
 					,bottom: false
 				}
+				,item: {}
 				// 상품옵션
 				,pdt_options: null
 				// 판매자 정보
@@ -325,7 +337,7 @@
 		,computed: {
 			total_price: function(){
 				let price = 0
-				let agency_sale_price = this.item.agency_sale_price
+				let agency_sale_price = this.item.pdt_price
 				this.options.forEach(function(item){
 					price += Number(item.odt_cnt) * (Number(agency_sale_price) + Number(item.odt_price))
 				})
@@ -345,11 +357,12 @@
 						method: 'get'
 						, url: 'product/getProduct'
 						, data: {
-							pdt_uid: this.item.uid
+							pdt_uid: this.$route.params.idx
 						}
 					})
 
 					if (result.success) {
+						this.item = result.data.pdt_info
 						this.$set(this, 'pdt_options', result.data.pdt_options)
 
 						this.resetOption(this.pdt_options)
