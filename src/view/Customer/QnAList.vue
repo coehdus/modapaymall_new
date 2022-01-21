@@ -26,10 +26,10 @@
 				>
 					<div
 						class="pa-10 justify-space-between "
-						:class="item_content != item.uid ? 'bg-gray-light' : 'bg-gray'"
+						:class="item_content != item.uid ? 'bg-white' : 'bg-gray'"
 						@click="item_content != item.uid ? item_content = item.uid : item_content = null"
 					>
-						<span>[<span :class="'color-' + item.is_answer_color">{{ item.is_answer_name }}</span>] {{ item.b_title }}</span>
+						<span>[<span :class="item.is_answer_color">{{ item.is_answer_name }}</span>] {{ item.b_title }}</span>
 						<v-icon
 							v-if="item_content != item.uid"
 						>mdi mdi-menu-down</v-icon>
@@ -39,7 +39,7 @@
 					</div>
 					<div
 						v-if="item_content == item.uid"
-						class=" "
+						class="bg-eee"
 					>
 						<div class="pa-10 justify-space-between under-line-dashed">
 							<span>{{ item.m_name }}</span>
@@ -103,7 +103,7 @@ export default {
 		item_list: function(){
 			return this.items.filter(function(item){
 				if(item.b_answer){
-					item.is_answer_color = 'green'
+					item.is_answer_color = 'font-weight-bold'
 					item.is_answer_name = '답변 완료'
 				}else{
 					item.is_answer_color = ''
@@ -115,8 +115,8 @@ export default {
 	}
 	,methods: {
 		getData: async function(){
-			this.$emit('onLoading')
 			try{
+				this.$emit('onLoading')
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'board/getBbsList'
@@ -136,7 +136,7 @@ export default {
 			}
 		}
 		,toItem: function(){
-			this.$emit('push', 'BbsItem', { b_code: this.b_code })
+			this.$emit('push', { name: 'BbsItem', params: { b_code: this.search.b_code }})
 		}
 	}
 	,created() {

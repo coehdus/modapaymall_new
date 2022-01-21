@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="under-line">
 		<div
 			class="logo-position pa-20 text-center bg-fe"
 			@click="toMain"
@@ -24,7 +24,7 @@
 				this.$emit('toggleSide')
 			}
 			,toMain: function(){
-				this.$emit('push', 'Index')
+				this.$storage.push({name: 'Index', not_query: false})
 			}
 		}
 		,created() {

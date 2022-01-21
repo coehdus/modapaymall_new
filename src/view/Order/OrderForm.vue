@@ -217,7 +217,7 @@
 								<div class="pa-10 flex-1 odt-img justify-center flex-column">
 									<img
 										v-if="product.pdt_img"
-										:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
+										:src="$pdt_img_url + product.pdt_img" alt="main1"
 									/>
 									<v-icon
 										v-else
@@ -288,6 +288,7 @@
 				>
 					<div class="pa-10 justify-space-around under-line-dashed">
 						<span
+							v-if="shop_info.is_bank == '1'"
 							@click="item.pay_div = 'bank'"
 						>
 							<v-icon
@@ -300,7 +301,8 @@
 							<span> 무통장 입금</span>
 						</span>
 						<span
-							@click="item.pay_div = 'card'"
+							v-if="shop_info.is_card == '1'"
+							@click="doPaymentCard"
 						>
 							<v-icon
 								v-if="item.pay_div == 'card'"
@@ -318,7 +320,7 @@
 					>
 						<div>
 							무통장 입금 안내
-							<div class="mt-10 mb-10">{{ shop_info.bank_info }}</div>
+							<div class="mt-10 mb-10">{{ shop_info.bank_name }} {{ shop_info.bank_account }} {{ shop_info.bank_holder}}</div>
 
 							<label
 								class="mt-10 position-relative"
@@ -438,16 +440,31 @@
 			</div>
 		</Modal>
 
+		<OrderFormReappay
+			v-if="is_reappay"
+			:order_item="order_item"
+			:user="user"
+			:Axios="Axios"
+			:referrer_code="program.code"
+			:pg_info="pg_info"
+			:shop_info="shop_info"
+
+			@setNotify="setNotify"
+			@success="success"
+			@fail="fail"
+		></OrderFormReappay>
+
 	</div>
 </template>
 
 <script>
 import DaumPost from '@/components/Daum/DaumPost'
 import Modal from "@/components/Modal";
+import OrderFormReappay from "@/view/Order/OrderFormReappay";
 export default{
 	name: 'OrderForm'
-	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules']
-	,components: {Modal, DaumPost }
+	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
+	,components: {OrderFormReappay, Modal, DaumPost }
 	,data: function(){
 		return {
 			program: {
@@ -472,7 +489,8 @@ export default{
 				,bank_info: ''
 				,c_uid: []
 				,is_base: '0'
-				,shipping_uid: null
+				,shipping_uid: 'new'
+				,order_number: ''
 			}
 			,shop_info: {
 
@@ -493,6 +511,9 @@ export default{
 
 			]
 			,is_island_delivery: false
+			,is_reappay: false
+			, pg_list: []
+			, pg_info: ''
 		}
 	}
 	,computed: {
@@ -506,7 +527,7 @@ export default{
 
 			for(let i = 0; i < this.use_item.length; i ++){
 				if(!this.use_item[i].is_not_select) {
-					price += (Number(this.use_item[i].pdt_sale_price) + Number(this.use_item[i].op_price)) * this.use_item[i].op_cnt
+					price += (Number(this.use_item[i].pdt_price) + Number(this.use_item[i].op_price)) * this.use_item[i].op_cnt
 				}
 			}
 
@@ -539,16 +560,29 @@ export default{
 			item.order_point = this.order_point
 			item.delivery_price = this.total_delivery_price
 			item.site_bank = this.shop_info.bank_info
+			item.c_uid = []
+			item.order_number = this.item.order_number
+			item.member_name = this.user.member_name
+			item.member_email = this.item.member_email
+			item.pg_info = JSON.stringify(this.pg_info)
 
+			let pdt_name = ''
+			let pdt_code = ''
 			if(Object.keys(this.item_list).length > 0) {
 				for(const [key, val] of Object.entries(this.use_item)) {
-					console.log(key + ' : ' + val)
+					console.log(key)
+					console.log(val)
 					if(val.is_not_select){
 						continue
 					}
+					pdt_name = val.pdt_name
+					pdt_code = val.pdt_code
 					item.c_uid.push(val.uid)
 				}
 			}
+
+			item.pdt_name = pdt_name
+			item.pdt_code = pdt_code
 
 			item.c_uid = JSON.stringify(item.c_uid)
 
@@ -578,12 +612,12 @@ export default{
 
 				items[val.seller_id]['company']['seller_id'] = val.seller_id
 				items[val.seller_id]['company']['seller_name'] = val.shop_name
-				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_sale_price) + Number(val.op_price)) * val.op_cnt)
+				items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_price) + Number(val.op_price)) * val.op_cnt)
 				items[val.seller_id]['company']['delivery_type'] = val.delivery_type
 				items[val.seller_id]['company']['delivery_price'] = val.delivery_price
-				items[val.seller_id]['company']['island_price'] = val.island_price
+				items[val.seller_id]['company']['island_price'] = val.delivery_add_price
 
-				if(val.delivery_type == '무료'){
+				if(val.delivery_type == '0'){
 					items[val.seller_id]['company']['delivery_price'] = 0
 					items[val.seller_id]['company']['delivery'] = ''
 				}else{
@@ -602,7 +636,7 @@ export default{
 						pdt_uid: val.pdt_uid
 						,pdt_img: val.pdt_img1
 						,pdt_name: val.pdt_name
-						,pdt_price: val.pdt_sale_price
+						,pdt_price: val.pdt_price
 						,options: {}
 					}
 				}
@@ -615,7 +649,7 @@ export default{
 						odt_uid: val.uid
 						,odt: val.op_name
 						,odt_cnt: val.op_cnt
-						,odt_price: Number(val.pdt_sale_price) + Number(val.op_price)
+						,odt_price: Number(val.pdt_price) + Number(val.op_price)
 						,cart_index: key
 						,is_not_select: val.is_not_select
 					}
@@ -644,14 +678,21 @@ export default{
 				})
 
 				if(result.success){
-					this.order_number = result.data.order_number
-					this.$emit('setNotify', { type: 'success', message: result.message})
-					this.toResult()
+					this.order_number_new = result.data.order_number_new
+					if(this.item.pay_div == 'bank'){
+						this.$emit('setNotify', { type: 'success', message: result.message})
+						this.toResult()
+					}else{
+						this.is_reappay = true
+					}
+
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message})
+					//await this.toCancel(this.order_number_new)
 				}
 			}catch (e) {
 				console.log(e)
+				//await this.toCancel(this.order_number_new)
 			}finally {
 				this.$emit('offLoading')
 			}
@@ -670,7 +711,7 @@ export default{
 			this.$emit('setOverlay')
 		}
 		,toResult: function(){
-			this.$router.push({ name: 'OrderResult', params: { order_num_new: this.order_number }})
+			this.$router.push({ name: 'OrderResult', params: { order_num_new: this.order_number_new }})
 		}
 		,getBuyItem: async function(){
 			try{
@@ -678,7 +719,7 @@ export default{
 					method: 'get'
 					,url: 'order/getBuyItem'
 					,data: {
-						TOKEN: sessionStorage.getItem('delimallT')
+						TOKEN: sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 					}
 				})
 
@@ -709,6 +750,7 @@ export default{
 						this.item.d_post = result.data[0].post
 						this.item.d_addr1 = result.data[0].addr1
 						this.item.d_addr2 = result.data[0].addr2
+						this.item.shipping_uid = result.data[0].uid
 					}
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message})
@@ -734,20 +776,23 @@ export default{
 			this.is_modal = false
 		}
 
-		,getAgencyShop: async function(){
+		,getShopInfo: async function(){
 			try {
 				const result = await this.Axios({
 					method: 'post'
-					,url: 'order/getAgencyShop'
+					,url: 'order/getShopInfo'
 					,data: {
 						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
 					this.shop_info = result.data
+					if(this.shop_info.is_bank != '1'){
+						this.item.pay_div = 'card'
+					}
 				}else{
-					this.$router.back()
 					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$router.back()
 				}
 			}catch (e) {
 				console.log(e)
@@ -782,17 +827,157 @@ export default{
 				console.log(e)
 			}
 		}
+
+		, getPgInfo: async function(){
+			try {
+				this.$emit('onLoading')
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getPgInfo'
+					,data: {
+						TOKEN: this.TOKEN
+					}
+				})
+				if(result.success){
+					this.pg_info = result.data
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
+		, getPgList: async function(){
+
+			try {
+				this.$emit('onLoading')
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getPgList'
+					,data: {
+						TOKEN: this.TOKEN
+					}
+				})
+				if(result.success){
+					this.pg_list = result.data
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
+		, getOrderNumber: async function(){
+
+			try {
+				this.$emit('onLoading')
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getOrderNumber'
+					,data: {
+						TOKEN: this.TOKEN
+					}
+				})
+				if(result.success){
+					this.$set(this.item, 'order_number', result.data)
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
+		,do: async function(){
+			await this.getShopInfo()
+			await this.getShippingList()
+			await this.getPgInfo()
+
+			if(this.$route.name == 'OrderBuy'){
+				await this.getBuyItem()
+			}else{
+				this.use_item = this.cart_items
+			}
+
+			await this.getOrderNumber()
+		}
+		,setNotify: function({ type, message}){
+			this.$emit('setNotify', { type: type, message: message})
+		}
+		,success: function(data){
+			console.log(data)
+			this.update()
+		}
+		,fail: function(data){
+			console.log(data)
+			this.do()
+			this.$emit('setNotify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+		}
+		, update: async function(){
+			try {
+				this.$emit('onLoading')
+				const result = await this.Axios({
+					method: 'post'
+					,url: 'order/postUpdateOrder'
+					,data: {
+						TOKEN: this.TOKEN
+						, order_number: this.item.order_number
+					}
+				})
+				if(result.success){
+					this.toResult()
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
+
+		, toPayment: function(){
+			if(this.item.pay_div == 'bank'){
+				this.save()
+			}else if(this.item.pay_div == 'card'){
+				this.is_reappay = true
+			}
+		}
+		,doPaymentCard: function(){
+			this.item.pay_div = 'card'
+		}
+		,toCancel: async function(){
+			try {
+				this.$emit('onLoading')
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/postFailOrderCancel'
+					,data: {
+						TOKEN: this.TOKEN
+						, order_number: this.item.order_number
+					}
+				})
+				if(result.success){
+					window.location.reload()
+				}else{
+					this.$emit('setNotify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$emit('offLoading')
+			}
+		}
 	}
 	,created: function(){
 		this.$emit('onLoad', this.program)
-		if(this.$route.name == 'OrderBuy'){
-			this.getBuyItem()
-		}else{
-			this.use_item = this.cart_items
-		}
 
-		this.getAgencyShop()
-		this.getShippingList()
+		this.do()
 	}
 	,watch: {
 		'item.d_post':{

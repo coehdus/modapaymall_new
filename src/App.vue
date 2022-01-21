@@ -49,7 +49,7 @@ export default {
 	,methods: {
 		isAuth: function(){
 			console.log('isAuth start !!')
-			let TOKEN = sessionStorage.getItem('delimallT')
+			let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 			let skip = false
 			let except = ['auth']
 			let path = document.location.href

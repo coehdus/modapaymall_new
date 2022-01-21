@@ -141,7 +141,7 @@ export default{
 				})
 
 				if(result.success){
-					this.$emit('goBack')
+					this.$emit('toBack')
 					this.$emit('setNotify', { type: 'success', message: result.message })
 				}else{
 					this.$emit('setNotify', { type: 'error', message: result.message })

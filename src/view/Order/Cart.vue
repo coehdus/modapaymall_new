@@ -26,7 +26,7 @@
 							<div class="pa-10 flex-1 odt-img justify-center flex-column">
 								<img
 									v-if="product.pdt_img"
-									:src="'http://delimall.co.kr/API/data/product/' + product.pdt_img" alt="main1"
+									:src="$pdt_img_url + product.pdt_img" alt="main1"
 								/>
 								<span
 									v-else
@@ -123,12 +123,9 @@
 				</li>
 			</ul>
 			</template>
-			<div
+			<Empty
 				v-else
-				class="full-height flex-column justify-center"
-			>
-				<div class="text-center">No Data</div>
-			</div>
+			></Empty>
 		</div>
 
 
@@ -165,9 +162,12 @@
 </template>
 
 <script>
+	import Empty from "@/view/Layout/Empty";
 	export default{
 		name: 'Cart'
-		,props: ['Axios', 'cart_items', 'filter', 'TOKEN']
+		,
+		components: {Empty},
+		props: ['Axios', 'cart_items', 'filter', 'TOKEN']
 		,data: function(){
 			return {
 				program: {
@@ -186,7 +186,7 @@
 				if(this.cart_items.length > 0) {
 					for (let i = 0; i < this.cart_items.length; i++) {
 						if (!this.cart_items[i].is_not_select) {
-							price += (Number(this.cart_items[i].pdt_sale_price) + Number(this.cart_items[i].op_price)) * this.cart_items[i].op_cnt
+							price += (Number(this.cart_items[i].pdt_price) + Number(this.cart_items[i].op_price)) * this.cart_items[i].op_cnt
 							//price += Number(this.cart_items[i].pdt_delivery)
 						}
 					}
@@ -244,14 +244,14 @@
 					items[val.seller_id]['company']['seller_id'] = val.seller_id
 					items[val.seller_id]['company']['seller_name'] = val.shop_name
 					if(!val.is_not_select) {
-						items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_sale_price) + Number(val.op_price)) * val.op_cnt)
+						items[val.seller_id]['company']['total_price'] += ((Number(val.pdt_price) + Number(val.op_price)) * val.op_cnt)
 					}
 					items[val.seller_id]['company']['delivery_type'] = val.delivery_type
 					items[val.seller_id]['company']['delivery_price'] = val.delivery_price
 
 					// items[val.seller_id]['company']['pdt_delivery_price'] += (Number(val.pdt_delivery) * val.op_cnt)
 
-					if (val.delivery_type == '무료') {
+					if (val.delivery_type == '0') {
 						items[val.seller_id]['company']['delivery_price'] = val.delivery_type
 						items[val.seller_id]['company']['delivery'] = ''
 					} else {
@@ -270,7 +270,7 @@
 							pdt_uid: val.pdt_uid
 							,pdt_img: val.pdt_img1
 							,pdt_name: val.pdt_name
-							,pdt_sale_price: val.pdt_sale_price
+							,pdt_price: val.pdt_price
 							,pdt_delivery: val.pdt_delivery
 							,options: {}
 						}
@@ -284,7 +284,7 @@
 							odt_uid: val.uid
 							,odt: val.op_name
 							,odt_cnt: val.op_cnt
-							,odt_price: Number(val.pdt_sale_price) + Number(val.op_price)
+							,odt_price: Number(val.pdt_price) + Number(val.op_price)
 							,cart_index: key
 							,is_not_select: val.is_not_select
 						}

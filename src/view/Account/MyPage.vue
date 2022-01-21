@@ -10,7 +10,16 @@
 			class="pa-10 flex-column full-height overflow-y-auto bg-gray-light"
 		>
 			<div>
-				<h6 class="pa-10">내 정보</h6>
+				<div class="justify-space-between">
+					<h6 class="pa-10 ">내 정보</h6>
+
+					<div class="pt-5">
+					<button
+						class="bg-identify pa-5-10"
+						@click="toModify"
+					>정보 수정</button>
+					</div>
+				</div>
 				<ul
 					class="box-mypage-list shadow ul-under-line size-px-14 bg-white"
 				>
@@ -22,7 +31,7 @@
 					</li>
 					<li
 						class="pa-10 justify-space-between bg-gray-light"
-						@click="$emit('push', 'Password')"
+						@click="$emit('push', {name: 'Password'})"
 					>
 						<span>비밀번호 변경</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
@@ -37,7 +46,9 @@
 						class="pa-10 justify-space-between"
 					>
 						<span>연락처</span>
-						<span>{{ member_info.member_tell }}</span>
+						<span>
+							{{ member_info.member_tell }}
+						</span>
 					</li>
 					<li
 						class="pa-10 justify-space-between"
@@ -57,7 +68,7 @@
 					</li>
 					<li
 						class="pa-10 justify-space-between bg-gray-light"
-						@click="$emit('push', 'Shipping')"
+						@click="$emit('push', { name: 'Shipping'})"
 					>
 						<span>주소록</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
@@ -164,13 +175,13 @@ export default{
 	,methods: {
 		logout: function(){
 			if(confirm('로그아웃 하시겠습니까?')){
-				sessionStorage.removeItem('delimallT')
-				sessionStorage.removeItem('delimallT2')
+				sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T')
+				sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T2')
 				this.$router.push({ name: 'Login'})
 			}
 		}
 		,toOrderList: function(type){
-			this.$emit('push', 'OrderList', { type: type })
+			this.$storage.push({ name: 'OrderList', params: {type: type}})
 		}
 		,toPassword: function(){
 			this.$router.push('Password')
@@ -180,13 +191,16 @@ export default{
 			this.$emit('setNotify', { type: type, message: message })
 		}
 		,toQnA: function(){
-			this.$emit('push', 'CustomerCenter', { b_code: 'b_qna'})
+			this.$emit('push', { name: 'CustomerCenter', params: { b_code: 'b_qna'}})
 		}
 		,toNotice: function(){
-			this.$emit('push', 'CustomerCenter', { b_code: 'b_notice'})
+			this.$emit('push', { name: 'CustomerCenter', params: { b_code: 'b_notice'}})
 		}
 		,toReview: function(){
-			this.$emit('push', 'CustomerCenter', { b_code: 'b_after' })
+			this.$emit('push', {name: 'CustomerCenter', params: { b_code: 'b_after' }})
+		}
+		,toModify: function(){
+			this.$emit('push', {name: 'Modify'})
 		}
 	}
 	,created: function(){

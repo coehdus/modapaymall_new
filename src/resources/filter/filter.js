@@ -92,7 +92,7 @@ Vue.filter('makeTell', val => {
 
 Vue.filter('imgUrl', val => {
 	if(val){
-		val = 'http://delimall.co.kr/API/data/product/' + val
+		val = process.env.VUE_APP_IMG_URL + val
 		return val
 	}else{
 		return ''

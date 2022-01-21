@@ -21,130 +21,137 @@
 		</div>
 
 		<div
-			class=" flex-column full-height pb-30 bg-gray-light overflow-y-auto"
+			class=" flex-column full-height  bg-gray-light overflow-y-auto"
 		>
-			<ul>
-				<!-- 주문 내역-->
-				<li
-					v-for="(item, index) in item_list"
-					:key="item.uid"
-					class=" bg-white mt-10 box-shadow position-relative"
-				>
-					<!-- 주문일자 및 주문상세 이동 -->
-					<div
-
-						class="pa-10 justify-space-between "
-						@click="toDetail(item)"
+			<template
+				v-if="items.length > 0"
+			>
+				<ul class="full-height overflow-y-auto">
+					<!-- 주문 내역-->
+					<li
+						v-for="(item, index) in item_list"
+						:key="item.uid"
+						class=" bg-white mt-10 box-shadow position-relative"
 					>
-						<span class="">{{ item.wDate | transDate }}</span>
-						<v-icon class="">mdi mdi-arrow-right-bold-box-outline</v-icon>
-					</div>
-
-					<div
-						class=""
-					>
+						<!-- 주문일자 및 주문상세 이동 -->
 						<div
-							v-if="false"
-							class="justify-space-between under-line-dashed pa-10"
+
+							class="pa-10 justify-space-between "
+							@click="toDetail(item)"
 						>
-							<span>
-								<span
-									class="box pa-5"
-									:class="'color-' + item.o_status_color"
-								>{{ item.o_status_name }}</span>
-							</span>
-							<span class="color-blue">{{ item.order_price | makeComma }} 원</span>
+							<span class="">{{ item.wDate | transDate }}</span>
+							<v-icon class="">mdi mdi-arrow-right-bold-box-outline</v-icon>
 						</div>
 
-						<ul
-							class="pa-10"
+						<div
+							class=""
 						>
-							<li
-								v-for="odt in item.odt_list"
-								:key="'odt_' + odt.uid"
-								class="pa-10 box mb-10 radius-10"
+							<div
+								v-if="false"
+								class="justify-space-between under-line-dashed pa-10"
 							>
-								<div class="under-line-dashed pb-10 justify-space-between">
-									<button
-										class="font-weight-bold"
-										:class="'color-' + odt.order_status_color"
-									>{{ odt.order_status_name }}</button>
-									<button
-										v-if="odt.is_shipping"
-										class="box prl-10 size-px-11 ml-5 color-blue"
-										@click="toShipping(odt)"
-									>배송조회 <v-icon small >mdi mdi-chevron-right</v-icon></button>
-								</div>
-								<div
-									class="justify-space-between ptb-10 "
+								<span>
+									<span
+										class="box pa-5"
+										:class="'color-' + item.o_status_color"
+									>{{ item.o_status_name }}</span>
+								</span>
+								<span class="color-blue">{{ item.order_price | makeComma }} 원</span>
+							</div>
+
+							<ul
+								class="pa-10"
+							>
+								<li
+									v-for="odt in item.odt_list"
+									:key="'odt_' + odt.uid"
+									class="pa-10 box mb-10 radius-10"
 								>
-									<span class="flex-1 pdt-img mr-10 flex-column justify-center">
-										<img
-											v-if="odt.pdt_img"
-											:src="odt.pdt_img"
-										/>
-										<v-icon
-											v-else
-										>mdi mdi-image</v-icon>
-									</span>
-									<div class="flex-3">
-										<div>{{ odt.pdt_name}} <span class="color-gray size-em-09">선택 옵션: {{ odt.op_name }}</span></div>
-										<div class="mt-5 ">
-											<span class="font-weight-bold">{{ odt.odt_price | makeComma }} 원</span>
-											<span class="size-em-09"> 수량: {{ odt.op_cnt }}개</span>
+									<div class="under-line pb-5 justify-space-between">
+										<button
+											class="font-weight-bold"
+											:class="'color-' + odt.order_status_color"
+										>{{ odt.order_status_name }}</button>
+										<button
+											v-if="odt.is_shipping"
+											class="box prl-10 size-px-11 ml-5 color-blue"
+											@click="toShipping(odt)"
+										>배송조회 <v-icon small >mdi mdi-chevron-right</v-icon></button>
+									</div>
+									<div
+										class="justify-space-between ptb-10 "
+									>
+										<span class="flex-1 pdt-img mr-10 flex-column justify-center ">
+											<img
+												v-if="odt.pdt_img"
+												:src="odt.pdt_img"
+											/>
+											<v-icon
+												v-else
+											>mdi mdi-image</v-icon>
+										</span>
+										<div class="flex-3">
+											<div class="under-line-dashed pb-5">{{ odt.pdt_name}} <br/> <span class="color-gray size-em-09">선택 옵션: {{ odt.op_name }}</span></div>
+											<div class="mt-5 justify-space-between">
+												<span class="font-weight-bold">{{ odt.odt_price | makeComma }} 원</span>
+												<span class="size-em-09"> 수량: {{ odt.op_cnt }}개</span>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div
-									class="mt-10  under-line-dashed pb-10"
-								>
-									<button
-										v-if="odt.is_cancel"
-										class="box prl-10 size-px-11 bg-red "
-										@click="isOdtUpdate(odt, odt_step_cancel)"
-									>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+									<div
+										class="mt-10  under-line-dashed pb-10"
+									>
+										<button
+											v-if="odt.is_cancel"
+											class="box prl-10 size-px-11 bg-red "
+											@click="isOdtUpdate(odt, odt_step_cancel)"
+										>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
-									<button
-										v-if="odt.is_confirm"
-										class="box prl-10 size-px-11 bg-green mr-5"
-										@click="toOdtConfirm(odt)"
-									>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+										<button
+											v-if="odt.is_confirm"
+											class="box prl-10 size-px-11 bg-green mr-5"
+											@click="toOdtConfirm(odt)"
+										>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
-									<button
-										v-if="odt.is_return"
-										class="box prl-10 size-px-11 bg-orange mr-5 "
-										@click="toOdtReturn(odt)"
-									>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+										<button
+											v-if="odt.is_return"
+											class="box prl-10 size-px-11 bg-orange mr-5 "
+											@click="toOdtReturn(odt)"
+										>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
-								</div>
-							</li>
-						</ul>
-						<div class="pa-10 top-line justify-space-between ">
-							<span class="font-weight-bold" :class="'color-' + item.o_status_color">{{ item.o_status_name }}</span>
-							<span class="font-weight-bold">결제 금액: {{ item.order_price | makeComma }} 원</span>
+									</div>
+								</li>
+							</ul>
+							<div class="pa-10 top-line justify-space-between ">
+								<span class="font-weight-bold" :class="'color-' + item.o_status_color">{{ item.o_status_name }}</span>
+								<span class="font-weight-bold">결제 금액: {{ item.order_price | makeComma }} 원</span>
+							</div>
+							<div
+								v-if="false"
+								class="pa-10 text-right"
+							>
+								<button
+									v-if="item.is_cancel"
+									class="btn-danger size-px-12 prl-10"
+									@click="viewCancel(item, index)"
+								>결제 취소 요청 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
+							</div>
 						</div>
-						<div
-							v-if="false"
-							class="pa-10 text-right"
-						>
-							<button
-								v-if="item.is_cancel"
-								class="btn-danger size-px-12 prl-10"
-								@click="viewCancel(item, index)"
-							>결제 취소 요청 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
-						</div>
-					</div>
-				</li>
-			</ul>
-			<Pagination
-				:program="program"
-				:align="'center'"
-				:options="search"
+					</li>
+				</ul>
+				<Pagination
+					:program="program"
+					:align="'center'"
+					:options="search"
 
-				@click="toPage"
+					@click="getSearch"
 
-				class="mt-10"
-			></Pagination>
+					class="mt-auto pa-10"
+				></Pagination>
+			</template>
+			<Empty
+				v-else
+			></Empty>
 		</div>
 
 		<Modal
@@ -158,7 +165,7 @@
 				class="justify-space-between"
 			>
 				<button
-					class="btn btn-danger"
+					class="btn bg-red"
 					@click="toOdtCancel"
 				>확인</button>
 				<button
@@ -173,11 +180,12 @@
 <script>
 	import Modal from "@/components/Modal";
 	import Pagination from "../../components/Pagination";
+	import Empty from "@/view/Layout/Empty";
 
 	export default{
 		name: 'OrderList'
 		,
-		components: { Pagination, Modal},
+		components: {Empty, Pagination, Modal},
 		props: ['Axios', 'member_info', 'TOKEN', 'codes']
 		,data: function() {
 			return {
@@ -187,14 +195,14 @@
 					, title: true
 					, bottom: true
 				}
-				,search: {
+				,search: this.$storage.init({
 					TOKEN: this.TOKEN
-					,sDate: ''
-					,eDate: ''
-					,type: this.$route.params.type
-					,page: this.$route.params.page
+					, sDate: ''
+					, eDate: ''
+					, type: this.$route.params.type
+					, page: 1
 					, list_cnt: 10
-				}
+				})
 				,items: [
 
 				]
@@ -230,9 +238,9 @@
 
 		,computed: {
 			item_list: function(){
-				const self = this
-				return this.items.filter(function(item){
-					item.TOKEN = self.TOKEN
+
+				return this.items.filter((item) => {
+					item.TOKEN = this.TOKEN
 					item.is_cancel = true
 
 					switch (item.o_status){
@@ -256,10 +264,10 @@
 							item.is_cancel = false
 							break;
 					}
-					item.odt_list.filter(function(odt){
+					item.odt_list.filter((odt) => {
 						odt.odt_price = Number(odt.pdt_price) + Number(odt.op_price)
 						if(odt.pdt_img){
-							odt.pdt_img = self.codes.img_url + odt.pdt_img
+							odt.pdt_img = this.$pdt_img_url + odt.pdt_img
 						}
 						odt.is_shipping = true
 
@@ -331,8 +339,11 @@
 		}
 		,methods: {
 			getData: async function(){
-				this.$emit('onLoading')
+
+				console.log(this.search)
+
 				try{
+					this.$emit('onLoading')
 					const result = await this.Axios({
 						method: 'get'
 						,url: 'order/getOrderList'
@@ -340,10 +351,10 @@
 					})
 
 					if(result.success){
-						let item = this.items
-						this.items = item.concat(result.data.result)
+						this.items = result.data.result
 						this.$set(this.search, 'total_count', result.data.tCnt)
 						this.$emit('setNotify', { type: 'success', message: result.message })
+						this.$storage.setQuery(this.search)
 					}else{
 						this.$emit('setNotify', { type: 'error', message: result.message })
 					}
@@ -412,7 +423,10 @@
 				}
 			}
 			,getTypeData: function(type){
-				this.$router.push({ name: 'OrderList', params: { type: type}})
+
+				this.search.type = type
+				this.search.page = 1
+				this.getData()
 			}
 			,isCancel: function(odt){
 				this.item_cancel = odt
@@ -471,8 +485,11 @@
 				console.log(url)
 				window.open(url, 'shipping')
 			}
-			,toPage: function(page){
-				this.$router.push({ name: 'OrderList', params: { type: this.search.type, page: page}})
+			,getSearch: function(page){
+				if(page){
+					this.search.page = page
+				}
+				this.getData()
 			}
 			,isOdtUpdate: function(odt, step){
 				this.is_modal = true

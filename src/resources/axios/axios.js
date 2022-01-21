@@ -51,7 +51,7 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 		}
 		
 		if(authorize){
-			default_header.Authorization = 'Bearer ' + (TOKEN ? TOKEN : sessionStorage.getItem('delimallT'))
+			default_header.Authorization = 'Bearer ' + (TOKEN ? TOKEN : sessionStorage.getItem(process.env.VUE_APP_NAME + 'T'))
 		}
 		
 		if(multipart){

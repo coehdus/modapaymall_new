@@ -5,7 +5,7 @@ export const codes = {
 		title: 'delimall'
 		,copyright: 'Delimall'
 	}
-	,img_url: 'http://delimall.co.kr/API/data/product/'
+	,img_url: process.env.VUE_APP_IMG_URL
 	,banner_url: 'http://delimall.co.kr/API/data/banner/'
 	,pay_div: {
 		card: { code: 'card', name: '카드결제', color: 'blue'}

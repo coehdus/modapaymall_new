@@ -86,7 +86,7 @@
 				this.$emit('setNotify', { type: type, message: message })
 			}
 			,toBbs: function(b_code){
-				this.$emit('push', 'CustomerCenter', { b_code: b_code })
+				this.$emit('push', {name: 'CustomerCenter', params: { b_code: b_code }})
 			}
 			,push: function( name, params){
 				console.log(params)

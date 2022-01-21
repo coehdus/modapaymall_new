@@ -11,7 +11,7 @@
 			>
 				<div
 					class="pa-10 justify-space-between "
-					:class="item_content != item.uid ? 'bg-gray-light' : 'bg-gray'"
+					:class="item_content != item.uid ? 'bg-gray-white' : 'bg-gray'"
 					@click="item_content != item.uid ? item_content = item.uid : item_content = null"
 				>
 					<span>{{ item.b_title }}</span>
@@ -24,7 +24,7 @@
 				</div>
 				<div
 					v-if="item_content == item.uid"
-					class=" "
+					class="bg-eee "
 				>
 					<div class="pa-10 justify-space-between under-line-dashed">
 						<span>{{ item.m_name }}</span>
@@ -33,7 +33,7 @@
 					<Viewer
 						v-if="item.b_contents"
 						:initialValue="item.b_contents"
-						class="pa-10"
+						class="pa-10 "
 					/>
 				</div>
 			</li>

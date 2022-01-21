@@ -19,6 +19,8 @@ if(window.location.href.indexOf(process.env.VUE_APP_DOMAIN) > -1){
 }
 
 Vue.prototype.$storage = storage
+Vue.prototype.$pdt_img_url = process.env.VUE_APP_IMG_URL
+Vue.prototype.$server_url = process.env.VUE_APP_SERVER
 
 new Vue({
   router,

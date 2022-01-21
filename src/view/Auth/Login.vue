@@ -38,13 +38,13 @@
 					v-if="toggleType == 'text'"
 					class="toggle"
 					:class="{ on: toggleType == 'text' }"
-					@click="toggleis_on_pw"
+					@click="toggles_on_pw"
 				>mdi-eye</v-icon>
 				<v-icon
 					v-else
 					class="toggle"
 					:class="{ on: toggleType == 'text' }"
-					@click="toggleis_on_pw"
+					@click="toggles_on_pw"
 				>mdi-eye-off</v-icon>
 			</div>
 			<div
@@ -152,25 +152,25 @@ export default{
 
 				if (result.success) {
 
-					sessionStorage.setItem('delimallT', Base64.encode(this.item.member_id))
-					sessionStorage.setItem('delimallT2', Base64.encode(this.item.member_pw))
+					sessionStorage.setItem(process.env.VUE_APP_NAME + 'T', Base64.encode(this.item.member_id))
+					sessionStorage.setItem(process.env.VUE_APP_NAME + 'T2', Base64.encode(this.item.member_pw))
 
 					if (this.is_id_save) {
-						localStorage.setItem('delimallS', Base64.encode(this.item.member_id))
+						localStorage.setItem(process.env.VUE_APP_NAME + 'S', Base64.encode(this.item.member_id))
 					} else {
-						localStorage.removeItem('delimallS')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'S')
 						//localStorage.removeItem('is_id_save')
 					}
 					if (this.is_auto_login) {
-						localStorage.setItem('delimallA', true)
-						localStorage.setItem('delimallN', Base64.encode(Base64.encode(this.item.member_id)))
-						localStorage.setItem('delimallP', Base64.encode(Base64.encode(this.item.member_pw)))
+						localStorage.setItem(process.env.VUE_APP_NAME + 'A', true)
+						localStorage.setItem(process.env.VUE_APP_NAME + 'N', Base64.encode(Base64.encode(this.item.member_id)))
+						localStorage.setItem(process.env.VUE_APP_NAME + 'P', Base64.encode(Base64.encode(this.item.member_pw)))
 					} else {
-						localStorage.removeItem('delimallA')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'A')
 						if(!this.is_id_save) {
-							localStorage.removeItem('delimallN')
+							localStorage.removeItem(process.env.VUE_APP_NAME + 'N')
 						}
-						localStorage.removeItem('delimallP')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'P')
 					}
 					this.toMain()
 					this.error.type = ''
@@ -188,7 +188,7 @@ export default{
 				this.$emit('setNotify', {type: 'error', message: E})
 			}
 		}
-		,toggleis_on_pw: function(){
+		,toggles_on_pw: function(){
 			if(this.is_on_pw){
 				this.is_on_pw = false
 			}else{
@@ -200,15 +200,15 @@ export default{
 		}
 	}
 	,mounted() {
-		if(localStorage.getItem('delimallS')){
-			this.is_id_save = Base64.decode(localStorage.getItem('delimallS'))
-			this.item.member_id = Base64.decode(localStorage.getItem('delimallS'))
+		if(localStorage.getItem(process.env.VUE_APP_NAME + 'S')){
+			this.is_id_save = Base64.decode(localStorage.getItem(process.env.VUE_APP_NAME + 'S'))
+			this.item.member_id = Base64.decode(localStorage.getItem(process.env.VUE_APP_NAME + 'S'))
 		}
 
-		if(localStorage.getItem('delimallA')){
-			this.is_auto_login = Base64.decode(localStorage.getItem('delimallA'))
-			this.item.member_id = Base64.decode(Base64.decode(localStorage.getItem('delimallN')))
-			this.item.member_pw = Base64.decode(Base64.decode(localStorage.getItem('delimallP')))
+		if(localStorage.getItem(process.env.VUE_APP_NAME + 'A')){
+			this.is_auto_login = Base64.decode(localStorage.getItem(process.env.VUE_APP_NAME + 'A'))
+			this.item.member_id = Base64.decode(Base64.decode(localStorage.getItem(process.env.VUE_APP_NAME + 'N')))
+			this.item.member_pw = Base64.decode(Base64.decode(localStorage.getItem(process.env.VUE_APP_NAME + 'P')))
 			this.login()
 		}
 	}

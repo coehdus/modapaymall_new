@@ -34,11 +34,6 @@
 
 				@push="toLocation"
 			></Title>
-			<Search
-				v-if="program.search"
-				:program="program"
-				@toggleSide="toggleSide"
-			></Search>
 
 			<router-view
 				:Axios="Axios"
@@ -54,13 +49,14 @@
 				:cart_cnt="cart_cnt"
 				:codes="codes"
 				:category="category"
+				:user="member_info"
 
 				@setNotify="setNotify"
 				@onLoad="setProgram"
 				@getCartList="getCartList"
 
 				@push="toLocation"
-				@goBack="goBack"
+				@toBack="toBack"
 				@onLoading="onLoading"
 				@offLoading="offLoading"
 				class=" overflow-y-auto"
@@ -92,13 +88,12 @@
 	import Top from "@/view/Layout/Top";
 	import Bottom from "@/view/Layout/Bottom";
 	import Title from "@/view/Layout/Title";
-	import Search from "@/view/Layout/Search";
 	import Loading from "@/view/Layout/Loading";
 	
 	export default{
 		name: 'Layout'
 		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'filter', 'date', 'codes']
-		,components: {Loading, Search, Title, Bottom, Side, Top, Notify }
+		,components: {Loading, Title, Bottom, Side, Top, Notify }
 		,data: function(){
 			return {
 				program: {
@@ -160,7 +155,7 @@
 						method: 'post'
 						,url: 'order/getCartList'
 						,data: {
-							TOKEN: sessionStorage.getItem('delimallT')
+							TOKEN: sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 						}
 					})
 
@@ -173,11 +168,11 @@
 					console.log(e)
 				}
 			}
-			,goBack: function(){
+			,toBack: function(){
 				this.$router.back()
 			}
-			,toLocation: function(path, params){
-				this.$router.push({ name: path, params: params}).catch(function(e){
+			,toLocation: function( {name, params, query}){
+				this.$router.push({ name: name, params: params, query: query}).catch(function(e){
 					console.log(e)
 				});
 			}
@@ -262,6 +257,7 @@
 
 .border-tb { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
 .border-lr { border-left: 1px solid #ddd; border-right: 1px solid #ddd;}
+.border-right { border-right: 1px solid #ddd}
 
 .bg-base { background-color: black}
 

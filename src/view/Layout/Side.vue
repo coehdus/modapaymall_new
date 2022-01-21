@@ -72,8 +72,9 @@
 		,methods: {
 			toItem: function(category){
 				this.toggleSide()
-				//document.location.href = '/Product/List/' + category
-				this.$emit('push', 'ProductList', { category: category})
+
+				this.$storage.setQuery({ pdt_category: category})
+				this.$storage.push({ name: 'ProductList', params: { category: category} })
 			}
 			,toggleSide: function(){
 				this.$emit('toggleSide')
@@ -90,16 +91,16 @@
 						localStorage.removeItem('delimallN')
 						localStorage.removeItem('delimallP')
 
-						sessionStorage.removeItem('delimallT')
-						sessionStorage.removeItem('delimallT2')
+						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T')
+						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T2')
 						document.location.href= '/Login'
 					}
 
 				}else{
 
 					if(confirm('로그아웃 하시겠습니까?')){
-						sessionStorage.removeItem('delimallT')
-						sessionStorage.removeItem('delimallT2')
+						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T')
+						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T2')
 						document.location.href= '/Login'
 					}
 				}

@@ -95,16 +95,16 @@
 		}
 		,methods: {
 			toHome: function(){
-				this.$emit('push', 'Index')
+				this.$storage.push({ name: 'Index'})
 			}
 			,toMyPage: function(){
-				this.$emit('push', 'MyPage')
+				this.$storage.push({ name: 'MyPage'})
 			}
 			,toCart: function(){
-				this.$emit('push', 'Cart')
+				this.$storage.push({ name: 'Cart'})
 			}
 			,toOrderList: function (){
-				this.$emit('push', 'OrderList')
+				this.$storage.push({ name: 'OrderList'})
 			}
 			,onSide: function(){
 				this.$emit('toggleSide')

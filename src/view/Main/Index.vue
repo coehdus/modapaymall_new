@@ -1,5 +1,13 @@
 <template>
-	<div class="flex-column full-height bg-withe">
+	<div class="flex-column full-height bg-white">
+
+		<Search
+			v-if="program.search"
+			:program="program"
+			:search="search"
+
+			@click="toList"
+		></Search>
 
 		<div
 			class="box-main-banner position-relative"
@@ -12,7 +20,7 @@
 				class="ul-main-banner"
 			>
 				<template
-					v-if="false && banner_items.length > 0"
+					v-if="is_banner && banner_items.length > 0"
 				>
 				<li
 					v-for="(banner, banner_index) in banner_list"
@@ -101,12 +109,12 @@
 						<div
 							v-if="item.is_sale"
 							class="price font-weight-bold"
-						>{{ item.agency_sale_price | makeComma }} 원</div>
+						>{{ item.pdt_price | makeComma }} 원</div>
 						<div
 							v-else
 							class="price font-weight-bold justify-space-between"
 						>
-							<span class="text-through color-gray">{{ item.agency_sale_price | makeComma }} 원</span>
+							<span class="text-through color-gray">{{ item.pdt_price | makeComma }} 원</span>
 							<span class="mr-5 color-red">품절</span>
 						</div>
 
@@ -175,16 +183,17 @@
 
 	import ProductDetail from "../Product/ProductDetail";
 	import Pagination from "@/components/Pagination";
+	import Search from "@/view/Layout/Search";
 
 	export default{
 		name: 'Main'
 		,
-		components: {Pagination, ProductDetail},
+		components: {Search, Pagination, ProductDetail},
 		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter']
 		,data: function(){
 			return {
 				program: {
-					name: '딜리몰'
+					name: process.env.VUE_APP_TITLE_DEV
 					,top: true
 					,title: false
 					,search: true
@@ -205,12 +214,13 @@
 				,item: {
 
 				}
-				,search: {
+				,search: this.$storage.init({
 					TOKEN: this.TOKEN
 					,sort: 'new'
 					,list_cnt: 10
 					,page: 1
-				}
+					,search_type: 'pdt_name'
+				})
 				,list_type: localStorage.getItem('list_type') ? localStorage.getItem('list_type') : 'grid'
 				,slide_option: {
 					perPage		: 1
@@ -226,17 +236,16 @@
 		,computed: {
 			item_list: function (){
 
-				let self = this
-				return this.items.filter(function(item){
+				return this.items.filter((item) => {
 					if(item.pdt_info){
-						item.pdt_info = item.pdt_info.replaceAll('/API/', 'http://delimall.co.kr/API/')
+						item.pdt_info = item.pdt_info.replaceAll('/API/', this.$server_url)
 					}
 					if(item.pdt_notice){
-						item.pdt_notice = item.pdt_notice.replaceAll('/API/', 'http://delimall.co.kr/API/')
+						item.pdt_notice = item.pdt_notice.replaceAll('/API/', this.$server_url)
 					}
 
 					if(item.pdt_img1){
-						item.pdt_img = self.codes.img_url + item.pdt_img1
+						item.pdt_img = this.$pdt_img_url + item.pdt_img1
 					}
 
 					if(item.is_sold == 0 || (item.is_sold == 2 && item.pdt_stock > 0)){
@@ -248,13 +257,24 @@
 			}
 			,banner_list: function(){
 
-				let self = this
-				return this.banner_items.filter(function(item){
+				return this.banner_items.filter((item) => {
 					if(item.file_name){
-						item.banner_img = self.codes.banner_url + item.file_name
+						item.banner_img = this.codes.banner_url + item.file_name
 					}
 					return item
 				})
+			}
+			,is_banner: function(){
+				let is = false
+
+				let location = window.location.href
+				let domain = process.env.VUE_APP_DOMAIN
+
+				if(location.indexOf(domain) > -1){
+					is = true
+				}
+
+				return is
 			}
 		}
 		,methods: {
@@ -294,9 +314,7 @@
 					if (result.success) {
 						this.banner_items = result.data
 						this.banner_item = result.data[this.banner_index]
-						this.interval_banner = setInterval(() => {
-							this.banner_next()
-						}, 3000)
+						this.banner_next()
 					} else {
 						this.$emit('setNotify', {type: 'error', message: result.message})
 					}
@@ -327,20 +345,29 @@
 				this.getData()
 			}
 			,banner_prev: function(){
+				clearTimeout(this.interval_banner)
 				this.banner_index--
 				if(this.banner_index < 0){
 					this.banner_index = this.banner_items.length - 1
 				}
 
 				this.banner_item = this.banner_items[this.banner_index]
+				this.interval_banner = setTimeout(() => {
+					this.banner_next()
+				}, 3000)
 			}
 			,banner_next: function(){
+
+				clearTimeout(this.interval_banner)
 				this.banner_index++
 				if(this.banner_index >= this.banner_items.length){
 					this.banner_index = 0
 				}
 
 				this.banner_item = this.banner_items[this.banner_index]
+				this.interval_banner = setTimeout(() => {
+					this.banner_next()
+				}, 3000)
 			}
 			,toLink: function(banner){
 				if(banner.banner_link){
@@ -350,6 +377,9 @@
 						window.open(banner.banner_link, 'banner')
 					}
 				}
+			}
+			,toList: function(){
+				this.$emit('push', { name: 'ProductList'})
 			}
 		}
 		,created: function(){

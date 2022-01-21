@@ -17,7 +17,7 @@
 						<span
 							class="pdt-img flex-1 mr-10 flex-column justify-center"
 						><img
-							:src="'http://delimall.co.kr/API/data/product/' + item.pdt_img1"
+							:src="$pdt_img_url + item.pdt_img1"
 						/></span>
 						<div
 							class="flex-3 "

@@ -98,6 +98,11 @@ const routes = [
 		,component: () => import('@/view/Account/MyPage.vue')
 	}
 	,{
+		path: prefix + 'Account/Modify'
+		,name: 'Modify'
+		,component: () => import('@/view/Account/Modify.vue')
+	}
+	,{
 		path: prefix + 'Account/Password'
 		,name: 'Password'
 		,component: () => import('@/view/Account/Password.vue')
@@ -108,7 +113,7 @@ const routes = [
 		,component: () => import('@/view/Account/ShippingList.vue')
 	}
 	,{
-		path: prefix + 'CustomerCenter/:b_code/:page?'
+		path: prefix + 'CustomerCenter/:b_code'
 		,name: 'CustomerCenter'
 		,component: () => import('@/view/Customer/CustomerCenter.vue')
 	}

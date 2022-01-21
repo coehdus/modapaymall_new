@@ -7,15 +7,28 @@
 				<li
 					v-for="item in items"
 					:key="'item_' + item.uid"
+					class="under-line"
 				>
 					<div
-						class="justify-space-between"
+						class="pa-10 justify-space-between "
+						:class="item_content != item.uid ? 'bg-white' : 'bg-gray'"
+						@click="item_content != item.uid ? item_content = item.uid : item_content = null"
 					>
-						{{ item.b_title }}
-						{{ item.wDate }}
+						<span>{{ item.b_title }}</span>
+						<v-icon
+							v-if="item_content != item.uid"
+						>mdi mdi-menu-down</v-icon>
+						<v-icon
+							v-else
+						>mdi mdi-menu-up</v-icon>
 					</div>
-					<div>
-						{{ item.content }}
+					<div
+						v-if="item_content == item.uid"
+						class="top-line bg-eee"
+					>
+						<div class="pa-10 text-right ">{{ item.wDate }}</div>
+						<div class="pa-10 top-line-dashed">{{ item.b_contents }}</div>
+
 					</div>
 				</li>
 			</ul>
@@ -56,6 +69,7 @@ export default {
 			,items: [
 
 			]
+			,item_content: null
 		}
 	}
 	,methods: {

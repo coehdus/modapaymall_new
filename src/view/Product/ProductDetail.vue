@@ -39,18 +39,18 @@
 						<template
 							v-if="files.sub.length > 0"
 						>
-						<template
-							v-for="(file, index) in files.sub"
-						>
-							<div
-								v-show="file_index == index"
-								:key="file.file_name"
+							<template
+								v-for="(file, index) in files.sub"
 							>
-								<img
-									:src="'http://delimall.co.kr/API/data/product/' + file.file_name" alt="main1"
-								/>
-							</div>
-						</template>
+								<div
+									v-show="file_index == index"
+									:key="file.file_name"
+								>
+									<img
+										:src="$pdt_img_url + file.file_name" alt="main1"
+									/>
+								</div>
+							</template>
 						</template>
 						<v-icon
 							v-else
@@ -63,19 +63,31 @@
 				</div>
 			</div>
 
+			<div class="mt-10 top-line pt-10 top-line under-line-dashed pb-10 font-weight-bold">
+				{{ item.pdt_name }}
+			</div>
 			<div
-				class="mt-20 flex-row justify-space-between top-line pt-20"
+				class="mt-10 flex-row justify-space-between under-line-dashed pb-10"
 			>
 				<div
 					class="pdt-rate"
-				>평점</div>
+				>평점 {{ item.pdt_grade }}</div>
 				<div
 					class="pdt-price"
-				>{{  item.pdt_point | makeComma }} 점</div>
+				>
+					<template
+						v-for="no in 5"
+					>
+						<v-icon
+							:key="'star_' + no"
+							:class="item.pdt_grade >= no ? 'color-yellow' : ''"
+						>mdi mdi-star</v-icon>
+					</template>
+				</div>
 			</div>
 
 			<div
-				class="mt-10 flex-row justify-space-between top-line-dashed pt-10"
+				class="mt-10 flex-row justify-space-between under-line-dashed pb-10 "
 			>
 				<div
 					class="pdt-rate"
@@ -87,7 +99,7 @@
 
 			<div
 				v-if="item.pdt_delivery > 0"
-				class="mt-10 justify-space-between"
+				class="mt-10 justify-space-between under-line-dashed pb-10"
 			>
 				<div>상품 개별 배송비</div>
 				<div
@@ -98,7 +110,7 @@
 
 			<div
 				v-if="item.is_sold == 2"
-				class="mt-10 flex-row justify-space-between"
+				class="mt-10 flex-row justify-space-between under-line-dashed pb-10"
 			>
 				<div
 					class="pdt-price"
@@ -108,6 +120,10 @@
 				>수량 {{ item.pdt_stock | makeComma }} 개</div>
 			</div>
 
+			<template
+				v-if="pdt_options.length > 0"
+			>
+			<h6 class="mt-10 " >선택 옵션</h6>
 			<div
 				class="pdt-pdt_options"
 			>
@@ -129,6 +145,8 @@
 					</select>
 				</div>
 			</div>
+			</template>
+
 
 			<h6 class="mt-10">상세정보</h6>
 			<div
@@ -143,9 +161,9 @@
 				>상품 정보가 없습니다</div>
 			</div>
 
-			<h6 class="mt-30">반품/교환정보</h6>
+			<h6 class="mt-30 ">교환/반품 정보</h6>
 			<div
-				class="mt-10 input-box pdt-notice"
+				class="mt-10 input-box pdt-notice mb-30"
 			>
 				<Viewer
 					v-if="item.pdt_notice"
@@ -153,7 +171,7 @@
 				/>
 				<div
 					v-else
-				>반폼/교환 정보가 없습니다</div>
+				>교환/반품 정보가 없습니다</div>
 			</div>
 
 		</div>
@@ -258,6 +276,8 @@
 		<Modal
 			:option="modal_option"
 			:is_modal="is_modal"
+
+			@close="toClose"
 		>
 			<div
 				slot="modal-content"
@@ -289,7 +309,7 @@
 	import Modal from "@/components/Modal";
 	export default {
 		name: 'ProductDetail'
-		,props: ['Axios', 'cart_cnt']
+		,props: ['Axios', 'cart_cnt', 'TOKEN']
 		,components: { Modal, Viewer}
 		,data: function(){
 			return {
@@ -363,6 +383,7 @@
 
 					if (result.success) {
 						this.item = result.data.pdt_info
+						this.item.TOKEN = this.TOKEN
 						this.$set(this, 'pdt_options', result.data.pdt_options)
 
 						this.resetOption(this.pdt_options)
@@ -429,7 +450,7 @@
 				}
 			}
 			,toBack: function(){
-				this.$emit('click')
+				this.$emit('toBack')
 			}
 			,toggleOption: function(option){
 				this.$set(option, 'is_view', !option.is_view)
@@ -459,14 +480,31 @@
 				}
 			}
 			,toCart: function(){
-				this.$emit('push', 'Cart')
+				this.$storage.push({ name: 'Cart'})
 			}
 			,toClose: function(){
 				this.is_modal = false
 			}
+			,setCnt: function(odt, type){
+				if(type == 'down'){
+					if(odt.odt_cnt <= 1){
+						odt.odt_cnt = 1
+						return
+					}else{
+						odt.odt_cnt--
+					}
+				}else{
+					if(odt.odt_cnt > 99){
+						odt.odt_cnt = 99
+						return
+					}else{
+						odt.odt_cnt++
+					}
+				}
+			}
 		}
 		,created() {
-			//this.$emit('onLoad', this.program)
+			this.$emit('onLoad', this.program)
 			this.getData()
 		}
 		,watch:{
@@ -550,9 +588,6 @@
 }
 
 
-.pdt-pdt_options {
-	margin-top: 20px;
-}
 
 .pdt-option:first-child,
 .li-pdt-option:first-child {
