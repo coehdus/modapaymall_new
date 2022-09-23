@@ -47,7 +47,7 @@
 									:key="file.file_name"
 								>
 									<img
-										:src="$pdt_img_url + file.file_name" alt="main1"
+										:src="$pdt_img_url + file.file_path" alt="main1"
 									/>
 								</div>
 							</template>
@@ -153,9 +153,17 @@
 				class="mt-10 input-box pdt-info"
 			>
 				<Viewer
-					v-if="item.pdt_info"
+					v-if="false"
 					:initialValue="item.pdt_info"
 				/>
+				<div
+					v-if="files.file.length > 0"
+				>
+					<div
+						v-for="(file, index) in files.file"
+						:key="'file_' + index"
+					><img :src="file.file_path" /></div>
+				</div>
 				<div
 					v-else
 				>상품 정보가 없습니다</div>
@@ -166,9 +174,12 @@
 				class="mt-10 input-box pdt-notice mb-30"
 			>
 				<Viewer
-					v-if="item.pdt_notice"
+					v-if="false"
 					:initialValue="item.pdt_notice"
 				/>
+				<div
+					v-if="files.delivery"
+				><img :src="files.delivery.file_path" /></div>
 				<div
 					v-else
 				>교환/반품 정보가 없습니다</div>

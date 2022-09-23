@@ -258,14 +258,14 @@
 			,banner_list: function(){
 
 				return this.banner_items.filter((item) => {
-					if(item.file_name){
-						item.banner_img = this.codes.banner_url + item.file_name
+					if(item.file_path){
+						item.banner_img = this.codes.banner_url + item.file_path
 					}
 					return item
 				})
 			}
 			,is_banner: function(){
-				let is = false
+				let is = true
 
 				let location = window.location.href
 				let domain = process.env.VUE_APP_DOMAIN
