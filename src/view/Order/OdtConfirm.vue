@@ -109,7 +109,7 @@ export default {
 				,file: null
 			}
 			,item: {
-
+				file: ''
 			}
 		}
 	}

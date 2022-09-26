@@ -491,6 +491,7 @@ export default{
 				,is_base: '0'
 				,shipping_uid: 'new'
 				,order_number: ''
+				, pg_uid: ''
 			}
 			,shop_info: {
 
@@ -513,7 +514,7 @@ export default{
 			,is_island_delivery: false
 			,is_reappay: false
 			, pg_list: []
-			, pg_info: ''
+			, pg_info: {}
 		}
 	}
 	,computed: {
@@ -564,6 +565,7 @@ export default{
 			item.order_number = this.item.order_number
 			item.member_name = this.user.member_name
 			item.member_email = this.item.member_email
+			item.pg_uid = this.pg_info.uid
 			item.pg_info = JSON.stringify(this.pg_info)
 
 			let pdt_name = ''
@@ -687,14 +689,16 @@ export default{
 					}
 
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					throw result.message
 					//await this.toCancel(this.order_number_new)
 				}
 			}catch (e) {
 				console.log(e)
-				//await this.toCancel(this.order_number_new)
-			}finally {
+				// await this.toCancel(this.order_number_new)
+				this.$emit('setNotify', { type: 'error', message: e})
 				this.$emit('offLoading')
+			}finally {
+				// this.$emit('offLoading')
 			}
 		}
 		,daumPost: function (type) {

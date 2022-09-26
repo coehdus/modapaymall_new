@@ -332,7 +332,7 @@
 				}
 				,item: {}
 				// 상품옵션
-				,pdt_options: null
+				,pdt_options: []
 				// 판매자 정보
 				,seller_info: {
 					
@@ -344,7 +344,8 @@
 				,pdt_cnt: 1
 				,files: {
 					main: []
-					,sub: []
+					, sub: []
+					, file: []
 				}
 
 				,file_index: 0
