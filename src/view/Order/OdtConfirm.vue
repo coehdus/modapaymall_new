@@ -110,6 +110,7 @@ export default {
 			}
 			,item: {
 				file: ''
+				, review_point: 5
 			}
 		}
 	}
@@ -152,6 +153,7 @@ export default {
 
 				if (result.success) {
 					this.item = result.data
+					this.item.review_point = 5
 					this.$emit('setNotify', {type: 'success', message: result.message})
 				} else {
 					this.$emit('setNotify', {type: 'error', message: result.message})
@@ -180,8 +182,8 @@ export default {
 				})
 
 				if (result.success) {
-					this.$router.back()
 					this.$emit('setNotify', {type: 'success', message: result.message})
+					this.$router.back()
 				} else {
 					this.$emit('setNotify', {type: 'error', message: result.message})
 				}
