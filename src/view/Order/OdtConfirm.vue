@@ -110,6 +110,7 @@ export default {
 			}
 			,item: {
 				file: ''
+				, review_point: 5
 			}
 		}
 	}
@@ -153,6 +154,7 @@ export default {
 				if (result.success) {
 					this.item = result.data
 					this.$bus.$emit('notify', {type: 'success', message: result.message})
+					this.item.review_point = 5
 				} else {
 					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
