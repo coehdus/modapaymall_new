@@ -128,11 +128,11 @@ export default{
 					this.member_id = result.data.member_id
 					this.is_modal = true
 				} else {
-					this.$emit('setNotify', {type: 'error', message: result.message})
+					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
 			} catch (E) {
 				console.log(E)
-				this.$emit('setNotify', {type: 'error', message: E})
+				this.$bus.$emit('notify', {type: 'error', message: E})
 			}
 		}
 		,toLogin: function(){

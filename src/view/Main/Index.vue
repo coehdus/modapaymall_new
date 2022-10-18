@@ -293,7 +293,7 @@
 						this.$set(this.search, 'total_count', result.data.tCnt)
 						this.$storage.setQuery(this.search)
 					} else {
-						this.$emit('setNotify', {type: 'error', message: result.message})
+						this.$bus.$emit('notify', {type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -316,7 +316,7 @@
 						this.banner_item = result.data[this.banner_index]
 						this.banner_next()
 					} else {
-						this.$emit('setNotify', {type: 'error', message: result.message})
+						this.$bus.$emit('notify', {type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -333,7 +333,7 @@
 				this.$emit('onLoad', program)
 			}
 			,setNotify({ type, message}){
-				this.$emit('setNotify', { type: type, message: message })
+				this.$bus.$emit('notify', { type: type, message: message })
 			}
 			,setListType: function(list_type){
 				this.list_type = list_type
@@ -475,7 +475,7 @@
 		text-align: center;
 	}
 	.banner-img { width: 100%; padding: 50px}
-	.banner-img img { width: 100%; max-height: 120px}
+	.banner-img img { width: 100%; max-height: 150px}
 
 	.enter {
 		transition: opacity 1s

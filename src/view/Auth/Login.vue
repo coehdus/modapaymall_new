@@ -188,7 +188,7 @@ export default{
 				}
 			} catch (E) {
 				console.log(E)
-				this.$emit('setNotify', {type: 'error', message: E})
+				this.$bus.$emit('notify', {type: 'error', message: E})
 			}
 		}
 		,toggles_on_pw: function(){

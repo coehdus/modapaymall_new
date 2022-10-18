@@ -317,10 +317,10 @@
 						})
 
 						if(result.success){
-							this.$emit('setNotify', { type: 'success', message: result.message })
+							this.$bus.$emit('notify', { type: 'success', message: result.message })
 							this.$delete(this.cart_items, cart_index)
 						}else{
-							this.$emit('setNotify', { type: 'error', message: result.message })
+							this.$bus.$emit('notify', { type: 'error', message: result.message })
 						}
 					}catch(e){
 						console.log(e)
@@ -362,7 +362,7 @@
 					})
 
 					if(!result.success){
-						this.$emit('setNotify', { type: 'error', message: result.message })
+						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
 					console.log(e)
@@ -372,7 +372,7 @@
 			}
 			,toOrder: function(){
 				if(!this.is_cart_select){
-					this.$emit('setNotify', { type: 'error', message: '선택된 상품이 없습니다.'})
+					this.$bus.$emit('notify', { type: 'error', message: '선택된 상품이 없습니다.'})
 				}else {
 
 					this.$router.push({name: 'OrderForm'})

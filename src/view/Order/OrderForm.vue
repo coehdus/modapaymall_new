@@ -682,7 +682,7 @@ export default{
 				if(result.success){
 					this.order_number_new = result.data.order_number_new
 					if(this.item.pay_div == 'bank'){
-						this.$emit('setNotify', { type: 'success', message: result.message})
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
 						this.toResult()
 					}else{
 						this.is_reappay = true
@@ -695,7 +695,7 @@ export default{
 			}catch (e) {
 				console.log(e)
 				// await this.toCancel(this.order_number_new)
-				this.$emit('setNotify', { type: 'error', message: e})
+				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.$emit('offLoading')
 			}finally {
 				// this.$emit('offLoading')
@@ -730,7 +730,7 @@ export default{
 				if(result.success){
 					this.use_item = result.data.result
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -757,7 +757,7 @@ export default{
 						this.item.shipping_uid = result.data[0].uid
 					}
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -795,7 +795,7 @@ export default{
 						this.item.pay_div = 'card'
 					}
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 					this.$router.back()
 				}
 			}catch (e) {
@@ -822,10 +822,10 @@ export default{
 				if(result.success){
 					this.is_island_delivery = result.data.is_island_delivery
 					if(result.data.is_island_delivery){
-						this.$emit('setNotify', { type: 'success', message: result.message})
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
 					}
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -845,7 +845,7 @@ export default{
 				if(result.success){
 					this.pg_info = result.data
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -867,7 +867,7 @@ export default{
 				if(result.success){
 					this.pg_list = result.data
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -889,7 +889,7 @@ export default{
 				if(result.success){
 					this.$set(this.item, 'order_number', result.data)
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -911,7 +911,7 @@ export default{
 			await this.getOrderNumber()
 		}
 		,setNotify: function({ type, message}){
-			this.$emit('setNotify', { type: type, message: message})
+			this.$bus.$emit('notify', { type: type, message: message})
 		}
 		,success: function(data){
 			console.log(data)
@@ -920,7 +920,7 @@ export default{
 		,fail: function(data){
 			console.log(data)
 			this.do()
-			this.$emit('setNotify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+			this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
 		}
 		, update: async function(){
 			try {
@@ -936,7 +936,7 @@ export default{
 				if(result.success){
 					this.toResult()
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)
@@ -969,7 +969,7 @@ export default{
 				if(result.success){
 					window.location.reload()
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
 				console.log(e)

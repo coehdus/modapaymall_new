@@ -146,7 +146,7 @@
 		
 		,created: function(){
 			this.$router.push({ name: 'Index'})
-			//this.$emit('setNotify', { type: 'success', message: 'base template'})
+			//this.$bus.$emit('notify', { type: 'success', message: 'base template'})
 		}
 	}
 	

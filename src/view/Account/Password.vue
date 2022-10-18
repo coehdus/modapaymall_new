@@ -85,23 +85,23 @@ export default{
 
 			if(this.item.type == 'account') {
 				if (!this.item.old_password) {
-					this.$emit('setNotify', {type: 'error', message: '현재 비밀번호를 입력해주세요.'})
+					this.$bus.$emit('notify', {type: 'error', message: '현재 비밀번호를 입력해주세요.'})
 					return
 				}
 			}
 
 			if(!this.item.member_password){
-				this.$emit('setNotify', {type: 'error', message: '신규 비밀번호를 입력해주세요.'})
+				this.$bus.$emit('notify', {type: 'error', message: '신규 비밀번호를 입력해주세요.'})
 				return
 			}
 
 			if(!this.item.password_confirm){
-				this.$emit('setNotify', {type: 'error', message: '신규 비밀번호를 한번 더 입력해주세요'})
+				this.$bus.$emit('notify', {type: 'error', message: '신규 비밀번호를 한번 더 입력해주세요'})
 				return
 			}
 
 			if (this.item.member_password != this.item.password_confirm) {
-				this.$emit('setNotify', {type: 'error', message: '신규 비밀번호가 맞지 않습니다. 정확하게 입력 해주세요.'})
+				this.$bus.$emit('notify', {type: 'error', message: '신규 비밀번호가 맞지 않습니다. 정확하게 입력 해주세요.'})
 				return
 			}
 
@@ -113,18 +113,18 @@ export default{
 				})
 
 				if(result.success){
-					this.$emit('setNotify', { type: 'success', message: '정상적으로 처리되었습니다' })
+					this.$bus.$emit('notify', { type: 'success', message: '정상적으로 처리되었습니다' })
 					this.item.member_password = ''
 					this.item.old_password = ''
 					this.item.password_confirm = ''
 
 					this.toLogin()
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch(E){
 				console.log(E)
-				this.$emit('setNotify', { type: 'error', message: E })
+				this.$bus.$emit('notify', { type: 'error', message: E })
 			}
 		}
 

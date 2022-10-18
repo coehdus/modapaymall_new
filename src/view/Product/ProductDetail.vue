@@ -409,7 +409,7 @@
 						this.files = result.data.pdt_files
 						this.seller_info = result.data.seller_info
 					} else {
-						this.$emit('setNotify', {type: 'error', message: result.message})
+						this.$bus.$emit('notify', {type: 'error', message: result.message})
 					}
 				}catch(E){
 					console.log(E)
@@ -417,7 +417,7 @@
 			}
 			,setBuy: async function() {
 				if(this.options.length <= 0){
-					this.$emit('setNotify', { type: 'error', message: '옵션을 선택하세요'})
+					this.$bus.$emit('notify', { type: 'error', message: '옵션을 선택하세요'})
 					return false
 				}
 				let item = this.item
@@ -432,17 +432,17 @@
 					if(result.success){
 						await this.$router.push({ name: 'OrderBuy'})
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message })
+						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
 					console.log(e)
-					this.$emit('setNotify', { type: 'error', message: 'DB 오류'})
+					this.$bus.$emit('notify', { type: 'error', message: 'DB 오류'})
 				}
 			}
 
 			,setCart: async function(){
 				if(this.options.length <= 0){
-					this.$emit('setNotify', { type: 'error', message: '옵션을 선택하세요'})
+					this.$bus.$emit('notify', { type: 'error', message: '옵션을 선택하세요'})
 					return false
 				}
 				let item = this.item
@@ -461,11 +461,11 @@
 
 						this.is_modal = true
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message })
+						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
 					console.log(e)
-					this.$emit('setNotify', { type: 'error', message: 'DB 오류'})
+					this.$bus.$emit('notify', { type: 'error', message: 'DB 오류'})
 				}
 			}
 			,toBack: function(){

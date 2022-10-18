@@ -22,6 +22,8 @@ Vue.prototype.$storage = storage
 Vue.prototype.$pdt_img_url = ''
 Vue.prototype.$server_url = process.env.VUE_APP_SERVER
 
+Vue.prototype.$bus = new Vue()
+
 new Vue({
   router,
   vuetify,

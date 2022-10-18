@@ -165,7 +165,7 @@
 					if(result.success){
 						this.items = result.data
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -184,7 +184,7 @@
 				this.$emit('onLoad', program)
 			}
 			,setNotify: function({ type, message}){
-				this.$emit('setNotify', { type: type, message: message })
+				this.$bus.$emit('notify', { type: type, message: message })
 			}
 			,setItem: function(item){
 				this.item = item
@@ -207,7 +207,7 @@
 						this.item_remove = {}
 						await this.getData()
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message })
+						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
 					console.log(e)

@@ -115,11 +115,11 @@ export default{
 				if (result.success) {
 					this.is_pw = true
 				} else {
-					this.$emit('setNotify', {type: 'error', message: result.message})
+					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
 			} catch (E) {
 				console.log(E)
-				this.$emit('setNotify', {type: 'error', message: E})
+				this.$bus.$emit('notify', {type: 'error', message: E})
 			}
 		}
 		,toLogin: function(){
@@ -139,7 +139,7 @@ export default{
 			}
 		}
 		,setNotify: function( {type, message}){
-			this.$emit('setNotify', { type: type, message: message })
+			this.$bus.$emit('notify', { type: type, message: message })
 		}
 
 	}

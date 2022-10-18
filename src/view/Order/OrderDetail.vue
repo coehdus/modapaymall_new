@@ -382,7 +382,7 @@ export default {
 				if(result.success){
 					this.item = result.data
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch (e) {
 				console.log(e)
@@ -415,11 +415,11 @@ export default {
 				})
 
 				if(result.success){
-					this.$emit('setNotify', { type: 'success', message: result.message})
+					this.$bus.$emit('notify', { type: 'success', message: result.message})
 					await this.getData()
 					this.clearItem()
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message})
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch(e){
 				console.log(e)

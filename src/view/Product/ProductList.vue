@@ -241,11 +241,11 @@ export default{
 					this.$set(this.search, 'total_count', result.data.tCnt)
 					this.$storage.setQuery(this.search)
 				} else {
-					this.$emit('setNotify', {type: 'error', message: result.message})
+					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
 			} catch (E) {
 				console.log(E)
-				this.$emit('setNotify', {type: 'error', message: E})
+				this.$bus.$emit('notify', {type: 'error', message: E})
 			} finally {
 				this.$emit('offLoading')
 			}
@@ -258,7 +258,7 @@ export default{
 			//this.setProgram(this.program)
 		}
 		,setNotify({ type, message}){
-			this.$emit('setNotify', { type: type, message: message })
+			this.$bus.$emit('notify', { type: type, message: message })
 		}
 		,setProgram(program){
 			this.$emit('onLoad', program)

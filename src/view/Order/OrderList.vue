@@ -353,10 +353,10 @@
 					if(result.success){
 						this.items = result.data.result
 						this.$set(this.search, 'total_count', result.data.tCnt)
-						this.$emit('setNotify', { type: 'success', message: result.message })
+						this.$bus.$emit('notify', { type: 'success', message: result.message })
 						this.$storage.setQuery(this.search)
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message })
+						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch(e){
 					console.log(e)
@@ -389,9 +389,9 @@
 
 					if(result.success){
 						this.$router.go(this.$router.currentRoute)
-						this.$emit('setNotify', { type: 'success', message: result.message})
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -412,9 +412,9 @@
 					if(result.success){
 						this.$set(this.items[this.cancel_item.index], 'o_status', result.data.item.o_status)
 						this.is_modal = false
-						this.$emit('setNotify', { type: 'success', message: result.message})
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -457,7 +457,7 @@
 				this.$router.push({ name: 'OdtConfirm', params: {odt_uid: odt.uid}})
 			}
 			,setNotify: function({ type, message }){
-				this.$emit('setNotify', { type: type, message: message})
+				this.$bus.$emit('notify', { type: type, message: message})
 			}
 			,confirm: function(){
 				this.$set(this.item_confirm, 'order_status', 'step5')

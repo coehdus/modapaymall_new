@@ -63,13 +63,13 @@ export const rules = {
 	,email: (obj, part) => {
 	
 		if(obj[part]){
-		
-			const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+			const pattern = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i
 			
 			if(pattern.test(obj[part])){
-				return false
-			}else{
 				return true
+			}else{
+				return false
 			}
 		}else{
 			return false
@@ -95,7 +95,6 @@ export const rules = {
 				return '영문 대소문자 + 숫자 + 특수문자 조합 40자리 이하'
 			}
 			if(num < 0){
-				this.errors.pw = true
 				return '영문 대소문자 + 숫자 + 특수문자 조합 필요'
 			}
 			if(high < 0){
@@ -105,7 +104,6 @@ export const rules = {
 				return '영문 소문자 + 특수문자 조합 필요'
 			}
 			if(spe < 0){
-				this.errors.pw = true
 				return '특수문자 조합 필요'
 			}
 			

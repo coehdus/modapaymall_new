@@ -127,7 +127,7 @@
 					if(result.success){
 						this.category = result.data.category
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
@@ -162,7 +162,7 @@
 					if(result.success){
 						this.cart_items = result.data.content.result
 					}else{
-						this.$emit('setNotify', { type: 'error', message: result.message})
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)

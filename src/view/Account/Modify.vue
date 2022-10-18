@@ -158,19 +158,19 @@ export default{
 					,data: this.item
 				})
 				if(result.success){
-					this.$emit('setNotify', { type: 'success', message: result.message })
+					this.$bus.$emit('notify', { type: 'success', message: result.message })
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch(e){
 				console.log(e.message)
-				this.$emit('setNotify', { type: 'error', message: e})
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$emit('offLoading')
 			}
 		}
 		,setNotify: function({ type, message }){
-			this.$emit('setNotify', { type: type, message: message })
+			this.$bus.$emit('notify', { type: type, message: message })
 		}
 		, daumPost: function (type) {
 			this.$emit('setOverlay')

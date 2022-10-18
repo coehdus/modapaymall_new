@@ -86,6 +86,7 @@
 			</div>
 
 			<div
+				v-if="false"
 				class="mt-10"
 			>
 				<h6>주소</h6>
@@ -139,11 +140,6 @@
 					class="input-underline"
 					:rules="[rules.max(item, 'member_phone', 15)]"
 				/>
-				<div
-					v-if="this.txtValidCheckEmail != ''"
-
-					class="mt-10 text-right color-red"
-				>{{ this.txtValidCheckEmail }}</div>
 			</div>
 
 			<div
@@ -328,11 +324,11 @@ export default{
 				if(result.success){
 					this.toJoinResult()
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch(e){
 				console.log(e.message)
-				this.$emit('setNotify', { type: 'error', message: e})
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}
 		,toJoinResult: function(){

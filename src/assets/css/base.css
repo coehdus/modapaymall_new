@@ -212,7 +212,7 @@
 .bg-gray-light { background-color: #eee;}
 .bg-gray-dark { background-color: darkgray}
 .bg-dark { background-color: #828282}
-.bg-white { background-color: white}
+.bg-white { background-color: white; color: #333}
 .bg-green { background-color: #0f9d58; color: white;}
 .bg-red { background-color: #bf360c; color: white;}
 .bg-orange { background-color: darkorange; color: white;}

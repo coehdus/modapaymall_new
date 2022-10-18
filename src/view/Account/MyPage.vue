@@ -188,7 +188,7 @@ export default{
 			this.view.password = true
 		}
 		,setNotify: function({ type, message }){
-			this.$emit('setNotify', { type: type, message: message })
+			this.$bus.$emit('notify', { type: type, message: message })
 		}
 		,toQnA: function(){
 			this.$emit('push', { name: 'CustomerCenter', params: { b_code: 'b_qna'}})

@@ -83,7 +83,7 @@
 		}
 		,methods: {
 			setNotify: function({ type, message }){
-				this.$emit('setNotify', { type: type, message: message })
+				this.$bus.$emit('notify', { type: type, message: message })
 			}
 			,toBbs: function(b_code){
 				this.$emit('push', {name: 'CustomerCenter', params: { b_code: b_code }})

@@ -122,13 +122,13 @@ export default{
 					this.board_config = result.data
 					this.program.name = this.board_config.b_name
 					this.$emit('onLoad', this.program)
-					this.$emit('setNotify', { type: 'success', message: result.message })
+					this.$bus.$emit('notify', { type: 'success', message: result.message })
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch(E){
 				console.log(E)
-				this.$emit('setNotify', { type: 'error', message: E })
+				this.$bus.$emit('notify', { type: 'error', message: E })
 			}
 		}
 		,save: async function(){
@@ -142,13 +142,13 @@ export default{
 
 				if(result.success){
 					this.$emit('toBack')
-					this.$emit('setNotify', { type: 'success', message: result.message })
+					this.$bus.$emit('notify', { type: 'success', message: result.message })
 				}else{
-					this.$emit('setNotify', { type: 'error', message: result.message })
+					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch(E){
 				console.log(E)
-				this.$emit('setNotify', { type: 'error', message: E })
+				this.$bus.$emit('notify', { type: 'error', message: E })
 			}finally {
 				this.$emit('offLoading')
 			}
