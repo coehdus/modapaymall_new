@@ -454,6 +454,14 @@
 			@fail="fail"
 		></OrderFormReappay>
 
+		<OrderFormAllat
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+
+		></OrderFormAllat>
+
 	</div>
 </template>
 
@@ -461,10 +469,11 @@
 import DaumPost from '@/components/Daum/DaumPost'
 import Modal from "@/components/Modal";
 import OrderFormReappay from "@/view/Order/OrderFormReappay";
+import OrderFormAllat from "@/view/Order/OrderFormAllat";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormReappay, Modal, DaumPost }
+	,components: {OrderFormAllat, OrderFormReappay, Modal, DaumPost }
 	,data: function(){
 		return {
 			program: {
