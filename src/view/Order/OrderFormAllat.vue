@@ -134,7 +134,7 @@
 				}else{
 					t = JSON.parse(t)
 					if(t.allat_order_no == this.order_info.order_number){
-						window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt')
+						window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt', 'width=320')
 					}else{
 						this.$emit('cancel')
 					}
