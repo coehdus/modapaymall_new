@@ -94,9 +94,8 @@
 
 					@click="toDetail(item)"
 				>
-					<div class="pdt-img ">
-						<img
-							v-if="item.pdt_img"
+					<div class="pdt-img " style="min-height: 113px">
+						<img v-if="item.pdt_img"
 							:src="item.pdt_img"
 						/>
 						<v-icon

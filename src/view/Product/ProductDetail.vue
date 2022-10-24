@@ -151,7 +151,7 @@
 			<h6 class="mt-10">상품 설명</h6>
 			<div
 				class="mt-10 input-box pdt-info"
-				v-html="item.pdt_info.replaceAll('\n', '<br/>')"
+				v-html="item.pdt_info ? item.pdt_info.replaceAll('\n', '<br/>') : '상품 설명이 없습니다.'"
 			>
 			</div>
 
@@ -176,7 +176,7 @@
 				>상품 정보가 없습니다</div>
 			</div>
 
-			<h6 class="mt-30 ">교환/반품 정보</h6>
+			<h6 class="mt-10 ">교환/반품 정보</h6>
 			<div
 				class="mt-10 input-box pdt-notice mb-30"
 			>

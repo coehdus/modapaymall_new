@@ -377,7 +377,7 @@
 			>
 				<button
 					class="btn btn-identify"
-					@click="save"
+					@click="checkPayment"
 				>
 					<span class="color-white size-em-12">{{ order_price | makeComma }} 원 </span>
 					<span class="color-white size-em-12"> 결제하기</span>
@@ -455,11 +455,14 @@
 		></OrderFormReappay>
 
 		<OrderFormAllat
+			v-if="is_allat"
+			:Axios="Axios"
 			:user="user"
 			:member_info="member_info"
 			:order_info="order_item"
 			:pg_info="pg_info"
 
+			@cancel="fail"
 		></OrderFormAllat>
 
 	</div>
@@ -486,7 +489,7 @@ export default{
 			,order_number: ''
 			,item: {
 				TOKEN: this.TOKEN
-				,pay_div: 'bank'
+				,pay_div: 'card'
 				,member_tell: this.member_info.member_tell ? this.member_info.member_tell : ''
 				,member_email: this.member_info.member_email ? this.member_info.member_email : ''
 				,d_name: ''
@@ -521,7 +524,6 @@ export default{
 
 			]
 			,is_island_delivery: false
-			,is_reappay: false
 			, pg_list: []
 			, pg_info: {}
 		}
@@ -531,6 +533,20 @@ export default{
 			let price = 0
 			price = this.total_price + this.total_delivery_price
 			return price
+		}
+		, is_reappay: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'reappay'){
+				t = true
+			}
+			return t
+		}
+		, is_allat: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'allat'){
+				t = true
+			}
+			return t
 		}
 		,total_price: function(){
 			let price = 0;
@@ -694,7 +710,7 @@ export default{
 						this.$bus.$emit('notify', { type: 'success', message: result.message})
 						this.toResult()
 					}else{
-						this.is_reappay = true
+						await this.getPgInfo()
 					}
 
 				}else{
@@ -841,6 +857,9 @@ export default{
 			}
 		}
 
+		, setPg: function(){
+
+		}
 		, getPgInfo: async function(){
 			try {
 				this.$emit('onLoading')
@@ -909,7 +928,6 @@ export default{
 		,do: async function(){
 			await this.getShopInfo()
 			await this.getShippingList()
-			await this.getPgInfo()
 
 			if(this.$route.name == 'OrderBuy'){
 				await this.getBuyItem()
@@ -984,6 +1002,13 @@ export default{
 				console.log(e)
 			}finally {
 				this.$emit('offLoading')
+			}
+		}
+		, checkPayment: function(){
+			if(this.item.pay_div == 'bank'){
+				this.save()
+			}else{
+				this.getPgInfo()
 			}
 		}
 	}

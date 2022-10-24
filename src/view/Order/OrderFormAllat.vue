@@ -4,25 +4,26 @@
 	</div>
 </template>
 
+
 <script>
 	export default {
 		name: 'OrderFormAllat'
-		, props: ['user', 'order_info', 'member_info', 'pg_info']
+		, props: ['Axios', 'user', 'order_info', 'member_info', 'pg_info']
 		, data: function(){
 			return{
 				item_allat_form: {
 					// 상점아이디
 					allat_shop_id: this.pg_info.pgMerchNo
 					// 주문번호
-					, allat_order_no: this.order_info.order_number_new
+					, allat_order_no: this.order_info.order_number
 					// 승인금액
 					, allat_amt: this.order_info.order_price
 					// 회원ID
 					, allat_pmember_id: this.member_info.member_id
 					// 상품코드
-					, allat_product_cd: this.order_info.order_number_new
+					, allat_product_cd: this.order_info.order_number
 					// 상품명
-					, allat_product_nm: this.order_info.order_number_new
+					, allat_product_nm: this.order_info.order_number
 					// 결제자성명
 					, allat_buyer_nm: this.member_info.member_name
 					// 수취인성명
@@ -30,7 +31,7 @@
 					// 수취인주소
 					, allat_recp_addr: this.order_info.d_addr1 + ' ' + this.order_info.d_addr2
 					// 인증정보수신URL
-					, shop_receive_url: ''
+					, shop_receive_url: 'https://modapaymall.shop/NEW_API_DEV/allat/receive'
 					// 주문정보암호화필드
 					, allat_enc_data:''
 
@@ -59,7 +60,7 @@
 					// 결제정보 수신 E-Mail
 					, allat_email_addr: ''
 					// 테스트 여부
-					, allat_test_yn: ''
+					, allat_test_yn: 'Y'
 					// 상품 실물 여부
 					, allat_real_yn: ''
 					// 신용카드 에스크로 적용여부
@@ -88,10 +89,63 @@
 			}
 		}
 		, methods: {
+			getFormData: function(){
+				const formData = new FormData();
+				for(let [key, val] in this.item_allat_form){
+					formData.append(key, val)
+				}
 
+				return formData
+			}
+			, onLoad: async function(){
+				try{
+					let result = await this.Axios({
+						method: 'post'
+						, url: 'https://tx.allatpay.com/servlet/AllatPayUtf8/mobile/mobile_fix_main.jsp'
+						, data: this.item_allat_form
+					})
+
+					if(result.success){
+						alert('success')
+					}else{
+						throw result.message
+					}
+				}catch (e) {
+					console.log(e)
+				}
+			}
+
+			// 문자열의 앞뒤 공백문자 제거
+			, f_trim: function( value ) {
+				value = value.replace(/^\s*/,'').replace(/\s*$/, '');
+				return value;
+			}
+			, dd: function(){
+
+			}
+			, setOrder: function(){
+				sessionStorage.setItem('order_info', JSON.stringify(this.item_allat_form))
+				this.getOrder()
+			}
+			, getOrder: function(){
+				let t = sessionStorage.getItem('order_info')
+				if(!t){
+					this.$emit('cancel')
+				}else{
+					t = JSON.parse(t)
+					if(t.allat_order_no == this.order_info.order_number){
+						window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt')
+					}else{
+						this.$emit('cancel')
+					}
+				}
+
+			}
 		}
 		, created() {
-
+			console.log('order_info', this.order_info)
+			this.setOrder()
 		}
 	}
+
 </script>
