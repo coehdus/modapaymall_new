@@ -40,7 +40,9 @@ td   { font-family:굴림체; font-size:12px; }
 	}
 </script>
 </head>
-<body>
+<body
+		style="display: none"
+>
 
     <p align=center class=title><u>New All@Pay™ 승인요청 예제페이지</u></p>
 
@@ -380,7 +382,7 @@ td   { font-family:굴림체; font-size:12px; }
 
 		function doOrder(){
 			setTimeout(() => {
-				approval(sendFm)
+				ftn_approval(document.fm)
 			}, 1000)
 
 		}
