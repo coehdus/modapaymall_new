@@ -60,7 +60,7 @@
 					// 결제정보 수신 E-Mail
 					, allat_email_addr: ''
 					// 테스트 여부
-					, allat_test_yn: 'Y'
+					, allat_test_yn: ''
 					// 상품 실물 여부
 					, allat_real_yn: ''
 					// 신용카드 에스크로 적용여부
@@ -134,7 +134,25 @@
 				}else{
 					t = JSON.parse(t)
 					if(t.allat_order_no == this.order_info.order_number){
-						window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt', 'width=320')
+						let w_a = window.open('/payment/allat/approval_m.html?on=' + this.order_info.order_number, 'allalt', 'width=320')
+
+						let self = this
+						window.addEventListener('message', function (e) {
+alert('in message')
+							let data = JSON.parse(e.data)
+							let result = data.result
+							if(result){
+								alert('success')
+								console.log('success');
+								self.$emit('success', data)
+							}else{
+								alert('fail')
+								console.log('fail');
+								self.$emit('fail', data)
+							}
+
+							w_a.close()
+						});
 					}else{
 						this.$emit('cancel')
 					}

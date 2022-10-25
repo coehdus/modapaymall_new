@@ -463,6 +463,8 @@
 			:pg_info="pg_info"
 
 			@cancel="fail"
+			@success="success"
+			@fail="fail"
 		></OrderFormAllat>
 
 	</div>
@@ -710,7 +712,7 @@ export default{
 						this.$bus.$emit('notify', { type: 'success', message: result.message})
 						this.toResult()
 					}else{
-						await this.getPgInfo()
+						this.$emit('onLoading')
 					}
 
 				}else{
@@ -872,6 +874,7 @@ export default{
 				})
 				if(result.success){
 					this.pg_info = result.data
+					await this.save()
 				}else{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}

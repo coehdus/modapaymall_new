@@ -104,7 +104,7 @@
 										<button
 											v-if="odt.is_cancel"
 											class="box prl-10 size-px-11 bg-red "
-											@click="isOdtUpdate(odt, odt_step_cancel)"
+											@click="isOdtUpdate(odt, odt_step_cancel, item.pg_code)"
 										>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
 										<button
@@ -166,7 +166,7 @@
 			>
 				<button
 					class="btn bg-red"
-					@click="toOdtCancel"
+					@click="postOdtCancel"
 				>확인</button>
 				<button
 					class="btn btn-default"
@@ -219,6 +219,7 @@
 				}
 				,odt_step_confirm: 'step5'
 				,odt_step_cancel: 'step21'
+				,odt_step_cancel_confirm: 'step22'
 				,odt_step_change: 'step31'
 				,odt_step_return: 'step41'
 				,item_cancel: {
@@ -260,6 +261,16 @@
 							break
 						case "4":
 							item.o_status_name = "결제취소"
+							item.o_status_color = "red"
+							item.is_cancel = false
+							break;
+						case "5":
+							item.o_status_name = "부분취소요청"
+							item.o_status_color = "orange"
+							item.is_cancel = false
+							break;
+						case "6":
+							item.o_status_name = "부분취소완료"
 							item.o_status_color = "red"
 							item.is_cancel = false
 							break;
@@ -374,7 +385,55 @@
 
 				console.log(item)
 			}
-			,toOdtCancel: async function(){
+			, postOdtCancelConfirm: async function(){
+				this.$emit('onLoading')
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'order/postOdtUpdate'
+						,data: {
+							uid: this.item_cancel.uid
+							, TOKEN: this.TOKEN
+							, next_step: this.odt_step_cancel_confirm
+						}
+					})
+
+					if(result.success){
+						await this.getData()
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
+					}else{
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.clearItem()
+				}
+			}
+			, postCancelAllat: async function(){
+				this.$emit('onLoading')
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'allat/cancel'
+						,data: {
+							odt_uid: this.item_cancel.uid
+							,TOKEN: this.TOKEN
+						}
+					})
+
+					if(result.success){
+						await this.postOdtCancelConfirm()
+					}else{
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.clearItem()
+				}
+			}
+			, postOdtCancel: async function(){
 				this.$emit('onLoading')
 				try{
 					const result = await this.Axios({
@@ -388,15 +447,20 @@
 					})
 
 					if(result.success){
-						this.$router.go(this.$router.currentRoute)
-						this.$bus.$emit('notify', { type: 'success', message: result.message})
+
+						if(this.item_cancel.pg_code == 'allat'){
+							await this.postCancelAllat()
+						}else{
+							await this.getData()
+							this.$bus.$emit('notify', { type: 'success', message: result.message})
+						}
 					}else{
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
 					console.log(e)
 				}finally {
-					this.$emit('offLoad')
+					this.clearItem()
 				}
 			}
 			,toOrderCancel: async function(){
@@ -491,10 +555,11 @@
 				}
 				this.getData()
 			}
-			,isOdtUpdate: function(odt, step){
+			,isOdtUpdate: function(odt, step, pg_code){
 				this.is_modal = true
 				this.modal_option.type = step
 				this.item_cancel = odt
+				this.$set(this.item_cancel, 'pg_code', pg_code)
 			}
 			,toOdtConfirm: function(odt){
 				this.$router.push({ name: 'OdtConfirm', params: { odt_uid: odt.uid }})
