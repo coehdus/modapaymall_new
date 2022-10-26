@@ -19,9 +19,9 @@
 					// 승인금액
 					, allat_amt: this.order_info.order_price
 					// 회원ID
-					, allat_pmember_id: this.member_info.member_id
+					, allat_pmember_id: this.pg_info.pgMerchName
 					// 상품코드
-					, allat_product_cd: this.order_info.order_number
+					, allat_product_cd: this.pg_info.pgMerchName
 					// 상품명
 					, allat_product_nm: this.order_info.order_number
 					// 결제자성명
