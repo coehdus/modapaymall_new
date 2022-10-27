@@ -13,6 +13,7 @@
 			v-if="is_side"
 			:Axios="Axios"
 			:member_info="member_info"
+			:shop_info="shop_info"
 			:category="category"
 
 			@toggleSide="toggleSide"
@@ -25,6 +26,9 @@
 			<Top
 				v-if="program.top"
 				:program="program"
+				:member_info="member_info"
+				:shop_info="shop_info"
+
 				@push="toLocation"
 			></Top>
 			<Title
@@ -92,7 +96,7 @@
 	
 	export default{
 		name: 'Layout'
-		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'filter', 'date', 'codes']
+		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'shop_info', 'filter', 'date', 'codes']
 		,components: {Loading, Title, Bottom, Side, Top, Notify }
 		,data: function(){
 			return {
@@ -262,7 +266,12 @@
 .bg-base { background-color: black}
 
 	.logo-position {
-
+		max-height: 80px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 	.header-box-menu {
 		border-bottom: 1px solid #ddd;

@@ -29,7 +29,7 @@
 			<select
 				v-model="search.sort"
 				class="pa-5 box bg-white"
-				@change="getData"
+				@change="getSearch"
 			>
 				<option
 					v-for="sort in codes.P002.items"

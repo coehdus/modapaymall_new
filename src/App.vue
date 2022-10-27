@@ -9,6 +9,7 @@
 		:metaInfo="metaInfo"
 		:TOKEN="TOKEN"
 		:member_info="member_info"
+		:shop_info="shop_info"
 		:codes="codes"
 	/>
 </template>
@@ -43,6 +44,9 @@ export default {
 		,TOKEN: ''
 		,codes: codes
 		,member_info: {
+
+		}
+		,shop_info: {
 
 		}
 	})

@@ -138,7 +138,7 @@
 
 						let self = this
 						window.addEventListener('message', function (e) {
-alert('in message')
+console.log('on message', e.data)
 							let data = JSON.parse(e.data)
 							let result = data.result
 							if(result){
