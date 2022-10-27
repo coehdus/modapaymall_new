@@ -1,6 +1,7 @@
 
 /* text decoration */
-.under-line { border-bottom: 1px solid #ddd}
+.under-line { border-bottom: 1px solid #bbb}
+.under-line-82 { border-bottom: 1px solid #828282}
 .text-right { text-align: right !important; }
 .text-center { text-align: center; }
 .text-left { text-align: left; }

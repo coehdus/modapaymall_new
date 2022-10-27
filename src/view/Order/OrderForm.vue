@@ -756,11 +756,16 @@ export default{
 
 				if(result.success){
 					this.use_item = result.data.result
+					if(this.use_item.length <= 0){
+						throw '주문 가능한 상품이 없습니다.'
+					}
 				}else{
-					this.$bus.$emit('notify', { type: 'error', message: result.message})
+					throw result.message
 				}
 			}catch (e) {
 				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
+				this.$router.back()
 			}
 		}
 		,getShippingList: async function(){
@@ -936,6 +941,10 @@ export default{
 				await this.getBuyItem()
 			}else{
 				this.use_item = this.cart_items
+				if(this.use_item.length <= 0){
+					this.$bus.$emit('notify', { type: 'error', message: '주문 가능한 상품이 없습니다.'})
+					this.$router.back()
+				}
 			}
 
 			await this.getOrderNumber()

@@ -11,6 +11,44 @@
 			class="side-container flex-column"
 		>
 			<div
+				class="bg-black text-center color-white"
+			>
+				<template
+					v-if="$production"
+				>
+					<img
+						v-if="shop_info.shop_logo"
+						:src="shop_info.shop_logo"
+						class="shop-logo"
+					/>
+					<div
+						v-else-if="shop_info.shop_name"
+						class="pa-20 size-px-16 font-weight-bold  under-line-82"
+					>{{ shop_info.shop_name }}</div>
+					<img
+						v-else
+						src="@/assets/images/delimall/logo.png" style="width: 40%"
+					/>
+				</template>
+				<template
+					v-else
+				>
+					<img
+						v-if="shop_info.shop_logo"
+						:src="shop_info.shop_logo"
+						class="shop-logo"
+					/>
+					<div
+						v-else-if="shop_info.shop_name"
+						class="pa-20 size-px-16 font-weight-bold  under-line-82"
+					>{{ shop_info.shop_name }}</div>
+					<div
+						v-else
+						class="color-333 size-px-16 font-weight-bold under-line"
+					>{{ $production_title }}</div>
+				</template>
+			</div>
+			<div
 				class="flex-row justify-space-between under-line pa-20-10 bg-base color-white"
 			>
 				<span class="color-white">
@@ -63,7 +101,7 @@
 <script>
 	export default{
 		name: 'Side'
-		,props: ['Axios', 'member_info', 'category']
+		,props: ['Axios', 'member_info', 'category', 'shop_info']
 		,data: function(){
 			return {
 				items: this.category
