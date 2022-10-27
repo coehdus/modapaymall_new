@@ -104,7 +104,7 @@
 						></v-icon>
 					</div>
 					<div class="pdt-info ">
-						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
+						<div class="pdt-title color-333">{{  item.pdt_name }}</div>
 						<div
 							v-if="item.is_sale"
 							class="price font-weight-bold"
@@ -408,17 +408,20 @@
 	}
 
 	ul.list .pdt-img {
-		flex: 1;
+		flex: 2;
 		margin-right: 10px;
 		padding: 5px;
 		height: 80px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		border: 1px solid #ddd;
+		margin-left: 5px;
 	}
 
 	ul.list .pdt-info {
 		flex: 3;
+		color: #333;
 	}
 
 	ul.grid {
@@ -426,7 +429,8 @@
 		flex-wrap: wrap;
 	}
 	ul.grid .pdt-info {
-
+		text-align: center;
+		color: #333;
 	}
 	ul.grid li { width: calc(50% - 10px); margin-bottom: 20px;}
 	ul.grid li:nth-child(odd) { margin: 0px 5px 20px 5px;}
@@ -434,12 +438,14 @@
 
 	ul.grid .pdt-img {
 		width: 100%;
-		background-color: #eee;
+		background-color: white;
 		text-align: center;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		border: 1px solid #ddd;
+		padding: 5px;
 	}
 
 	ul.grid .pdt-img img { display: block; margin: auto; width: 100%; height: 100%}
@@ -473,7 +479,7 @@
 		min-height: 40px;
 		text-align: center;
 	}
-	.banner-img { width: 100%; padding: 50px}
+	.banner-img { width: 100%; padding: 60px}
 	.banner-img img { width: 100%; max-height: 150px}
 
 	.enter {

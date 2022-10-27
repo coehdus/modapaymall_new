@@ -337,12 +337,6 @@
 							</label>
 						</div>
 					</div>
-					<div
-						class="mt-10"
-						v-if="item.pay_div == 'card'"
-					>
-						카드결제는 이용할 수 없습니다.
-					</div>
 				</div>
 				<div
 					class="pa-30"
