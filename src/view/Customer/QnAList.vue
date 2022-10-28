@@ -102,8 +102,9 @@ export default {
 				TOKEN: this.TOKEN
 				,b_code: this.$route.params.b_code
 				,is_ajax: true
-				,search_type: 'm_id'
-				,search_value: this.member_info.member_id
+				,search_type: ''
+				,search_value: ''
+				, m_id: this.member_info.member_id
 			}
 			,items: [
 
