@@ -73,7 +73,7 @@
 											:class="'color-' + odt.order_status_color"
 										>{{ odt.order_status_name }}</button>
 										<button
-											v-if="odt.is_shipping"
+											v-if="item.delivery_type != 'D002002' && odt.is_shipping"
 											class="box prl-10 size-px-11 ml-5 color-blue"
 											@click="toShipping(odt)"
 										>배송조회 <v-icon small >mdi mdi-chevron-right</v-icon></button>
