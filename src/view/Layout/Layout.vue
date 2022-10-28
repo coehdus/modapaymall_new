@@ -47,6 +47,7 @@
 				:TOKEN="TOKEN"
 				:cart_items="cart_items"
 				:member_info="member_info"
+				:shop_info="shop_info"
 				:filter="filter"
 				:key="$route.fullPath"
 				:date="date"

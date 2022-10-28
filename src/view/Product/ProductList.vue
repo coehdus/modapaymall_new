@@ -2,6 +2,13 @@
 	<div
 		class="full-height flex-column"
 	>
+		<Top
+			:program="program"
+			:member_info="member_info"
+			:shop_info="shop_info"
+
+		></Top>
+
 		<Search
 			v-if="program.search"
 			:program="program"
@@ -12,6 +19,7 @@
 
 		<div
 			class="pa-10 flex-row overflow-x-auto under-line"
+			style="min-height: 50px"
 		>
 			<button
 				v-for="category in category_list"
@@ -34,7 +42,7 @@
 				<option
 					v-for="sort in codes.P002.items"
 					:key="'sort_' + sort.sub_code"
-					:value="sort.code_value"
+					:value="sort.code_value ? sort.code_value : ''"
 				>{{ sort.code_name }}</option>
 			</select>
 
@@ -147,16 +155,16 @@
 import Pagination from "@/components/Pagination";
 import Search from "@/view/Layout/Search";
 import Empty from "@/view/Layout/Empty";
+import Top from "../Layout/Top";
 
 export default{
-	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category']
-	,components: {Empty, Search, Pagination }
+	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category', 'member_info', 'shop_info']
+	,components: {Top, Empty, Search, Pagination }
 	,data: function(){
 		return {
 			program: {
 				name: "상품 목록 " +this.$route.params.category
 				,code: 'product_list'
-				,top: true
 				,title: false
 				,search: true
 				,bottom: true
@@ -166,7 +174,7 @@ export default{
 				,search_type: 'pdt_name'
 				,search_value: ''
 				,pdt_category: this.$route.params.category
-				,sort: 'new'
+				,sort: ''
 			})
 			,summary: {
 				total: 0

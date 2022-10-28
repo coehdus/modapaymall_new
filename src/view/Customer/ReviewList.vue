@@ -32,6 +32,16 @@
 					</div>
 				</li>
 			</ul>
+
+			<Pagination
+				:program="program"
+				:align="'center'"
+				:options="search"
+
+				@click="getSearch"
+
+				class="mt-auto pa-10"
+			></Pagination>
 		</template>
 		<div
 			v-else
@@ -50,9 +60,12 @@
 </template>
 
 <script>
+import Pagination from "../../components/Pagination";
 export default {
 	name: 'ReviewList'
-	,props: ['Axios', 'TOKEN']
+	,
+	components: {Pagination},
+	props: ['Axios', 'TOKEN', 'member_info']
 	,data: function() {
 		return {
 			program: {
@@ -65,6 +78,8 @@ export default {
 				TOKEN: this.TOKEN
 				,b_code: 'b_after'
 				,is_ajax: true
+				,search_type: 'm_id'
+				,search_value: this.member_info.member_id
 			}
 			,items: [
 
@@ -93,6 +108,12 @@ export default {
 			}finally {
 				this.$emit('offLoading')
 			}
+		}
+		, getSearch: function(page){
+			if(page){
+				this.search.page = page
+			}
+			this.getData()
 		}
 	}
 	,created() {

@@ -27,6 +27,7 @@
 				:Axios="Axios"
 				:TOKEN="TOKEN"
 				:Viewer="Viewer"
+				:member_info="member_info"
 
 				@onLoading="$emit('onLoading')"
 				@offLoading="$emit('offLoading')"
@@ -37,6 +38,7 @@
 
 				:Axios="Axios"
 				:TOKEN="TOKEN"
+				:member_info="member_info"
 				@onLoading="$emit('onLoading')"
 				@offLoading="$emit('offLoading')"
 				@setNotify="setNotify"
@@ -47,6 +49,7 @@
 
 				:Axios="Axios"
 				:TOKEN="TOKEN"
+				:member_info="member_info"
 				@onLoading="$emit('onLoading')"
 				@offLoading="$emit('offLoading')"
 				@setNotify="setNotify"
@@ -65,7 +68,7 @@
 	export default {
 		name: 'CustomerCenter'
 		,components: {ReviewList, QnAList, NoticeList}
-		,props: ['Axios', 'codes', 'TOKEN']
+		,props: ['Axios', 'codes', 'TOKEN', 'member_info']
 		,data: function(){
 			return {
 				program: {

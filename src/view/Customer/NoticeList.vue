@@ -38,6 +38,16 @@
 				</div>
 			</li>
 		</ul>
+
+			<Pagination
+				:program="program"
+				:align="'center'"
+				:options="search"
+
+				@click="getSearch"
+
+				class="mt-auto pa-10"
+			></Pagination>
 		</template>
 		<div
 			v-else
@@ -59,11 +69,12 @@
 
 	import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 	import { Viewer } from "@toast-ui/vue-editor";
+	import Pagination from "../../components/Pagination";
 
 	export default {
 		name: 'NoticeList'
 		,props: ['Axios', 'TOKEN']
-		,components: { Viewer}
+		,components: {Pagination, Viewer}
 		,data: function() {
 			return {
 				program: {
@@ -104,6 +115,12 @@
 				}finally {
 					this.$emit('offLoading')
 				}
+			}
+			, getSearch: function(page){
+				if(page){
+					this.search.page = page
+				}
+				this.getData()
 			}
 		}
 		,created() {

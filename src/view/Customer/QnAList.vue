@@ -53,6 +53,16 @@
 					</div>
 				</li>
 			</ul>
+
+			<Pagination
+				:program="program"
+				:align="'center'"
+				:options="search"
+
+				@click="getSearch"
+
+				class="mt-auto pa-10"
+			></Pagination>
 		</template>
 		<div
 			v-else
@@ -74,11 +84,12 @@
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from "@toast-ui/vue-editor";
+import Pagination from "../../components/Pagination";
 
 export default {
 	name: 'QnAList'
-	,props: ['Axios', 'TOKEN']
-	,components: { Viewer}
+	,props: ['Axios', 'TOKEN', 'member_info']
+	,components: {Pagination, Viewer}
 	,data: function() {
 		return {
 			program: {
@@ -91,6 +102,8 @@ export default {
 				TOKEN: this.TOKEN
 				,b_code: this.$route.params.b_code
 				,is_ajax: true
+				,search_type: 'm_id'
+				,search_value: this.member_info.member_id
 			}
 			,items: [
 
@@ -134,6 +147,12 @@ export default {
 			}finally {
 				this.$emit('offLoading')
 			}
+		}
+		, getSearch: function(page){
+			if(page){
+				this.search.page = page
+			}
+			this.getData()
 		}
 		,toItem: function(){
 			this.$emit('push', { name: 'BbsItem', params: { b_code: this.search.b_code }})

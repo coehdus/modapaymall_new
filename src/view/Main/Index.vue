@@ -1,6 +1,12 @@
 <template>
 	<div class="flex-column full-height bg-white">
 
+		<Top
+			:program="program"
+			:member_info="member_info"
+			:shop_info="shop_info"
+
+		></Top>
 		<Search
 			v-if="program.search"
 			:program="program"
@@ -10,6 +16,7 @@
 		></Search>
 
 		<div
+			v-if="is_banner && banner_items.length > 0"
 			class="box-main-banner position-relative"
 		>
 			<v-icon
@@ -61,7 +68,7 @@
 				<option
 					v-for="sort in codes.P002.items"
 					:key="'sort_' + sort.sub_code"
-					:value="sort.code_value"
+					:value="sort.code_value ? sort.code_value : ''"
 				>{{ sort.code_name }}</option>
 			</select>
 
@@ -183,39 +190,29 @@
 	import ProductDetail from "../Product/ProductDetail";
 	import Pagination from "@/components/Pagination";
 	import Search from "@/view/Layout/Search";
+	import Top from "../Layout/Top";
 
 	export default{
 		name: 'Main'
 		,
-		components: {Search, Pagination, ProductDetail},
-		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter']
+		components: {Top, Search, Pagination, ProductDetail},
+		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter', 'shop_info', 'member_info']
 		,data: function(){
 			return {
 				program: {
 					name: process.env.VUE_APP_TITLE_DEV
-					,top: true
 					,title: false
 					,search: true
 					,bottom: true
 				}
-				,member_info: {
-
-				}
-				,banner_items: [
-
-				]
-				,banner_item: {
-
-				}
+				,banner_items: []
+				,banner_item: {}
 				,banner_index: 0
-				,items: [
-				]
-				,item: {
-
-				}
+				,items: []
+				,item: {}
 				,search: this.$storage.init({
 					TOKEN: this.TOKEN
-					,sort: 'new'
+					,sort: ''
 					,list_cnt: 10
 					,page: 1
 					,search_type: 'pdt_name'
