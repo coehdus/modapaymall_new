@@ -28,6 +28,7 @@
 						</label>
 					</div>
 					<div
+						v-if="false"
 						class="mt-10 position-relative"
 					>
 						<label>
@@ -46,7 +47,32 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="mt-30">
+				<div
+					class="justify-space-between"
+				>
+					<h6 class="flex-1">배송 구분</h6>
+				</div>
+
+				<div
+					class="mt-10 bg-white pa-10 box-shadow"
+				>
+
+					<div
+					>
+						<label class="mr-10"><input v-model="item.delivery_type" type="radio" value="D002001" /> 택배 수령</label>
+						<label><input v-model="item.delivery_type" type="radio" value="D002002" /> 방문 수령</label>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div
+				v-if="item.delivery_type == 'D002001'"
+				class="mt-30"
+			>
 				<div
 					class="justify-space-between"
 				>
@@ -57,12 +83,10 @@
 							@click="showSipping"
 						>배송지 목록</button>
 					</div>
-
 				</div>
 				<div
 					class="mt-10 bg-white pa-10 box-shadow"
 				>
-
 					<div
 						class="justify-space-between"
 					>
@@ -189,6 +213,15 @@
 						</label>
 					</div>
 				</div>
+			</div>
+
+			<div
+				v-else
+				class="mt-10"
+			>
+				<div
+					class="bg-white pa-10 box-shadow"
+				>주문한 상품을 매장에 직접방문하여 수령합니다</div>
 			</div>
 
 			<div class="mt-30">
@@ -500,6 +533,7 @@ export default{
 				,shipping_uid: 'new'
 				,order_number: ''
 				, pg_uid: ''
+				, delivery_type: 'D002001'
 			}
 			,shop_info: {
 
@@ -522,6 +556,7 @@ export default{
 			,is_island_delivery: false
 			, pg_list: []
 			, pg_info: {}
+			, is_order: false
 		}
 	}
 	,computed: {
@@ -532,14 +567,14 @@ export default{
 		}
 		, is_reappay: function(){
 			let t = false
-			if(this.pg_info.pg_code == 'reappay'){
+			if(this.pg_info.pg_code == 'reappay' && this.is_order){
 				t = true
 			}
 			return t
 		}
 		, is_allat: function(){
 			let t = false
-			if(this.pg_info.pg_code == 'allat'){
+			if(this.pg_info.pg_code == 'allat' && this.is_order){
 				t = true
 			}
 			return t
@@ -706,6 +741,7 @@ export default{
 						this.$bus.$emit('notify', { type: 'success', message: result.message})
 						this.toResult()
 					}else{
+						this.is_order = true
 						this.$emit('onLoading')
 					}
 
@@ -717,6 +753,7 @@ export default{
 				console.log(e)
 				// await this.toCancel(this.order_number_new)
 				this.$bus.$emit('notify', { type: 'error', message: e})
+				this.is_order = false
 				this.$emit('offLoading')
 			}finally {
 				// this.$emit('offLoading')

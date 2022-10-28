@@ -143,6 +143,7 @@
 			</div>
 
 			<div
+				v-if="false"
 				class="mt-10"
 			>
 				<h6>이메일</h6>
