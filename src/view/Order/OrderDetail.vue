@@ -44,7 +44,31 @@
 				</div>
 			</div>
 
-			<div class="mt-10">
+			<div
+				class="mt-10"
+			>
+
+				<h6>배송 구분</h6>
+
+				<div
+					class="bg-white pa-10 box-shadow font-weight-bold"
+				>
+					{{ item.delivery_type == 'D002002' ? '방문 수령' : '택배 배송'}}
+				</div>
+			</div>
+
+			<div
+				v-if="item.delivery_type == 'D002002'"
+				class="mt-10"
+			>
+				<div
+					class="bg-white pa-10 box-shadow"
+				>주문한 상품을 매장에 직접방문하여 수령합니다</div>
+			</div>
+			<div
+				v-else
+				class="mt-10"
+			>
 
 				<h6>배송지 정보</h6>
 
