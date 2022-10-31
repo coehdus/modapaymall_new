@@ -27,9 +27,9 @@
 					// 결제자성명
 					, allat_buyer_nm: this.member_info.member_name
 					// 수취인성명
-					, allat_recp_nm: this.order_info.d_name
+					, allat_recp_nm: this.order_info.delivery_type == 'D002002' ? this.member_info.member_name : this.order_info.d_name
 					// 수취인주소
-					, allat_recp_addr: this.order_info.d_addr1 + ' ' + this.order_info.d_addr2
+					, allat_recp_addr: this.order_info.delivery_type == 'D002002' ? '구로구 디지털로26길 5 에이스하이엔드1차7 09호' : this.order_info.d_addr1 + ' ' + this.order_info.d_addr2
 					// 인증정보수신URL
 					, shop_receive_url: 'https://modapaymall.shop/NEW_API_DEV/allat/receive'
 					// 주문정보암호화필드
