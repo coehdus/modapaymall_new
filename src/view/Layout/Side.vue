@@ -67,6 +67,7 @@
 			</div>
 
 			<ul
+				v-if="items.length > 0"
 				class="side-content overflow-y-auto"
 			>
 				<li
@@ -82,6 +83,7 @@
 					>mdi mdi-chevron-right</v-icon>
 				</li>
 			</ul>
+			<div v-else class="text-center pa-50">등록된 카테고리가 없습니다.</div>
 
 			<div
 				class="mt-auto"

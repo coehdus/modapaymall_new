@@ -75,8 +75,7 @@ export default {
 				, bottom: true
 			}
 			,search:{
-				TOKEN: this.TOKEN
-				,b_code: 'b_after'
+				b_code: 'b_after'
 				,is_ajax: true
 				,search_type: 'm_id'
 				,search_value: this.member_info.member_id

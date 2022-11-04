@@ -517,8 +517,7 @@ export default{
 			,daumPostUp: false
 			,order_number: ''
 			,item: {
-				TOKEN: this.TOKEN
-				,pay_div: 'card'
+				pay_div: 'card'
 				,member_tell: this.member_info.member_tell ? this.member_info.member_tell : ''
 				,member_email: this.member_info.member_email ? this.member_info.member_email : ''
 				,d_name: ''
@@ -805,7 +804,6 @@ export default{
 					method: 'post'
 					,url: 'member/getShippingList'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
@@ -849,7 +847,6 @@ export default{
 					method: 'post'
 					,url: 'order/getShopInfo'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
@@ -877,8 +874,7 @@ export default{
 					method: 'get'
 					,url: 'order/getIslandDelivery'
 					,data: {
-						TOKEN: this.TOKEN
-						,post: post
+						post: post
 						,supply: supply
 					}
 				})
@@ -905,7 +901,6 @@ export default{
 					method: 'get'
 					,url: 'order/getPgInfo'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
@@ -928,7 +923,6 @@ export default{
 					method: 'get'
 					,url: 'order/getPgList'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
@@ -950,7 +944,6 @@ export default{
 					method: 'get'
 					,url: 'order/getOrderNumber'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 				if(result.success){
@@ -999,8 +992,7 @@ export default{
 					method: 'post'
 					,url: 'order/postUpdateOrder'
 					,data: {
-						TOKEN: this.TOKEN
-						, order_number: this.item.order_number
+						order_number: this.item.order_number
 					}
 				})
 				if(result.success){
@@ -1032,8 +1024,7 @@ export default{
 					method: 'get'
 					,url: 'order/postFailOrderCancel'
 					,data: {
-						TOKEN: this.TOKEN
-						, order_number: this.item.order_number
+						order_number: this.item.order_number
 					}
 				})
 				if(result.success){

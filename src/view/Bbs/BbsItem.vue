@@ -72,8 +72,7 @@ export default{
 				,bottom: false
 			}
 			,item: {
-				TOKEN: this.TOKEN
-				,b_code: this.$route.params.b_code
+				b_code: this.$route.params.b_code
 				,b_title: ''
 				,b_contents: ''
 				,b_file: null

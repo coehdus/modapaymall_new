@@ -277,8 +277,7 @@ export default {
 					method: 'get'
 					,url: 'order/getOrderDetail'
 					,data: {
-						TOKEN: this.TOKEN
-						,order_num_new: this.$route.params.order_num_new
+						order_num_new: this.$route.params.order_num_new
 					}
 				})
 

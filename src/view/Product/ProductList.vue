@@ -19,7 +19,7 @@
 
 		<div
 			class="pa-10 flex-row under-line"
-			style="min-height: 50px"
+			style="height: 50px"
 		>
 			<button
 				v-for="category in category_list"
@@ -170,8 +170,7 @@ export default{
 				,bottom: true
 			}
 			,search: this.$storage.init({
-				TOKEN:  this.TOKEN
-				,search_type: 'pdt_name'
+				search_type: 'pdt_name'
 				,search_value: ''
 				,pdt_category: this.$route.params.category
 				,sort: ''

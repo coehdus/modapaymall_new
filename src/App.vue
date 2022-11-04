@@ -70,7 +70,6 @@ export default {
 					console.log('not auth ! to login !!')
 					this.toLogin()
 				}else{
-					this.TOKEN = encodeURI(TOKEN)
 					this.getBaseInfo()
 					this.getBaseCode()
 				}
@@ -88,7 +87,6 @@ export default {
 					method: 'get'
 					,url: 'member/getBaseInfo'
 					,data: {
-						TOKEN: this.TOKEN
 					}
 				})
 

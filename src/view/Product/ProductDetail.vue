@@ -402,7 +402,6 @@
 
 					if (result.success) {
 						this.item = result.data.pdt_info
-						this.item.TOKEN = this.TOKEN
 						this.$set(this, 'pdt_options', result.data.pdt_options)
 
 						this.resetOption(this.pdt_options)

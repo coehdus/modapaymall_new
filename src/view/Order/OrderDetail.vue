@@ -398,8 +398,7 @@ export default {
 					method: 'get'
 					,url: 'order/getOrderDetail'
 					,data: {
-						TOKEN: this.TOKEN
-						,order_num_new: this.$route.params.order_num_new
+						order_num_new: this.$route.params.order_num_new
 					}
 				})
 
@@ -432,8 +431,7 @@ export default {
 					method: 'post'
 					, url: 'order/postOdtUpdate'
 					, data: {
-						TOKEN: this.TOKEN
-						, uid: this.item_cancel.uid
+						uid: this.item_cancel.uid
 						, next_step: this.odt_step_cancel
 					}
 				})

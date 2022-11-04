@@ -355,8 +355,7 @@
 						method: 'post'
 						,url: 'order/postOdtCnt'
 						,data: {
-							TOKEN: this.TOKEN
-							,c_uid: odt.odt_uid
+							c_uid: odt.odt_uid
 							,op_cnt: cnt
 						}
 					})

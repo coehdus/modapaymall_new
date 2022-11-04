@@ -53,8 +53,7 @@
 					,bottom: true
 				}
 				,search: {
-					TOKEN: this.TOKEN
-					,sDate: this.date.getSearchBaseDate('-')
+					sDate: this.date.getSearchBaseDate('-')
 					,eDate: this.date.getToday()
 				}
 				,items: [

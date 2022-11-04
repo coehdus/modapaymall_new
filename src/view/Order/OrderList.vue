@@ -196,8 +196,7 @@
 					, bottom: true
 				}
 				,search: this.$storage.init({
-					TOKEN: this.TOKEN
-					, sDate: ''
+					sDate: ''
 					, eDate: ''
 					, type: this.$route.params.type
 					, page: 1
@@ -241,7 +240,6 @@
 			item_list: function(){
 
 				return this.items.filter((item) => {
-					item.TOKEN = this.TOKEN
 					item.is_cancel = true
 
 					switch (item.o_status){
@@ -393,7 +391,6 @@
 						,url: 'order/postOdtUpdate'
 						,data: {
 							uid: this.item_cancel.uid
-							, TOKEN: this.TOKEN
 							, next_step: this.odt_step_cancel_confirm
 						}
 					})
@@ -418,7 +415,6 @@
 						,url: 'allat/cancel'
 						,data: {
 							odt_uid: this.item_cancel.uid
-							,TOKEN: this.TOKEN
 						}
 					})
 
@@ -441,7 +437,6 @@
 						,url: 'order/postOdtUpdate'
 						,data: {
 							uid: this.item_cancel.uid
-							,TOKEN: this.TOKEN
 							,next_step: this.odt_step_cancel
 						}
 					})

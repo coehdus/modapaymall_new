@@ -124,15 +124,12 @@
 
 				}
 				,search: {
-					TOKEN: this.TOKEN
 				}
 				,items: []
 				,item: {
 					is_base: ''
-					,TOKEN: this.TOKEN
 				}
 				,item_remove: {
-					TOKEN: this.TOKEN
 				}
 				,is_item: false
 				,is_modal: false
@@ -144,9 +141,9 @@
 		}
 		,computed: {
 			item_list: function(){
-				const self = this
+
 				return this.items.filter(function (item){
-					item.TOKEN = self.TOKEN
+
 					if(item.is_base != 1){
 						item.is_base = ''
 					}
@@ -175,7 +172,6 @@
 				this.is_item = false
 				this.item = {
 					is_base: ''
-					,TOKEN: this.TOKEN
 				}
 				this.getData()
 				this.$emit('onLoad', this.program)

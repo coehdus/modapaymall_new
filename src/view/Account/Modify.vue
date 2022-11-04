@@ -136,8 +136,7 @@ export default{
 			}
 			,daumPostUp: false
 			,item: {
-				TOKEN: this.TOKEN
-				, member_tell: this.user.member_tell
+				member_tell: this.user.member_tell
 				, member_email: this.user.member_email
 				, member_post: this.user.member_post
 				, member_addr1: this.user.member_addr1

@@ -86,14 +86,14 @@
 			</span>
 		</div>
 
+		<template
+			v-if="items.length > 0"
+		>
 		<div class="flex-column">
 			<ul
 				class=" main-pdt overflow-y-auto"
 				:class="list_type"
 			>
-				<template
-					v-if="items.length > 0"
-				>
 				<li
 					v-for="item in item_list"
 					:key="item.uid"
@@ -154,7 +154,6 @@
 					</div>
 
 				</li>
-				</template>
 			</ul>
 
 			<Pagination
@@ -168,6 +167,8 @@
 				class="pa-10"
 			></Pagination>
 		</div>
+		</template>
+		<div v-else class="text-center pa-50">등록된 상품이 없습니다</div>
 
 		<ProductDetail
 			v-if="item.uid"
@@ -211,8 +212,7 @@
 				,items: []
 				,item: {}
 				,search: this.$storage.init({
-					TOKEN: this.TOKEN
-					,sort: ''
+					sort: ''
 					,list_cnt: 10
 					,page: 1
 					,search_type: 'pdt_name'
@@ -303,7 +303,6 @@
 						method: 'get'
 						, url: 'main/getMainBanner'
 						, data: {
-							TOKEN: this.TOKEN
 						}
 					})
 

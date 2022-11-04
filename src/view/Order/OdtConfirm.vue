@@ -146,8 +146,7 @@ export default {
 					method: 'get'
 					, url: 'order/getOdt'
 					, data: {
-						TOKEN: this.TOKEN
-						,odt_uid: this.$route.params.odt_uid
+						odt_uid: this.$route.params.odt_uid
 					}
 				})
 
@@ -172,8 +171,7 @@ export default {
 					method: 'post'
 					, url: 'order/postOdtUpdate'
 					, data: {
-						TOKEN: this.TOKEN
-						,uid: this.item.uid
+						uid: this.item.uid
 						,review_point: this.item.review_point
 						,review_contents: this.item.review_contents
 						,review_file: this.item.file
