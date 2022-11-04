@@ -26,6 +26,16 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 
 	const getParams = function(){
 		if(method == 'get'){
+			if(!data){
+				data = {
+
+				}
+			}
+			if(!data.TOKEN){
+				let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
+				data.TOKEN = TOKEN
+			}
+			console.log(url, data)
 			return data
 		}
 	}
@@ -35,6 +45,12 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 			const formData = new FormData();
 			for(let key in data){
 				formData.append(key, data[key])
+			}
+			if(!formData.get('TOKEN')){
+				let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
+				if(TOKEN){
+					formData.append("TOKEN", TOKEN)
+				}
 			}
 			if(multipart){
 				return formData
@@ -47,7 +63,6 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 	const getHeader = function(){
 		
 		let default_header = {
-
 		}
 		
 		if(authorize){

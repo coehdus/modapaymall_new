@@ -85,7 +85,7 @@ export default {
 		,getBaseInfo: async function(){
 			try{
 				const result = await this.Axios({
-					method: 'post'
+					method: 'get'
 					,url: 'member/getBaseInfo'
 					,data: {
 						TOKEN: this.TOKEN
@@ -106,10 +106,9 @@ export default {
 		,getBaseCode: async function(){
 			try{
 				const result = await this.Axios({
-					method: 'post'
+					method: 'get'
 					,url: 'management/getCodeList'
 					,data: {
-						ATOKEN: this.TOKEN
 					}
 				})
 

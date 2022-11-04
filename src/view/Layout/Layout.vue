@@ -126,7 +126,7 @@
 			getData: async function(){
 				try{
 					const result = await this.Axios({
-						method: 'post'
+						method: 'get'
 						,url: '/product/getCategory'
 					})
 					if(result.success){
@@ -157,7 +157,7 @@
 			,getCartList: async function(){
 				try{
 					const result = await this.Axios({
-						method: 'post'
+						method: 'get'
 						,url: 'order/getCartList'
 						,data: {
 							TOKEN: sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
