@@ -101,6 +101,7 @@
 </template>
 
 <script>
+
 	export default{
 		name: 'Side'
 		,props: ['Axios', 'member_info', 'category', 'shop_info']
@@ -120,16 +121,15 @@
 				this.$emit('toggleSide')
 			}
 			,logout: function(){
-				let auto_login = localStorage.getItem('delimallA')
+				let auto_login = localStorage.getItem(process.env.VUE_APP_NAME + 'A')
 
 				if(auto_login) {
 
 					if(confirm('로그아웃시 자동로그인도 해제됩니다. 로그아웃 하시겠습니까?')) {
 
-						localStorage.setItem('delimallA', false)
-						localStorage.removeItem('delimallA')
-						localStorage.removeItem('delimallN')
-						localStorage.removeItem('delimallP')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'A')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'N')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'P')
 
 						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T')
 						sessionStorage.removeItem(process.env.VUE_APP_NAME + 'T2')

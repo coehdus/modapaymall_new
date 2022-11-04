@@ -29,6 +29,7 @@ td   { font-family:굴림체; font-size:12px; }
 
 		if( result_cd != '0000' ){
 			window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+			self.close();
 		} else {
 			fm.allat_enc_data.value = enc_data;
 
@@ -41,9 +42,24 @@ td   { font-family:굴림체; font-size:12px; }
 </script>
 </head>
 <body
-		style="display: none"
 >
 
+
+<div style="position: fixed; width: 100%; height: 100%; left: 0; top: 0">
+	<div style="position: absolute; width: 100%; height: 100%; left:0; top: 0; background-color: black; opacity: 0.5"
+	></div>
+	<div style="position: relative; z-index: 998; padding: 20px; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+		<div style="text-align: center; color: white; font-size: 24px">
+			<button class="btn btn-primary" type="button" disabled>
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+				결제 요청중입니다...
+			</button>
+		</div>
+	</div>
+</div>
+<div
+		style="visibility: hidden;"
+>
     <p align=center class=title><u>New All@Pay™ 승인요청 예제페이지</u></p>
 
     <!------------- HTML : Form 설정 --------------//-->
@@ -362,7 +378,7 @@ td   { font-family:굴림체; font-size:12px; }
     </table>
     </p>
     </form>
-
+</div>
 
 	<script type="text/javascript">
 		function getOrderInfo(){

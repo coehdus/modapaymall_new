@@ -481,7 +481,7 @@
 			@fail="fail"
 		></OrderFormReappay>
 
-		<OrderFormAllat
+		<OrderFormAllatM
 			v-if="is_allat"
 			:Axios="Axios"
 			:user="user"
@@ -492,7 +492,7 @@
 			@cancel="fail"
 			@success="success"
 			@fail="fail"
-		></OrderFormAllat>
+		></OrderFormAllatM>
 
 	</div>
 </template>
@@ -501,11 +501,11 @@
 import DaumPost from '@/components/Daum/DaumPost'
 import Modal from "@/components/Modal";
 import OrderFormReappay from "@/view/Order/OrderFormReappay";
-import OrderFormAllat from "@/view/Order/OrderFormAllat";
+import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormAllat, OrderFormReappay, Modal, DaumPost }
+	,components: {OrderFormAllatM, OrderFormReappay, Modal, DaumPost }
 	,data: function(){
 		return {
 			program: {

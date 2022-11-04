@@ -101,7 +101,7 @@
 
 					@click="toDetail(item)"
 				>
-					<div class="pdt-img " style="min-height: 113px">
+					<div class="pdt-img">
 						<img v-if="item.pdt_img"
 							:src="item.pdt_img"
 						/>
@@ -407,12 +407,11 @@
 		flex: 2;
 		margin-right: 10px;
 		padding: 5px;
-		height: 80px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		border: 1px solid #ddd;
 		margin-left: 5px;
+		min-height: 130px;
 	}
 
 	ul.list .pdt-info {
@@ -440,14 +439,15 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		border: 1px solid #ddd;
 		padding: 5px;
+		min-height: 150px;
 	}
 
 	ul.grid .pdt-img img { display: block; margin: auto; width: 100%; height: 100%}
 
 	.pdt-img {
-		overflow: hidden
+		overflow: hidden;
+		border: 1px solid #ddd;
 	}
 
 	.box-main-banner {

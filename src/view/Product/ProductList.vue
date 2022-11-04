@@ -87,8 +87,8 @@
 						></v-icon>
 					</div>
 					<div class="pdt-info ">
-						<div class="pdt-title color-gray">{{  item.pdt_name }}</div>
-						<div class="pdt-title color-gray">{{  item.pdt_summary }}</div>
+						<div class="pdt-title ">{{  item.pdt_name }}</div>
+						<div class="pdt-title ">{{  item.pdt_summary }}</div>
 						<div
 							v-if="item.is_sale"
 							class="price font-weight-bold"
@@ -313,13 +313,14 @@ ul.list li {
 }
 
 ul.list .pdt-img {
-	flex: 1;
+	flex: 2;
 	margin-right: 10px;
 	padding: 5px;
-	height: 80px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin-left: 5px;
+	min-height: 130px;
 }
 
 ul.list .pdt-info {
@@ -341,16 +342,17 @@ ul.grid .pdt-img {
 	width: 100%;
 	background-color: #eee;
 	text-align: center;
-	height: 120px;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	min-height: 150px;
 }
 
 ul.grid .pdt-img img { display: block; margin: auto; width: 100%}
 
 .pdt-img {
-	overflow: hidden
+	overflow: hidden;
+	border: 1px solid #ddd;
 }
 </style>
