@@ -18,7 +18,7 @@
 		></Search>
 
 		<div
-			class="pa-10 flex-row overflow-x-auto under-line"
+			class="pa-10 flex-row under-line"
 			style="min-height: 50px"
 		>
 			<button
@@ -63,10 +63,10 @@
 
 		<div
 			v-if="items.length > 0"
-			class="full-height "
+			class=" "
 		>
 			<ul
-				class=" main-pdt overflow-y-auto"
+				class=" main-pdt "
 				:class="list_type"
 			>
 				<li
@@ -109,10 +109,10 @@
 							<template
 								v-if="item.agency_pdt_type"
 							>
-					<span
-						v-if="item.agency_pdt_type.indexOf('new') > -1"
-						class="label label-new mr-5"
-					>NEW</span>
+								<span
+									v-if="item.agency_pdt_type.indexOf('new') > -1"
+									class="label label-new mr-5"
+								>NEW</span>
 								<span
 									v-if="item.agency_pdt_type.indexOf('hot') > -1"
 									class="label label-hot mr-5"
