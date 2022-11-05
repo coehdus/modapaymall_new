@@ -355,4 +355,5 @@ ul.grid .pdt-img img { display: block; margin: auto; width: 100%}
 	overflow: hidden;
 	border: 1px solid #ddd;
 }
+.pdt-img img { max-width: 150px;  }
 </style>

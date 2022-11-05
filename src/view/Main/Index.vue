@@ -450,6 +450,8 @@
 		border: 1px solid #ddd;
 	}
 
+	.pdt-img img { max-width: 150px;  }
+
 	.box-main-banner {
 		background-color: #eee;
 	}
