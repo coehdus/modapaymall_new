@@ -95,10 +95,11 @@ export default {
 					this.shop_info = result.data.shop_info
 					this.seller_info = result.data.seller_info
 				}else{
-					console.log(result.message)
+					throw result.message
 				}
 			}catch (e) {
 				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}
 		,getBaseCode: async function(){
@@ -113,11 +114,11 @@ export default {
 				if(result.success){
 					this.setCode(result.data.result)
 				}else{
-					this.toLogin()
-					console.log(result.message)
+					throw result.message
 				}
 			}catch (e) {
 				console.log(e)
+				this.toLogin()
 			}
 		}
 		,setCode: function(code_list){
@@ -133,7 +134,6 @@ export default {
 
 			Object.assign(list, this.codes)
 			this.$set(this, 'codes', list)
-			console.log(list)
 		}
 	}
 	,created() {

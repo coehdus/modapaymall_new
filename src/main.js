@@ -4,6 +4,7 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import VueDaumPostcode from "vue-daum-postcode"
 import { storage } from "./resources/storage/storage"
+import { common } from '@/assets/js/common'
 
 Vue.config.productionTip = false
 
@@ -21,6 +22,7 @@ if(window.location.href.indexOf(process.env.VUE_APP_DOMAIN) > -1){
 Vue.prototype.$storage = storage
 Vue.prototype.$pdt_img_url = ''
 Vue.prototype.$server_url = process.env.VUE_APP_SERVER
+Vue.prototype.$common = common
 
 Vue.prototype.$bus = new Vue()
 

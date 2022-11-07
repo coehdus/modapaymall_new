@@ -35,7 +35,7 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 				let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 				data.TOKEN = TOKEN
 			}
-			console.log(url, data)
+				//console.log(url, data)
 			return data
 		}
 	}

@@ -541,7 +541,7 @@
 						break
 					}
 				}
-				console.log(url)
+				console.log('toShipping', url)
 				window.open(url, 'shipping')
 			}
 			,getSearch: function(page){
