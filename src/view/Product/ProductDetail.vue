@@ -384,7 +384,6 @@
 			}
 			,odts: function(){
 				return this.options.filter(function(item){
-					console.log(item)
 					return item.odt.replaceAll(',', '/')
 				})
 			}
@@ -474,7 +473,6 @@
 				this.$set(option, 'is_view', !option.is_view)
 			}
 			,setOption: function(option, opt){
-				console.log(option)
 				this.$set(option, 'opt', opt)
 				this.toggleOption(option)
 			}

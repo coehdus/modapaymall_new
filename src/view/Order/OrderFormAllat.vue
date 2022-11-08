@@ -1,6 +1,9 @@
 <template>
 	<div>
-
+		<iframe
+			v-show="false"
+			src="/payment/allat/approval.html"
+		></iframe>
 	</div>
 </template>
 
@@ -134,24 +137,28 @@ export default {
 			}else{
 				t = JSON.parse(t)
 				if(t.allat_order_no == this.order_info.order_number){
-					let w_a = window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt', 'width=320')
+					// let w_a = window.open('/payment/allat/approval.html?on=' + this.order_info.order_number, 'allalt', 'width=320')
 
 					let self = this
 					window.addEventListener('message', function (e) {
 						console.log('on message', e.data)
-						let data = JSON.parse(e.data)
-						let result = data.result
-						if(result){
-							alert('success')
-							console.log('success');
-							self.$emit('success', data)
-						}else{
-							alert('fail')
-							console.log('fail');
-							self.$emit('fail', data)
+
+						try{
+
+							let data = JSON.parse(e.data)
+							let result = data.result
+							if(result){
+								console.log('success');
+								self.$emit('success', data)
+							}else{
+								console.log('fail');
+								self.$emit('fail', data)
+							}
+							// w_a.close()
+						}catch (e){
+							console.log('addEventListener', e)
 						}
 
-						w_a.close()
 					});
 				}else{
 					this.$emit('cancel')

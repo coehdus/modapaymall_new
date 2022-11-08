@@ -55,7 +55,6 @@
 			}
 		}
 		,created() {
-			console.log(this.$production_title)
 		}
 	}
 </script>

@@ -183,6 +183,7 @@ export default {
 			window.addEventListener('message', function (e) {
 
 				let data = JSON.parse(e.data)
+				console.log('addEventListener2', data)
 				let result = data.result
 				if(result){
 					console.log('success');

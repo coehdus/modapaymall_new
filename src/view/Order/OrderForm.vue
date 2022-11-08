@@ -481,8 +481,21 @@
 			@fail="fail"
 		></OrderFormReappay>
 
+		<OrderFormAllat
+			v-if="is_allat && !is_mobile"
+			:Axios="Axios"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+		></OrderFormAllat>
+
 		<OrderFormAllatM
-			v-if="is_allat"
+			v-if="is_allat && is_mobile"
 			:Axios="Axios"
 			:user="user"
 			:member_info="member_info"
@@ -501,11 +514,12 @@
 import DaumPost from '@/components/Daum/DaumPost'
 import Modal from "@/components/Modal";
 import OrderFormReappay from "@/view/Order/OrderFormReappay";
+import OrderFormAllat from "@/view/Order/OrderFormAllat";
 import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormAllatM, OrderFormReappay, Modal, DaumPost }
+	,components: {OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
 	,data: function(){
 		return {
 			program: {
@@ -556,6 +570,7 @@ export default{
 			, pg_list: []
 			, pg_info: {}
 			, is_order: false
+			, is_mobile: this.$common.isMobile()
 		}
 	}
 	,computed: {
@@ -598,9 +613,11 @@ export default{
 
 			if(Object.keys(this.item_list).length > 0){
 				for(const [key, val] of Object.entries(this.item_list)){
-					console.log(key)
+					if(!key){
+						continue
+					}
 					price += Number(val.company.delivery_price)
-					if(this.is_island_delivery){
+					if (this.is_island_delivery) {
 						price += Number(val.company.island_price)
 					}
 				}
@@ -627,8 +644,9 @@ export default{
 			let pdt_code = ''
 			if(Object.keys(this.item_list).length > 0) {
 				for(const [key, val] of Object.entries(this.use_item)) {
-					console.log(key)
-					console.log(val)
+					if(!key){
+						continue
+					}
 					if(val.is_not_select){
 						continue
 					}
@@ -649,8 +667,9 @@ export default{
 			let items = {}
 
 			for(const [key ,val] of Object.entries(this.use_item)){
-				console.log('key: ' + key)
-
+				if(!key){
+					continue
+				}
 				if(val.is_not_select){
 					continue
 				}
@@ -912,7 +931,7 @@ export default{
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				//this.$emit('offLoading')
 			}
 		}
 		, getPgList: async function(){
@@ -976,12 +995,10 @@ export default{
 		,setNotify: function({ type, message}){
 			this.$bus.$emit('notify', { type: type, message: message})
 		}
-		,success: function(data){
-			console.log(data)
+		,success: function(){
 			this.update()
 		}
-		,fail: function(data){
-			console.log(data)
+		,fail: function(){
 			this.do()
 			this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
 		}

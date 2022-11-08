@@ -92,7 +92,6 @@
 				this.$emit('push', {name: 'CustomerCenter', params: { b_code: b_code }})
 			}
 			,push: function( name, params){
-				console.log(params)
 				this.$emit('push', name, { params: params })
 			}
 		}
