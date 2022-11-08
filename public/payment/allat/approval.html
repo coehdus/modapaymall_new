@@ -31,9 +31,11 @@
             AllatPay_Closechk_End();
 
             if( result_cd != '0000' ){
-                console.log(result_cd, result_msg)
-                alert(result_cd + " : " + result_msg);
-                self.close();
+                let data = {
+                    result: false
+                    , message: result_cd + " : " + result_msg
+                }
+                window.parent.postMessage(JSON.stringify(data), '*');
             } else {
                 fm.allat_enc_data.value = enc_data;
 
