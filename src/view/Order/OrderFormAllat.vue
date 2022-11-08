@@ -139,19 +139,25 @@ export default {
 					let self = this
 					window.addEventListener('message', function (e) {
 						console.log('on message', e.data)
-						let data = JSON.parse(e.data)
-						let result = data.result
-						if(result){
-							alert('success')
-							console.log('success');
-							self.$emit('success', data)
-						}else{
-							alert('fail')
-							console.log('fail');
-							self.$emit('fail', data)
+
+						try{
+
+							let data = JSON.parse(e.data)
+							let result = data.result
+							if(result){
+								alert('success')
+								console.log('success');
+								self.$emit('success', data)
+							}else{
+								alert('fail')
+								console.log('fail');
+								self.$emit('fail', data)
+							}
+							w_a.close()
+						}catch (e){
+							console.log('addEventListener', e)
 						}
 
-						w_a.close()
 					});
 				}else{
 					this.$emit('cancel')
