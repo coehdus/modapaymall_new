@@ -148,7 +148,6 @@ export default {
 							let data = JSON.parse(e.data)
 							let result = data.result
 							if(result){
-								alert('success')
 								console.log('success');
 								self.$emit('success', data)
 							}else{
