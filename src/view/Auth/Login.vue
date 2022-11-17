@@ -75,10 +75,14 @@
 			</div>
 
 			<div
-				class="pa-10 mt-10 text-center login-menu justify-space-between"
+				class="pa-10 mt-10 text-center login-menu justify-space-around"
 			>
-				<router-link :to="{ name: 'Join' }">가입하기</router-link> /
-				<router-link :to="{ name: 'FindId' }">아이디 찾기</router-link> /
+				<router-link
+					v-if="false"
+					:to="{ name: 'Join' }"
+				>가입하기</router-link>
+
+				<router-link :to="{ name: 'FindId' }">아이디 찾기</router-link>
 				<router-link :to="{ name: 'FindPw' }">비밀번호 찾기</router-link>
 			</div>
 
