@@ -23,6 +23,11 @@ const routes = [
 		,component: () => import('@/view/Auth/Login.vue')
 	}
 	,{
+		path: prefix + 'Auth/Login/Shop/:shop_id'
+		,name: 'ShopLogin'
+		,component: () => import('@/view/Auth/ShopLogin.vue')
+	}
+	,{
 		path: prefix + 'Auth/Find/Id'
 		,name: 'FindId'
 		,component: () => import('@/view/Auth/FindId.vue')
