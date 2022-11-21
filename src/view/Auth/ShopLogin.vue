@@ -18,72 +18,24 @@
 				>{{ $production_title }}</div>
 			</div>
 			<div class="pa-10">
-				<input
-					v-model="item.member_id"
-					class="input-underline"
-					:class="{  input: isIdInput, 'error-underline': error.type == 'id' }"
-					type="text" placeholder="아이디를 입력하세요."
-					maxlength="15"
-					@keyup.enter="login"
-				/>
 			</div>
 			<div class="pa-10 toggle-password">
-				<input
-					v-model="item.member_pw"
-					class="input-underline"
-					:class="{ input: isPwInput, 'error-underline': error.type == 'pw'  }"
-					:type="toggleType"
-					placeholder="비밀번호를 입력하세요."
-					maxlength="50"
-					@keyup.enter="login"
-				/>
-				<v-icon
-					v-if="toggleType == 'text'"
-					class="toggle"
-					:class="{ on: toggleType == 'text' }"
-					@click="toggles_on_pw"
-				>mdi-eye</v-icon>
-				<v-icon
-					v-else
-					class="toggle"
-					:class="{ on: toggleType == 'text' }"
-					@click="toggles_on_pw"
-				>mdi-eye-off</v-icon>
 			</div>
 			<div
 				v-show="error.type"
 				class="pa-10 color-red"
 			><v-icon small class="color-red">mdi-alert</v-icon> {{ error.msg }}</div>
 			<div class="pa-10">
-				<label
-				>
-					<input
-						v-model="is_auto_login"
-						type="checkbox"
-						class="login-checkbox"
-					/> <span class="auto-login">자동 로그인</span>
-				</label>
 			</div>
 
 			<div
 				class="mt-10"
 			>
-				<button
-					class="btn btn-identify"
-					@click="postLogin"
-				>로그인</button>
 			</div>
 
 			<div
 				class="pa-10 mt-10 text-center login-menu justify-space-around"
 			>
-				<router-link
-					v-if="false"
-					:to="{ name: 'Join' }"
-				>가입하기</router-link>
-
-				<router-link :to="{ name: 'FindId' }">아이디 찾기</router-link>
-				<router-link :to="{ name: 'FindPw' }">비밀번호 찾기</router-link>
 			</div>
 
 		</div>
@@ -91,6 +43,8 @@
 </template>
 
 <script>
+	import {Base64} from "js-base64";
+
 	export default {
 		name: 'ShopLogin'
 		, props: ['Axios']
@@ -145,11 +99,18 @@
 						}
 					})
 
-					if(result.success){
-						this.member_info = result.data.member_info
-						this.shop_info = result.data.shop_info
-						this.seller_info = result.data.seller_info
-					}else{
+					if (result.success) {
+
+						sessionStorage.setItem(process.env.VUE_APP_NAME + 'T', Base64.encode(this.item.member_id))
+
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'S')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'A')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'N')
+						localStorage.removeItem(process.env.VUE_APP_NAME + 'P')
+
+						this.toMain()
+						this.error.type = ''
+					} else {
 						throw result.message
 					}
 				}catch (e) {
