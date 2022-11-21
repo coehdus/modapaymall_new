@@ -101,7 +101,7 @@
 
 					if (result.success) {
 
-						sessionStorage.setItem(process.env.VUE_APP_NAME + 'T', Base64.encode(this.item.member_id))
+						sessionStorage.setItem(process.env.VUE_APP_NAME + 'T', Base64.encode(result.data.member_id))
 
 						localStorage.removeItem(process.env.VUE_APP_NAME + 'S')
 						localStorage.removeItem(process.env.VUE_APP_NAME + 'A')
@@ -119,6 +119,9 @@
 				}finally {
 					this.$bus.$emit('on', false)
 				}
+			}
+			,toMain: function(){
+				document.location.href = '/Index'
 			}
 		}
 		, created() {
