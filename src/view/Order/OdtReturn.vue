@@ -159,7 +159,7 @@ export default {
 		}
 		,getData: async function(){
 
-			this.$emit('onLoading')
+			this.$bus.$emit('on', true)
 			try {
 				const result = await this.Axios({
 					method: 'get'
@@ -178,11 +178,11 @@ export default {
 			}catch(e){
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,save: async function(){
-			this.$emit('onLoading')
+			this.$bus.$emit('on', true)
 			try {
 				const result = await this.Axios({
 					method: 'post'
@@ -206,7 +206,7 @@ export default {
 				console.log(e)
 				this.$bus.$emit('notify', {type: 'error', message: '시스템 오류'})
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,setReason: function(reason){

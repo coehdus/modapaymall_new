@@ -352,7 +352,7 @@
 				console.log(this.search)
 
 				try{
-					this.$emit('onLoading')
+					this.$bus.$emit('on', true)
 					const result = await this.Axios({
 						method: 'get'
 						,url: 'order/getOrderList'
@@ -370,7 +370,7 @@
 				}catch(e){
 					console.log(e)
 				}finally {
-					this.$emit('offLoading')
+					this.$bus.$emit('on', false)
 				}
 			}
 			,toDetail: function(item){
@@ -384,7 +384,7 @@
 				console.log(item)
 			}
 			, postOdtCancelConfirm: async function(){
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				try{
 					const result = await this.Axios({
 						method: 'post'
@@ -408,7 +408,7 @@
 				}
 			}
 			, postCancelAllat: async function(){
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				try{
 					const result = await this.Axios({
 						method: 'post'
@@ -430,7 +430,7 @@
 				}
 			}
 			, postOdtCancel: async function(){
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				try{
 					const result = await this.Axios({
 						method: 'post'
@@ -460,7 +460,7 @@
 			}
 			,toOrderCancel: async function(){
 
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				try{
 					const result = await this.Axios({
 						method: 'post'
@@ -500,7 +500,7 @@
 				this.item_return = {}
 				this.item_confirm = {}
 				this.item_result = {}
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 			,setReason: function(reason){
 				this.$set(this.item_return, 'reason', reason)
@@ -527,10 +527,10 @@
 				this.clearItem()
 			}
 			,onLoading: function(){
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 			}
 			,offLoading: function(){
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 			,toShipping: function(odt){
 				let code = this.codes.G000.items

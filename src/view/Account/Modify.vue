@@ -150,7 +150,7 @@ export default{
 	,methods: {
 		save: async function(){
 			try{
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				let result = await this.Axios({
 					method: 'post'
 					,url: '/member/postModify'
@@ -165,7 +165,7 @@ export default{
 				console.log(e.message)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,setNotify: function({ type, message }){

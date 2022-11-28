@@ -275,7 +275,7 @@
 		}
 		,methods: {
 			getData: async function(){
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				try {
 					const result = await this.Axios({
 						method: 'get'
@@ -294,7 +294,7 @@
 				}catch (e) {
 					console.log(e)
 				}finally {
-					this.$emit('offLoading')
+					this.$bus.$emit('on', false)
 				}
 			}
 			,getBannerData: async function(){

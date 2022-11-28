@@ -745,7 +745,7 @@ export default{
 	,methods: {
 
 		save: async function(){
-			this.$emit('onLoading')
+			this.$bus.$emit('on', true)
 			try{
 				const result = await this.Axios({
 					method: 'post'
@@ -760,7 +760,7 @@ export default{
 						this.toResult()
 					}else{
 						this.is_order = true
-						this.$emit('onLoading')
+						this.$bus.$emit('on', true)
 					}
 
 				}else{
@@ -772,9 +772,9 @@ export default{
 				// await this.toCancel(this.order_number_new)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.is_order = false
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}finally {
-				// this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,daumPost: function (type) {
@@ -915,7 +915,7 @@ export default{
 		}
 		, getPgInfo: async function(){
 			try {
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'order/getPgInfo'
@@ -926,18 +926,19 @@ export default{
 					this.pg_info = result.data
 					await this.save()
 				}else{
-					this.$bus.$emit('notify', { type: 'error', message: result.message})
+					throw result.message
 				}
 			}catch (e) {
 				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
-				//this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		, getPgList: async function(){
 
 			try {
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'order/getPgList'
@@ -952,13 +953,13 @@ export default{
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		, getOrderNumber: async function(){
 
 			try {
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'order/getOrderNumber'
@@ -973,7 +974,7 @@ export default{
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,do: async function(){
@@ -1004,7 +1005,7 @@ export default{
 		}
 		, update: async function(){
 			try {
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'post'
 					,url: 'order/postUpdateOrder'
@@ -1020,7 +1021,7 @@ export default{
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 
@@ -1036,7 +1037,7 @@ export default{
 		}
 		,toCancel: async function(){
 			try {
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'order/postFailOrderCancel'
@@ -1052,7 +1053,7 @@ export default{
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		, checkPayment: function(){

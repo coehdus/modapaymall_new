@@ -306,7 +306,7 @@
 		,methods: {
 			removeCart: async function(cart_index, odt_uid){
 				if(confirm('해당 상품을 삭제하시겠습니까?')){
-					this.$emit('onLoading')
+					this.$bus.$emit('on', true)
 					try{
 						const result = await this.Axios({
 							method: 'post'
@@ -325,7 +325,7 @@
 					}catch(e){
 						console.log(e)
 					}finally {
-						this.$emit('offLoading')
+						this.$bus.$emit('on', false)
 					}
 				}
 			}

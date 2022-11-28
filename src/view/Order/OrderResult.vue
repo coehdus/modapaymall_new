@@ -271,7 +271,7 @@ export default {
 	}
 	,methods:{
 		getData: async function(){
-			this.$emit('onLoading')
+			this.$bus.$emit('on', true)
 			try{
 				const result = await this.Axios({
 					method: 'get'
@@ -289,7 +289,7 @@ export default {
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,toShipping: function(odt){

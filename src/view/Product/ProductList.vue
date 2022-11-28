@@ -233,7 +233,7 @@ export default{
 	,methods: {
 		getData: async function() {
 
-			this.$emit('onLoading')
+			this.$bus.$emit('on', true)
 
 			try {
 				const result = await this.Axios({
@@ -254,7 +254,7 @@ export default{
 				console.log(E)
 				this.$bus.$emit('notify', {type: 'error', message: E})
 			} finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		,toDetail(item){

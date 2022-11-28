@@ -129,7 +129,7 @@ export default {
 	,methods: {
 		getData: async function(){
 			try{
-				this.$emit('onLoading')
+				this.$bus.$emit('on', true)
 				const result = await this.Axios({
 					method: 'get'
 					,url: 'board/getBbsList'
@@ -145,7 +145,7 @@ export default {
 			}catch (e) {
 				console.log(e)
 			}finally {
-				this.$emit('offLoading')
+				this.$bus.$emit('on', false)
 			}
 		}
 		, getSearch: function(page){
