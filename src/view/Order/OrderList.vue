@@ -362,13 +362,13 @@
 					if(result.success){
 						this.items = result.data.result
 						this.$set(this.search, 'total_count', result.data.tCnt)
-						this.$bus.$emit('notify', { type: 'success', message: result.message })
 						this.$storage.setQuery(this.search)
 					}else{
-						this.$bus.$emit('notify', { type: 'error', message: result.message })
+						throw result.message
 					}
 				}catch(e){
 					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e })
 				}finally {
 					this.$bus.$emit('on', false)
 				}
@@ -399,6 +399,29 @@
 						await this.getData()
 						this.$bus.$emit('notify', { type: 'success', message: result.message})
 					}else{
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.clearItem()
+				}
+			}
+			, postCancelFirst: async function(){
+				this.$bus.$emit('on', true)
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'first/postCancel'
+						,data: {
+							odt_uid: this.item_cancel.uid
+						}
+					})
+
+					if(result.success){
+						await this.postOdtCancelConfirm()
+					}else{
+						this.getData()
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
@@ -443,8 +466,10 @@
 
 					if(result.success){
 
-						if(this.item_cancel.pg_code == 'allat'){
+						if(this.item_cancel.pg_code == 'allat') {
 							await this.postCancelAllat()
+						}else if(this.item_cancel.pg_code == 'first'){
+							await this.postCancelFirst()
 						}else{
 							await this.getData()
 							this.$bus.$emit('notify', { type: 'success', message: result.message})

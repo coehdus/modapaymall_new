@@ -507,6 +507,18 @@
 			@fail="fail"
 		></OrderFormAllatM>
 
+		<OrderFormFirst
+			v-if="is_first"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+
+		></OrderFormFirst>
 	</div>
 </template>
 
@@ -516,10 +528,11 @@ import Modal from "@/components/Modal";
 import OrderFormReappay from "@/view/Order/OrderFormReappay";
 import OrderFormAllat from "@/view/Order/OrderFormAllat";
 import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
+import OrderFormFirst from "./OrderFormFirst";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
+	,components: {OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
 	,data: function(){
 		return {
 			program: {
@@ -589,6 +602,13 @@ export default{
 		, is_allat: function(){
 			let t = false
 			if(this.pg_info.pg_code == 'allat' && this.is_order){
+				t = true
+			}
+			return t
+		}
+		, is_first: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'first' && this.is_order){
 				t = true
 			}
 			return t
@@ -772,7 +792,6 @@ export default{
 				// await this.toCancel(this.order_number_new)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.is_order = false
-				this.$bus.$emit('on', false)
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -999,9 +1018,29 @@ export default{
 		,success: function(){
 			this.update()
 		}
-		,fail: function(){
-			this.do()
-			this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+		,fail: async function(){
+
+			try{
+
+				if(this.$route.name == 'OrderBuy'){
+					await this.getBuyItem()
+				}else{
+					this.use_item = this.cart_items
+					if(this.use_item.length <= 0){
+						this.$router.back()
+						throw '주문 가능한 상품이 없습니다.'
+					}
+				}
+
+				await this.getOrderNumber()
+
+			}catch (e){
+				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
+			}finally {
+				this.pg_info = {}
+				this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+			}
 		}
 		, update: async function(){
 			try {
