@@ -26,8 +26,9 @@
 	<script type="text/javascript" src="js/jquery1.7.1.js"></script>
 	<script type="text/javascript">
 
-		var popflag = "L";									//P:팝업창 호출 결제, L:Layer 팝업 호출 결제(Default)
-		var keyData = ""; //"6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
+		let popflag = "L";									//P:팝업창 호출 결제, L:Layer 팝업 호출 결제(Default)
+		let keyData = ""; //"6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
+		let callBack = '';
 
 		//주문번호, 주문시간 자동 생성 처리
 		function initValue(){
@@ -201,6 +202,35 @@
 		}
 		window.onload = function(){
 			payProc()
+		}
+
+
+		function getOrderInfo(){
+			let t = sessionStorage.getItem('order_info')
+			if(!t){
+				self.close()
+			}else{
+				t = JSON.parse(t)
+
+				for(let key in t){
+					console.log(key, t[key])
+					$("[name=" + key+ "]").val(t[key])
+				}
+				keyData = t.keyData
+				callBack = t.rtnUrl
+				doOrder()
+			}
+		}
+
+		function doOrder(){
+			setTimeout(() => {
+				makePayData()
+			}, 500)
+
+		}
+
+		window.onload = function(){
+			getOrderInfo()
 		}
 	</script>
 </head>
@@ -392,32 +422,6 @@
 </div>
 
 <script type="text/javascript">
-	function getOrderInfo(){
-		let t = sessionStorage.getItem('order_info')
-		if(!t){
-			self.close()
-		}else{
-			t = JSON.parse(t)
-
-			for(let key in t){
-				console.log(key, t[key])
-				$("[name=" + key+ "]").val(t[key])
-			}
-			keyData = t.keyData
-			doOrder()
-		}
-	}
-
-	function doOrder(){
-		setTimeout(() => {
-			makePayData()
-		}, 500)
-
-	}
-
-	window.onload = function(){
-		getOrderInfo()
-	}
 </script>
 </body>
 </html>

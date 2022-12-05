@@ -74,7 +74,7 @@
 					// 결제창제공기간표기 - 없을경우 미 표기 (사용 예) 2015.04.02 ~ 2016.05.03)
 					, SupportDate: ''
 					// 가맹점 배포 PASSKEY
-					, keyData: this.pg_info.pg_key
+					, keyData: this.pg_info.pgKey
 				}
 			}
 		}
