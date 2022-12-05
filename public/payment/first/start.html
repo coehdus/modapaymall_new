@@ -27,7 +27,7 @@
 	<script type="text/javascript">
 
 		var popflag = "L";									//P:팝업창 호출 결제, L:Layer 팝업 호출 결제(Default)
-		var keyData = "6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
+		var keyData = ""; //"6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
 
 		//주문번호, 주문시간 자동 생성 처리
 		function initValue(){
@@ -403,6 +403,7 @@
 				console.log(key, t[key])
 				$("[name=" + key+ "]").val(t[key])
 			}
+			keyData = t.pg_key
 			doOrder()
 		}
 	}
