@@ -27,7 +27,7 @@
 					>{{ shop_info.shop_name }}</div>
 					<img
 						v-else
-						src="@/assets/images/delimall/logo.png" style="width: 40%"
+						src="@/assets/images/delimall/logo.jpg" style="width: 40%"
 					/>
 				</template>
 				<template
