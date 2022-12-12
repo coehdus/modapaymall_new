@@ -11,7 +11,7 @@
 			class="side-container flex-column"
 		>
 			<div
-				class="bg-black text-center color-white"
+				class="logo-position text-center "
 			>
 				<template
 					v-if="$production"
@@ -41,15 +41,15 @@
 					<div
 						v-else-if="shop_info.shop_name"
 						class="pa-20 size-px-16 font-weight-bold  under-line-82"
-					>{{ shop_info.shop_name }}</div>
+					>{{ shop_info.shop_name }} 2</div>
 					<div
 						v-else
 						class="color-333 size-px-16 font-weight-bold under-line"
-					>{{ $production_title }}</div>
+					>{{ $production_title }} 1</div>
 				</template>
 			</div>
 			<div
-				class="flex-row justify-space-between under-line pa-20-10 bg-base color-white"
+				class="flex-row justify-space-between under-line pa-10 bg-base color-white"
 			>
 				<span class="color-white">
 					{{ member_info.member_name }} 님
@@ -88,6 +88,18 @@
 			<div
 				class="mt-auto"
 			>
+				<div class="pa-10">
+					<dl>
+						<dt>상호명:</dt> <dd>주식회사 상생홀딩스</dd> <br/>
+						<dt>대표자:</dt> <dd>정재철</dd> <br/>
+						<dt>주소:</dt> <dd>대구시 동구 동부로26길 33, 3층 3호</dd><br/>
+						<dt>사업자 번호:</dt> <dd>711-88-01596</dd><br/>
+						<dt>통신판매번호:</dt> <dd>제2019-대구동구-0981호</dd><br/>
+						<dt>의료기기판매신고번호:</dt> <dd>제2020-3420023-00065호</dd><br/>
+						<dt>이메일:</dt>  <dd>ssholds@naver.com</dd><br/>
+						<dt>전화번호:</dt> <dd>1833-6447</dd>
+					</dl>
+				</div>
 				<div
 					class="text-center bg-gray pa-10"
 				>
@@ -191,4 +203,6 @@
 	.li-side-depth-4 {
 		text-indent: 30px;
 	}
+
+	dt, dd { display: inline-block}
 </style>

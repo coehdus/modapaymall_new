@@ -60,5 +60,5 @@
 </script>
 
 <style>
-	.shop-logo { width: 100%;}
+	.shop-logo { width: 120px; height: 80px }
 </style>
