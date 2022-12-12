@@ -8,9 +8,10 @@
 		<div
 			style="position: relative; width: 100%; height: 100%; top: 0"
 		>
+			<div style="position: absolute; top: 40%; left: 35%">Now Loading...</div>
 			<iframe
 				src="/payment/first/mstart.html"
-				style=" width: 320px; height: 800px; background-color: white"
+				style=" width: 320px; height: 800px; background-color: white;"
 				frameborder="0"
 			></iframe>
 		</div>

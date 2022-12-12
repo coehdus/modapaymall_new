@@ -131,6 +131,25 @@
 				}
 			});
 
+			//결제 창 결과 return 처리
+			function result(rtncode, rtnmsg, fdtid) {
+
+				if (rtncode == "0000") {
+
+					var mxid = document.fdpay.MxID.value;
+					var mxissueno = document.fdpay.MxIssueNO.value;
+
+					document.pay.MxID.value = mxid;
+					document.pay.MxIssueNO.value = mxissueno;
+					document.pay.FDTid.value = fdtid;
+
+					document.pay.action = "/NEW_API_DEV/first/postSend";
+					document.pay.submit();
+				} else {
+					alert("인증실패[" + rtncode + "(" + rtnmsg + ")]");
+				}
+			}
+
 			function getOrderInfo(){
 				let t = sessionStorage.getItem('order_info')
 				if(!t){
@@ -163,6 +182,12 @@
 		</script>
 	</head>
 	<body style="visibility: hidden">
+
+	<form name="pay" id="pay" method="post">
+		<input type="hidden" name="MxID" value="" />
+		<input type="hidden" name="MxIssueNO" value="" />
+		<input type="hidden" name="FDTid" value="" />
+	</form>
 		<form name="fdpay" id="fdpay" method="post">
 		<div id="content">
 			<ul>
