@@ -28,8 +28,9 @@
 		<script type="text/javascript" src="js/sha256.js"></script>
 		<script type="text/javascript" src="js/jquery1.7.1.js"></script>
 		<script type="text/javascript">
-			
-			var keyData = "6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
+
+			let keyData = ""; //"6aMoJujE34XnL9gvUqdKGMqs9GzYaNo6";	//가맹점 배포 PASSKEY 입력
+			let callBack = '';
 
 			//주문번호, 주문시간 자동 생성 처리
 			function initValue(){
@@ -102,7 +103,11 @@
 	
 					temp += "CallHash=" + callhash + "|"; //CallHash DATA 추가!!
 	
-					document.fdpay.PAYDATA.value = temp;				
+					document.fdpay.PAYDATA.value = temp;
+
+					setTimeout( () => {
+						$("#payproc").click()
+					}, 100)
 				}
 			});
 
@@ -125,10 +130,39 @@
 					}
 				}
 			});
+
+			function getOrderInfo(){
+				let t = sessionStorage.getItem('order_info')
+				if(!t){
+					self.close()
+				}else{
+					t = JSON.parse(t)
+
+					for(let key in t){
+						console.log(key, t[key])
+						$("[name=" + key+ "]").val(t[key])
+					}
+					keyData = t.keyData
+					callBack = t.rtnUrl
+					doOrder()
+				}
+			}
+
+			function doOrder(){
+				setTimeout(() => {
+					$("#makedata").click()
+				}, 500)
+
+			}
+
+			window.onload = () => {
+				getOrderInfo()
+				window.initValue()
+			}
 			
 		</script>
 	</head>
-	<body onload="initValue();">
+	<body style="visibility: hidden">
 		<form name="fdpay" id="fdpay" method="post">
 		<div id="content">
 			<ul>

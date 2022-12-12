@@ -508,7 +508,7 @@
 		></OrderFormAllatM>
 
 		<OrderFormFirst
-			v-if="is_first"
+			v-if="is_first && !is_mobile"
 			:user="user"
 			:member_info="member_info"
 			:order_info="order_item"
@@ -519,6 +519,18 @@
 			@fail="fail"
 
 		></OrderFormFirst>
+
+		<OrderFormFirstM
+			v-if="is_first && is_mobile"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+		></OrderFormFirstM>
 	</div>
 </template>
 
@@ -529,10 +541,11 @@ import OrderFormReappay from "@/view/Order/OrderFormReappay";
 import OrderFormAllat from "@/view/Order/OrderFormAllat";
 import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
 import OrderFormFirst from "./OrderFormFirst";
+import OrderFormFirstM from "./OrderFormFirstM";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
+	,components: {OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
 	,data: function(){
 		return {
 			program: {
