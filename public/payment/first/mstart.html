@@ -161,6 +161,7 @@
 						console.log(key, t[key])
 						$("[name=" + key+ "]").val(t[key])
 					}
+					$("[name=rtnUrl]").val('https://sspay.kr/NEW_API_DEV/first/postMreturn')
 					keyData = t.keyData
 					callBack = t.rtnUrl
 					doOrder()
