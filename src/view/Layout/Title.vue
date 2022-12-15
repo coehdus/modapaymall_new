@@ -33,11 +33,7 @@
 		,props: ['program', 'cart_cnt', 'is_cart_view']
 		,methods: {
 			toBack: function(){
-				if(this.program.from){
-					this.$router.push({ name: this.program.from })
-				}else{
-					this.$router.back()
-				}
+				this.$router.back()
 			}
 		}
 	}
