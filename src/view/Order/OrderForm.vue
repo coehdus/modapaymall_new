@@ -550,9 +550,10 @@ export default{
 		return {
 			program: {
 				name: '주문하기'
-				,top: false
-				,title: true
-				,bottom: false
+				, top: false
+				, title: true
+				, bottom: false
+				, from: 'Cart'
 			}
 			,daumPostUp: false
 			,order_number: ''
