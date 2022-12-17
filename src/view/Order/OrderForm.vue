@@ -531,6 +531,20 @@
 			@success="success"
 			@fail="fail"
 		></OrderFormFirstM>
+
+		<OrderFormPaytus
+			v-if="is_paytus"
+
+			:Axios="Axios"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+		></OrderFormPaytus>
 	</div>
 </template>
 
@@ -542,10 +556,13 @@ import OrderFormAllat from "@/view/Order/OrderFormAllat";
 import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
 import OrderFormFirst from "./OrderFormFirst";
 import OrderFormFirstM from "./OrderFormFirstM";
+import OrderFormPaytus from "./OrderFormPaytus";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
-	,components: {OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
+	,components: {
+		OrderFormPaytus,
+		OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
 	,data: function(){
 		return {
 			program: {
@@ -623,6 +640,13 @@ export default{
 		, is_first: function(){
 			let t = false
 			if(this.pg_info.pg_code == 'first' && this.is_order){
+				t = true
+			}
+			return t
+		}
+		, is_paytus: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'paytus' && this.is_order){
 				t = true
 			}
 			return t
