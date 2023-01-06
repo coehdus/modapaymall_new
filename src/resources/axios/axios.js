@@ -3,11 +3,11 @@ import axios from 'axios'
 let domain = process.env.VUE_APP_DOMAIN
 let dev = process.env.VUE_APP_DEV
 let server = process.env.VUE_APP_SERVER
-let location = window.location.href
+let location = window.location.hostname
 
 let baseUrl = ''
 
-if(location.indexOf(domain) > -1){
+if(location == domain){
 	baseUrl = server
 }else{
 	baseUrl = dev

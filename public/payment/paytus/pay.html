@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0">
+		<title>결제 TEST</title>
+		<script src="https://api2.dangunpay.co.kr/js/pgAsistant.js"></script>
+
+		<script type="text/javascript">
+
+			function doPaySubmit(){
+				// 결제창 호출 함수
+				SendPay(document.payInit);
+			}
+			// 결제창 return 함수(pay_result_submit 이름 변경 불가능)
+			function pay_result_submit(){
+				payResultSubmit();
+			}
+			// 결제창 종료 함수(pay_result_close 이름 변경 불가능)
+			function pay_result_close(){
+				alert('결제를 취소하였습니다.');
+			}
+
+			function getOrderInfo(){
+				let t = sessionStorage.getItem('order_info')
+				if(!t){
+					self.close()
+				}else{
+					t = JSON.parse(t)
+
+					for(let key in t){
+						console.log(key, t[key])
+						document.payInit[key].value = t[key] != undefined ? t[key] : ''
+					}
+
+					document.payInit.action = t.returnUrl
+					doOrder()
+				}
+			}
+
+			function cancel(){
+				let data = {
+					result: false
+				}
+				window.parent.postMessage(JSON.stringify(data), '*')
+				self.close();
+			}
+
+			function doOrder(){
+				setTimeout(() => {
+					doPaySubmit()
+				}, 100)
+			}
+
+			window.onload = function(){
+				getOrderInfo()
+			}
+		</script>
+	</head>
+	<body>
+	<div style="text-align:center;">
+		<div id="sampleInput" class="paypop_con" style="padding:20px 15px 35px 15px;display: inline-block;float: inherit;">
+			<div style="visibility: hidden">
+				<p class="square_tit mt0" style="text-align:left;"><strong>결제정보</strong></p>
+				<form name="payInit" method="post" action="/NEW_API_DEV/paytus/pay">
+					<table class="tbl_sty02">
+						<tr>
+							<td>결제수단</td>
+							<td><input type="text" name="payMethod" value="card"></td>
+						</tr>
+						<tr>
+							<td>결제방법선택</td>
+							<td><input type="text" name="mid" value=""></td>
+						</tr>
+						<tr>
+							<td>상품명</td>
+							<td><input type="text" name="goodsNm" value=""></td>
+						</tr>
+						<tr>
+							<td>주문번호</td>
+							<td><input type="text" name="ordNo" value=""></td>
+						</tr>
+						<tr>
+							<td>결제금액</td>
+							<td><input type="text" name="goodsAmt" value=""></td>
+						</tr>
+						<tr>
+							<td>구매자명</td>
+							<td><input type="text" name="ordNm" value=""></td>
+						</tr>
+						<tr>
+							<td>구매자연락처</td>
+							<td><input type="text" name="ordTel" value=""></td>
+						</tr>
+						<tr>
+							<td>구매자이메일</td>
+							<td><input type="text" name="ordEmail" value=""></td>
+						</tr>
+						<tr>
+							<td>returnUrl</td>
+							<td><input type="text" name="returnUrl" value=""></td>
+						</tr>
+						<tr>
+							<td>notiUrl</td>
+							<td><input type="text" name="notiUrl" value=""></td>
+						</tr>
+					</table>
+					<!-- 옵션 -->
+					<input type="hidden" name="userIp"	value="">
+					<input type="hidden" name="trxCd"	value="0">
+
+					<input type="hidden" name="mbsUsrId" value="">
+					<input type="hidden" name="mbsReserved" value=""><!-- 상점 예약필드 -->
+
+					<!-- <input type="hidden" name="goodsSplAmt" value="0"> -->
+					<!-- <input type="hidden" name="goodsVat" value="0"> -->
+					<!-- <input type="hidden" name="goodsSvsAmt" value="0"> -->
+
+					<input type="hidden" name="charSet" value="UTF-8">
+					<input type="hidden" name="appMode" value="1">
+					<!-- <input type="hidden" name="period" value="별도 제공기간없음"> -->
+
+					<!-- 변경 불가능 -->
+					<input type="hidden" name="ediDate" value=""><!-- 전문 생성일시 -->
+					<input type="hidden" name="encData" value=""><!-- 해쉬값 -->
+
+				</form>
+			</div>
+			<div style="background-color: white; padding: 30px">
+				<div style="padding: 20px ">
+					결제 요청 처리중입니다.
+				</div>
+				<button onClick="doPaySubmit();" style="margin-right: 10px">결제하기</button>
+				<button onClick="cancel()">결제 취소</button>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>

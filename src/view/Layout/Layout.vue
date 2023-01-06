@@ -273,6 +273,8 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		padding: 20px 0;
+		background-color: white;
 	}
 	.header-box-menu {
 		border-bottom: 1px solid #ddd;

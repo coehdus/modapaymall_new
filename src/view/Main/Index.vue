@@ -477,8 +477,8 @@
 		min-height: 40px;
 		text-align: center;
 	}
-	.banner-img { width: 100%; padding: 60px}
-	.banner-img img { width: 100%; max-height: 150px}
+	.banner-img { width: 100%; padding: 80px}
+	.banner-img img { width: 100%; max-height: 160px}
 
 	.enter {
 		transition: opacity 1s

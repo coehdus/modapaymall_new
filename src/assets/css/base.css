@@ -180,6 +180,7 @@
 .justify-center { display: flex; justify-content: center}
 .justify-space-around { display: flex; justify-content: space-around}
 .justify-space-between { display: flex !important; justify-content: space-between }
+.items-center{ align-items: center}
 
 .flex-column { display: flex; flex-direction: column;}
 .flex-column-wrap { display: flex; flex-direction: column; flex-wrap: wrap;}
