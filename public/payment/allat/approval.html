@@ -45,6 +45,20 @@
                 fm.submit();
             }
         }
+
+		window.addEventListener('message',  (e) => {
+			console.log('on message', e.data)
+
+			try{
+
+				let data = JSON.parse(e.data)
+				this.result_submit(data.data.result_cd, data.data.result_msg, data.data.enc_data)
+				// w_a.close()
+			}catch (e){
+				console.log('addEventListener', e)
+			}
+
+		});
     </script>
 </head>
 <body>
