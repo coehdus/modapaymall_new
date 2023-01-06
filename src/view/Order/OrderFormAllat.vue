@@ -34,7 +34,7 @@ export default {
 				// 수취인주소
 				, allat_recp_addr: this.order_info.delivery_type == 'D002002' ? '구로구 디지털로26길 5 에이스하이엔드1차7 09호' : this.order_info.d_addr1 + ' ' + this.order_info.d_addr2
 				// 인증정보수신URL
-				, shop_receive_url: this.pg_info.returnUrl
+				, shop_receive_url: this.$https + this.pg_info.returnUrl
 				// 주문정보암호화필드
 				, allat_enc_data:''
 

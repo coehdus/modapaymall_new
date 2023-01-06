@@ -28,6 +28,10 @@ Vue.prototype.$bus = new Vue()
 
 Vue.prototype.$shop_logo = '/images/' + process.env.VUE_APP_SHOP + '/' + process.env.VUE_APP_LOGO
 
+let location = window.location.hostname
+
+Vue.prototype.$https = 'https://' + location
+
 new Vue({
   router,
   vuetify,

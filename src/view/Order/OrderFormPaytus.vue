@@ -42,7 +42,7 @@
 					// 주문자이메일주소
 					, ordEmail: ''
 					// 결과수신URL
-					, returnUrl: this.pg_info.returnUrl
+					, returnUrl: this.$https + this.pg_info.returnUrl
 					// notiUrl
 					, notiUrl: ''
 
