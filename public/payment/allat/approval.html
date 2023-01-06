@@ -17,6 +17,8 @@
     <script src="https://tx.allatpay.com/common/AllatPayLayer.js" charset="euc-kr" ></script>
     <script src="https://tx.allatpay.com/common/NonAllatPayRE.js" charset="euc-kr"></script>
     <script language=Javascript>
+
+		let approval_url = ''
         // 결제페이지 호출
         function ftn_approval(dfm) {
             AllatPay_Approval(dfm);
@@ -39,7 +41,7 @@
             } else {
                 fm.allat_enc_data.value = enc_data;
 
-                fm.action = "/NEW_API_DEV/allat/approval";
+                fm.action = approval_url;
                 fm.method = "post";
                 fm.target = "_self";
                 fm.submit();
@@ -408,7 +410,11 @@
 
             for(let key in t){
                 console.log(key, t[key])
-                $("[name=" + key+ "]").val(t[key])
+				if(key == 'shop_approval_url'){
+					approval_url = t[key]
+				}else{
+					$("[name=" + key+ "]").val(t[key])
+				}
             }
             doOrder()
         }
