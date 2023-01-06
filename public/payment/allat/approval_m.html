@@ -55,6 +55,20 @@
             }
         }
 
+		window.addEventListener('message',  (e) => {
+			console.log('on message', e.data)
+
+			try{
+
+				let data = JSON.parse(e.data)
+				this.result_submit(data.data.result_cd, data.data.result_msg, data.data.enc_data)
+				// w_a.close()
+			}catch (e){
+				console.log('addEventListener', e)
+			}
+
+		});
+
     </script>
 
     <div style="position: fixed; width: 100%; height: 100%; left: 0; top: 0">
