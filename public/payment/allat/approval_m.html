@@ -30,6 +30,8 @@
 
     <script type="text/javascript">
 
+		let approval_url = ''
+
         // 결제페이지 호출
         function approval(sendFm) {
             Allat_Mobile_Approval(sendFm,0,0); /* 포지션 지정 (결제창 크기, 320*360) */
@@ -46,7 +48,7 @@
             } else {
                 sendFm.allat_enc_data.value = enc_data;
 
-                sendFm.action = "/NEW_API_DEV/allat/approval";
+                sendFm.action = approval_url;
                 sendFm.method = "post";
                 sendFm.target = "_self";
                 sendFm.submit();
@@ -254,7 +256,12 @@
 
                 for(let key in t){
                     console.log(key, t[key])
-                    $("[name=" + key+ "]").val(t[key])
+
+					if(key == 'shop_approval_url'){
+						approval_url = t[key]
+					}else{
+						$("[name=" + key+ "]").val(t[key])
+					}
                 }
                 doOrder()
             }
