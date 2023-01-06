@@ -26,6 +26,8 @@ Vue.prototype.$common = common
 
 Vue.prototype.$bus = new Vue()
 
+Vue.prototype.$shop_logo = '/images/' + process.env.VUE_APP_SHOP + '/' + process.env.VUE_APP_LOGO
+
 new Vue({
   router,
   vuetify,
