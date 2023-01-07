@@ -86,6 +86,7 @@
 			<div v-else class="text-center pa-50">등록된 카테고리가 없습니다.</div>
 
 			<div
+				v-if="false"
 				class="mt-auto"
 			>
 				<div class="pa-10">
