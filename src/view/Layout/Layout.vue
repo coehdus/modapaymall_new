@@ -193,6 +193,14 @@
 		,created: function(){
 			this.getCartList()
 			this.getData()
+
+			this.$bus.$on('on', (type) =>{
+				if(type){
+					this.onLoading()
+				}else{
+					this.offLoading()
+				}
+			})
 		}
 		,watch: {
 			'codes.P002': {
