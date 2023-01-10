@@ -38,7 +38,7 @@ export default {
 				// 결제금액
 				, Amount: this.order_info.order_price
 				// 결과수신URL
-				, rtnUrl: this.$https + this.pg_info.returnUrl
+				, rtnUrl: this.pg_info.returnUrl
 				// 상품종류
 				, ItemInfo: 1
 				// 입금통보TYPE
