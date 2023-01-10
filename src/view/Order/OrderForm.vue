@@ -1070,7 +1070,7 @@ export default{
 					}
 				}
 
-				await this.getOrderNumber()
+				await this.postOrderFail()
 
 			}catch (e){
 				console.log(e)
@@ -1078,6 +1078,28 @@ export default{
 			}finally {
 				this.pg_info = {}
 				this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+			}
+		}
+		, postOrderFail: async function(){
+			try {
+				this.$bus.$emit('on', true)
+				const result = await this.Axios({
+					method: 'post'
+					,url: 'order/postOrderFail'
+					,data: {
+						order_number: this.item.order_number
+					}
+				})
+				if(result.success){
+					this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
+					this.do()
+				}else{
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$bus.$emit('on', false)
 			}
 		}
 		, update: async function(){

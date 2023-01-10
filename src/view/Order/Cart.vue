@@ -165,10 +165,9 @@
 	import Empty from "@/view/Layout/Empty";
 	export default{
 		name: 'Cart'
-		,
-		components: {Empty},
-		props: ['Axios', 'cart_items', 'filter', 'TOKEN']
-		,data: function(){
+		, components: {Empty}
+		, props: ['Axios', 'cart_items', 'filter', 'TOKEN']
+		, data: function(){
 			return {
 				program: {
 					name: '장바구니'
