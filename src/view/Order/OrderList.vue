@@ -477,6 +477,7 @@
 			}
 			, postOdtCancel: async function(){
 				this.$bus.$emit('on', true)
+				this.is_modal = false
 				try{
 					const result = await this.Axios({
 						method: 'post'
