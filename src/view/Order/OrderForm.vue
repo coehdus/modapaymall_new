@@ -1092,7 +1092,7 @@ export default{
 				})
 				if(result.success){
 					this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
-					this.do()
+					await this.do()
 				}else{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
