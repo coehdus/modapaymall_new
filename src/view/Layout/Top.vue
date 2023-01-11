@@ -60,5 +60,5 @@
 </script>
 
 <style>
-	.shop-logo { width: 120px; height: 80px }
+	.shop-logo { max-width: 300px; max-height: 100px }
 </style>

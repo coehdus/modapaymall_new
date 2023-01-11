@@ -349,7 +349,7 @@
 				this.banner_item = this.banner_items[this.banner_index]
 				this.interval_banner = setTimeout(() => {
 					this.banner_next()
-				}, 3000)
+				}, 5000)
 			}
 			,banner_next: function(){
 
@@ -362,7 +362,7 @@
 				this.banner_item = this.banner_items[this.banner_index]
 				this.interval_banner = setTimeout(() => {
 					this.banner_next()
-				}, 3000)
+				}, 5000)
 			}
 			,toLink: function(banner){
 				if(banner.banner_link){
@@ -477,7 +477,7 @@
 		min-height: 40px;
 		text-align: center;
 	}
-	.banner-img { width: 100%; padding: 80px}
+	.banner-img { width:100%; padding: 90px}
 	.banner-img img { width: 100%; max-height: 160px}
 
 	.enter {

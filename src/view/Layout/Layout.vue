@@ -275,7 +275,7 @@
 .bg-base { background-color: black}
 
 	.logo-position {
-		max-height: 120px;
+		max-height: 200px;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
