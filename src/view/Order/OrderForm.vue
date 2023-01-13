@@ -545,6 +545,21 @@
 			@success="success"
 			@fail="fail"
 		></OrderFormPaytus>
+
+		<OrderFormBillgate
+			v-if="is_billgate"
+
+			:Axios="Axios"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+			:is_mobile="is_mobile"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+		></OrderFormBillgate>
 	</div>
 </template>
 
@@ -557,10 +572,12 @@ import OrderFormAllatM from "@/view/Order/OrderFormAllatM";
 import OrderFormFirst from "./OrderFormFirst";
 import OrderFormFirstM from "./OrderFormFirstM";
 import OrderFormPaytus from "./OrderFormPaytus";
+import OrderFormBillgate from "./OrderFormBillgate";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
 	,components: {
+		OrderFormBillgate,
 		OrderFormPaytus,
 		OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
 	,data: function(){
@@ -647,6 +664,13 @@ export default{
 		, is_paytus: function(){
 			let t = false
 			if(this.pg_info.pg_code == 'paytus' && this.is_order){
+				t = true
+			}
+			return t
+		}
+		, is_billgate: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'billgate' && this.is_order){
 				t = true
 			}
 			return t

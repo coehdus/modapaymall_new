@@ -407,6 +407,29 @@
 					this.clearItem()
 				}
 			}
+			, postCancelBillgate: async function(){
+				this.$bus.$emit('on', true)
+				try{
+					const result = await this.Axios({
+						method: 'post'
+						,url: 'billgate/postCancel'
+						,data: {
+							odt_uid: this.item_cancel.uid
+						}
+					})
+
+					if(result.success){
+						await this.postOdtCancelConfirm()
+					}else{
+						await this.getData()
+						this.$bus.$emit('notify', { type: 'error', message: result.message})
+					}
+				}catch (e) {
+					console.log(e)
+				}finally {
+					this.clearItem()
+				}
+			}
 			, postCancelPaytus: async function(){
 				this.$bus.$emit('on', true)
 				try{
@@ -496,6 +519,8 @@
 							await this.postCancelFirst()
 						}else if(this.item_cancel.pg_code == 'paytus'){
 							await this.postCancelPaytus()
+						}else if(this.item_cancel.pg_code == 'billgate'){
+							await this.postCancelBillgate()
 						}else{
 							await this.getData()
 							this.$bus.$emit('notify', { type: 'success', message: result.message})
