@@ -14,6 +14,14 @@
 				style=" width: 480px; height: 640px"
 				frameborder="0"
 			></iframe>
+
+			<button
+				v-if="is_mobile"
+				class="btn bg-black"
+
+				style="position: fixed; bottom: 0"
+				@click="cancel"
+			><span class="color-white size-em-12"> 결제 취소</span></button>
 		</div>
 	</div>
 </template>
@@ -97,6 +105,9 @@ export default {
 					this.$emit('cancel')
 				}
 			}
+		}
+		, cancel: function(){
+			this.$emit('cancel')
 		}
 	}
 	, async created() {

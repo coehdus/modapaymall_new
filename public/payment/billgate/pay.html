@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>ë¹Œê²Œì´íŠ¸ ê²°ì œ í…ŒìŠ¤íŠ¸ ìƒ˜í”ŒíŽ˜ì´ì§€</title>
-	<!--í…ŒìŠ¤íŠ¸ ì„œë²„ js-->
+	<meta charset="euc-kr">
+	<title>ºô°ÔÀÌÆ® °áÁ¦ Å×½ºÆ® »ùÇÃÆäÀÌÁö</title>
+	<!--Å×½ºÆ® ¼­¹ö js-->
 	<script type="text/javascript" src="https://tpay.billgate.net/paygate/plugin/gx_web_client.js" />
-	<!--ìƒìš© ì„œë²„ js-->
+	<!--»ó¿ë ¼­¹ö js-->
 	<!--<script type="text/javascript" src="https://pay.billgate.net/paygate/plugin/gx_web_client.js" /> -->
 	<script type="text/javascript"></script>
 	<script>
 
 		//==========================
-		// ê²°ì œì°½ í˜¸ì¶œ
+		// °áÁ¦Ã¢ È£Ãâ
 		//==========================
 		function checkSubmit(viewType){
 			var HForm = document.payment;
@@ -20,28 +20,29 @@
 			var serviceCode = document.getElementById("selectPay").value;
 
 			if("null"==serviceCode||""==serviceCode){
-				alert("ê²°ì œìˆ˜ë‹¨ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
+				alert("°áÁ¦¼ö´ÜÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
 				return;
 			}
 
 			if ("null" == viewType || "" == viewType) {
-				alert("ë·° íƒ€ìž…ì„ ìž…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("ºä Å¸ÀÔÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 			}
 			/*
 			GX_pay(
-			frmName : ê²°ì œ form name ìž…ë ¥,
-			viewType : layerpopup ë ˆì´ì–´íŒì—…, popup : ìœˆë„ìš°íŒì—…, submit : íŽ˜ì´ì§€ ì´ë™
-			protocolType : http_tpay(í…ŒìŠ¤íŠ¸ http), https_tpay(í…ŒìŠ¤íŠ¸ https), https_pay(ìƒìš© https)
+			frmName : °áÁ¦ form name ÀÔ·Â,
+			viewType : layerpopup ·¹ÀÌ¾îÆË¾÷, popup : À©µµ¿ìÆË¾÷, submit : ÆäÀÌÁö ÀÌµ¿
+			protocolType : http_tpay(Å×½ºÆ® http), https_tpay(Å×½ºÆ® https), https_pay(»ó¿ë https)
 			*/
 			GX_pay("payment", viewType ,"https_tpay");
 		}
 
 
 		//==========================
-		// ë ˆì´ì–´ íŒì—… ë‹«ê¸°
+		// ·¹ÀÌ¾î ÆË¾÷ ´Ý±â
 		//==========================
 		function layer_close(){
 			GX_payClose();
+			alert('close')
 		}
 
 		function cancel(){
@@ -54,7 +55,7 @@
 
 
 		//==========================
-		// ì²´í¬ì„¬ ìž¬ìƒì„±
+		// Ã¼Å©¼¶ Àç»ý¼º
 		//==========================
 		function makeCheckSum(){
 			var HForm = document.payment;
@@ -63,11 +64,11 @@
 			var xhr = new XMLHttpRequest();
 			var data = "CheckSum="+CheckSum;
 
-			//Ajax í†µì‹ 
+			//Ajax Åë½Å
 			xhr.onload = function(){
-				if(xhr.readyState == 4 && xhr.status == 200){ //í†µì‹  ì„±ê³µ ì‹œ
+				if(xhr.readyState == 4 && xhr.status == 200){ //Åë½Å ¼º°ø ½Ã
 					console.log(xhr.responseText);
-					HForm.CHECK_SUM.value = xhr.responseText.trim();  //ìž¬ìƒì„±ëœ ì²´í¬ì¸
+					HForm.CHECK_SUM.value = xhr.responseText.trim();  //Àç»ý¼ºµÈ Ã¼Å©½æ
 				}
 			};
 
@@ -77,7 +78,7 @@
 		}
 
 		//==========================
-		// í˜„ìž¬ ë‚ ì§œì‹œê°„ ê°€ì ¸ì˜¤ê¸°
+		// ÇöÀç ³¯Â¥½Ã°£ °¡Á®¿À±â
 		//==========================
 		function getStrDate() {
 			var date = new Date();
@@ -92,7 +93,7 @@
 
 
 		//==========================
-		// ê²°ì œ ìˆ˜ë‹¨ ì„ íƒ
+		// °áÁ¦ ¼ö´Ü ¼±ÅÃ
 		//==========================
 		function paySelect(){
 
@@ -118,9 +119,9 @@
 			document.getElementById("add_moneytree_view").style.display="none";
 
 
-			//ê²°ì œì°½ í˜¸ì¶œ URLì„¤ì •
+			//°áÁ¦Ã¢ È£Ãâ URL¼³Á¤
 			switch(serviceCode){
-				case'0900':	//ì‹ ìš©ì¹´ë“œ
+				case'0900':	//½Å¿ëÄ«µå
 					document.getElementById("add_view").style.display="";
 					document.getElementById("add_card_view1").style.display="";
 					document.getElementById("add_card_view2").style.display="";
@@ -128,14 +129,14 @@
 
 					break;
 
-				case'1800':	//ê°€ìƒê³„ì¢Œ
+				case'1800':	//°¡»ó°èÁÂ
 					document.getElementById("add_view").style.display="";
 					document.getElementById("add_vaccount_view").style.display="";
 					document.getElementById("add_common_view2").style.display="";
 
 					break;
 
-				case'1100':	//íœ´ëŒ€í°
+				case'1100':	//ÈÞ´ëÆù
 					document.getElementById("add_view").style.display="";
 					document.getElementById("add_mobile_view1").style.display="";
 					document.getElementById("add_mobile_view2").style.display="";
@@ -146,7 +147,7 @@
 
 					break;
 
-				case'4100':	//í†µí•©í¬ì¸íŠ¸
+				case'4100':	//ÅëÇÕÆ÷ÀÎÆ®
 					document.getElementById("add_view").style.display="";
 					document.getElementById("add_moneytree_view").style.display="";
 					document.getElementById("add_common_view1").style.display="";
@@ -156,7 +157,7 @@
 
 					break;
 
-				default:	//ê·¸ì™¸
+				default:	//±×¿Ü
 					break;
 			}
 		}
@@ -197,10 +198,10 @@
 
 		function doOrder(){
 			setTimeout(() => {
-				if(is_mobile){
+				if(!is_mobile){
 					checkSubmit('layerpopup')
 				}else{
-					checkSubmit('submit')
+					checkSubmit('popup')
 				}
 			}, 100)
 		}
@@ -212,201 +213,201 @@
 	</script>
 	<style>
         header{position: fixed;	top: 0;	left: 0; right: 0;}
-        body, tr, td {font-size:9pt; font-family:ë§‘ì€ê³ ë”•,verdana; }
+        body, tr, td {font-size:9pt; font-family:¸¼Àº°íµñ,verdana; }
         table {	border-collapse: collapse;}
 	</style>
 </head>
 <body>
 <header>
-	<div style="width:100%; heghit:12px; font-size:13px; font-weight:bold; color: #FFFFFF; background:#ff4280;text-align: center;">
-		ë¹Œê²Œì´íŠ¸ ê²°ì œ í…ŒìŠ¤íŠ¸ ìƒ˜í”ŒíŽ˜ì´ì§€
+	<div style="width:100%; heghit:12px; font-size:13px; font-weight:bold; color: #FFFFFF; background:#ff4280;text-align: center;   visibility: hidden">
+		ºô°ÔÀÌÆ® °áÁ¦ Å×½ºÆ® »ùÇÃÆäÀÌÁö
 	</div>
 </header>
 
 
-<div style="padding : 20px 0 20px 0; width:100%; display: block; float:left; ">
-	<b style="color:red;"><ìœ ì˜ì‚¬í•­></b><br/>
-	<b>- ë‹¹ì‚¬ì—ì„œ ì œê³µí•˜ëŠ” ìƒ˜í”Œì€ ì—°ë™ì— ì´í•´ë¥¼ ë•ê¸°ìœ„í•´ ë‹¨ê³„ë³„ë¡œ ë‚˜ì—´í•œ ê²ƒì´ë¯€ë¡œ, ë™ì¼í•œ êµ¬ì¡°ë¥¼ ìœ ì§€í•  í•„ìš”ê°€ ì—†ìŒì„ ì•Œë ¤ë“œë¦½ë‹ˆë‹¤.</b><br/>
-	- SERVICE_ID, AMOUNT, ORDER_ID ë³€ê²½ ì‹œ <b>[ì²´í¬ì¸ ìž¬ìƒì„±]</b> ë²„íŠ¼ì„ í´ë¦­í•˜ì—¬ ì²´í¬ì¸ì„ ìž¬ìƒì„±í•˜ì—¬ì•¼ ê²°ì œê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.<br/>
-	- ê±°ëž˜ ê±´ êµ¬ë³„ì„ ìœ„í•´ ì¤‘ë³µëœ ì£¼ë¬¸ë²ˆí˜¸(ORDER_ID)ë¡œ ê³¼ê¸ˆ ìš”ì²­ì€ ê¶Œìž¥í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.<br/>
+<div style="padding : 20px 0 20px 0; width:100%; display: block; float:left;  visibility: hidden">
+	<b style="color:red;"><À¯ÀÇ»çÇ×></b><br/>
+	<b>- ´ç»ç¿¡¼­ Á¦°øÇÏ´Â »ùÇÃÀº ¿¬µ¿¿¡ ÀÌÇØ¸¦ µ½±âÀ§ÇØ ´Ü°èº°·Î ³ª¿­ÇÑ °ÍÀÌ¹Ç·Î, µ¿ÀÏÇÑ ±¸Á¶¸¦ À¯ÁöÇÒ ÇÊ¿ä°¡ ¾øÀ½À» ¾Ë·Áµå¸³´Ï´Ù.</b><br/>
+	- SERVICE_ID, AMOUNT, ORDER_ID º¯°æ ½Ã <b>[Ã¼Å©½æ Àç»ý¼º]</b> ¹öÆ°À» Å¬¸¯ÇÏ¿© Ã¼Å©½æÀ» Àç»ý¼ºÇÏ¿©¾ß °áÁ¦°¡ °¡´ÉÇÕ´Ï´Ù.<br/>
+	- °Å·¡ °Ç ±¸º°À» À§ÇØ Áßº¹µÈ ÁÖ¹®¹øÈ£(ORDER_ID)·Î °ú±Ý ¿äÃ»Àº ±ÇÀåÇÏÁö ¾Ê½À´Ï´Ù.<br/>
 </div>
 
 <div style="width:100%; display: block; float:left; visibility: hidden">
 	<form name="payment" method="post">
 		<table border="1px solid" cellpadding="5" cellspacing="1" bgcolor="#B0B0B0">
 			<tr>
-				<td colspan="4" height="20" align="left" bgcolor="#C0C0C0"><b>ê²°ì œ ì •ë³´</b></td>
+				<td colspan="4" height="20" align="left" bgcolor="#C0C0C0"><b>°áÁ¦ Á¤º¸</b></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê²°ì œìˆ˜ë‹¨</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°áÁ¦¼ö´Ü</td>
 				<td width="150" bgcolor="#FFFFFF" colspan="3">
 					<select name="payMethod" id="selectPay" onChange="paySelect()">
-						<option value="" selected>==ì„ íƒ==</option>
-						<option value="0100">ë„ì„œ(0100)</option>
-						<option value="0200">ë¬¸í™”(0200)</option>
-						<option value="0300">ê²Œìž„ë¬¸í™”(0300)</option>
-						<option value="0500">í•´í”¼ë¨¸ë‹ˆ(0500)</option>
-						<option value="0700">ìºì‹œê²Œì´íŠ¸(0700)</option>
-						<option value="0900">ì‹ ìš©ì¹´ë“œ(0900)</option>
-						<option value="1100">íœ´ëŒ€í°(1100)</option>
-						<option value="1200">í°ë¹Œ(1200)</option>
-						<option value="1600">í‹°ë¨¸ë‹ˆ(1600)</option>
-						<option value="1800">ê°€ìƒê³„ì¢Œ(1800)</option>
-						<option value="1000">ê³„ì¢Œì´ì²´(1000)</option>
-						<option value="2500">í‹´ìºì‹œ(2500)</option>
-						<option value="2600">ì—ê·¸ë¨¸ë‹ˆ(2600)</option>
-						<option value="4100">ë¨¸ë‹ˆíŠ¸ë¦¬(4100)</option>
+						<option value="" selected>==¼±ÅÃ==</option>
+						<option value="0100">µµ¼­(0100)</option>
+						<option value="0200">¹®È­(0200)</option>
+						<option value="0300">°ÔÀÓ¹®È­(0300)</option>
+						<option value="0500">ÇØÇÇ¸Ó´Ï(0500)</option>
+						<option value="0700">Ä³½Ã°ÔÀÌÆ®(0700)</option>
+						<option value="0900">½Å¿ëÄ«µå(0900)</option>
+						<option value="1100">ÈÞ´ëÆù(1100)</option>
+						<option value="1200">Æùºô(1200)</option>
+						<option value="1600">Æ¼¸Ó´Ï(1600)</option>
+						<option value="1800">°¡»ó°èÁÂ(1800)</option>
+						<option value="1000">°èÁÂÀÌÃ¼(1000)</option>
+						<option value="2500">Æ¾Ä³½Ã(2500)</option>
+						<option value="2600">¿¡±×¸Ó´Ï(2600)</option>
+						<option value="4100">¸Ó´ÏÆ®¸®(4100)</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê°€ë§¹ì ì•„ì´ë””<br/>(SERVICE_ID)</td>
-				<td  width="150" bgcolor="#FFFFFF"><input type="text" name="SERVICE_ID" id="SERVICE_ID" size=30 class="input" ><br/>(ì¼ë°˜ê²°ì œ:M2103135, ìžë™ê³¼ê¸ˆ1íšŒì°¨ê²°ì œ:M2103139)</td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê²°ì œíƒ€ìž…<br/>(SERVICE_TYPE)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="SERVICE_TYPE" size=40 class="input" value="0000"><br/>(ì¼ë°˜ê²°ì œ:0000)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°¡¸ÍÁ¡¾ÆÀÌµð<br/>(SERVICE_ID)</td>
+				<td  width="150" bgcolor="#FFFFFF"><input type="text" name="SERVICE_ID" id="SERVICE_ID" size=30 class="input" ><br/>(ÀÏ¹Ý°áÁ¦:M2103135, ÀÚµ¿°ú±Ý1È¸Â÷°áÁ¦:M2103139)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°áÁ¦Å¸ÀÔ<br/>(SERVICE_TYPE)</td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="SERVICE_TYPE" size=40 class="input" value="0000"><br/>(ÀÏ¹Ý°áÁ¦:0000)</td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì„œë¹„ìŠ¤ì½”ë“œ<br/>(SERVICE_CODE)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¼­ºñ½ºÄÚµå<br/>(SERVICE_CODE)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="SERVICE_CODE" id="SERVICE_CODE" size=30 class="input" value=""></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê²°ì œ ê¸ˆì•¡<br/>(AMOUNT)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°áÁ¦ ±Ý¾×<br/>(AMOUNT)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="AMOUNT" size=40 class="input" ></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ìƒí’ˆëª…<br/>(ITEM_NAME)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">»óÇ°¸í<br/>(ITEM_NAME)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="ITEM_NAME" size=30 class="input" ></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ìƒí’ˆì½”ë“œ<br/>(ITEM_CODE)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">»óÇ°ÄÚµå<br/>(ITEM_CODE)</td>
 				<td bgcolor="#FFFFFF"><input type="text" name="ITEM_CODE" size=40 class="input" value=""></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê³ ê° ì•„ì´ë””<br/>(USER_ID)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°í°´ ¾ÆÀÌµð<br/>(USER_ID)</td>
 				<td bgcolor="#FFFFFF"><input type="text" name="USER_ID" size=30 class="input"  ></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê³ ê°ëª…<br/>(USER_NAME)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°í°´¸í<br/>(USER_NAME)</td>
 				<td bgcolor="#FFFFFF"><input type="text" name="USER_NAME" size=40 class="input"  ></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì£¼ë¬¸ë²ˆí˜¸<br/>(ORDER_ID)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÁÖ¹®¹øÈ£<br/>(ORDER_ID)</td>
 				<td bgcolor="#FFFFFF"><input type="text" name="ORDER_ID" size=30 class="input"  ></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì£¼ë¬¸ì¼ì‹œ<br/>(ORDER_DATE)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÁÖ¹®ÀÏ½Ã<br/>(ORDER_DATE)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="ORDER_DATE" size=40 class="input"></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ê³ ê°ì´ë©”ì¼<br/>(USER_EMAIL)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">°í°´ÀÌ¸ÞÀÏ<br/>(USER_EMAIL)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="USER_EMAIL" size=30 class="input" ></td>
 				<td width="150" align="left" bgcolor="#F6F6F6">CheckSum<br/>(CHECK_SUM)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="CHECK_SUM" size=40 class="input" value=""><input type="button" name="" value="ì²´í¬ì¸ ìž¬ìƒì„±" onclick="javascript:makeCheckSum()"></td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="CHECK_SUM" size=40 class="input" value=""><input type="button" name="" value="Ã¼Å©½æ Àç»ý¼º" onclick="javascript:makeCheckSum()"></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì˜ˆë¹„ë³€ìˆ˜1<br/>(RESERVED1)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¿¹ºñº¯¼ö1<br/>(RESERVED1)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="RESERVED1" size=30 class="input" ></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì˜ˆë¹„ë³€ìˆ˜2<br/>(RESERVED2)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¿¹ºñº¯¼ö2<br/>(RESERVED2)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="RESERVED2" size=40 class="input" ></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì˜ˆë¹„ë³€ìˆ˜3<br/>(RESERVED3)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¿¹ºñº¯¼ö3<br/>(RESERVED3)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="RESERVED3" size=30 class="input"></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì·¨ì†Œê²°ê³¼ ì „ë‹¬ì—¬ë¶€<br/>(CANCEL_FLAG)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="CANCEL_FLAG" size=40 class="input"><br/>(Y:Return ì·¨ì†Œ ì‘ë‹µ, N:self.close())</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">Ãë¼Ò°á°ú Àü´Þ¿©ºÎ<br/>(CANCEL_FLAG)</td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="CANCEL_FLAG" size=40 class="input"><br/>(Y:Return Ãë¼Ò ÀÀ´ä, N:self.close())</td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ë¦¬í„´URL<br/>(RETURN_URL)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¸®ÅÏURL<br/>(RETURN_URL)</td>
 				<td bgcolor="#FFFFFF" colspan="3"><input type="text" name="RETURN_URL" size=80 class="input"></td>
 			</tr>
 			<tr>
-				<td width="150" align="left" bgcolor="#F6F6F6">ë¡œê³ <br/>(LOGO)</td>
-				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="LOGO" size=80 class="input" value=""><br/>(ì´ë¯¸ì§€ ë¡œê³  URL ìž…ë ¥)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">·Î°í<br/>(LOGO)</td>
+				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="LOGO" size=80 class="input" value=""><br/>(ÀÌ¹ÌÁö ·Î°í URL ÀÔ·Â)</td>
 			</tr>
 			<tr id="add_view" style="display:none;">
-				<td colspan="4"><b>ì¶”ê°€ íŒŒë¼ë¯¸í„°</b></td>
+				<td colspan="4"><b>Ãß°¡ ÆÄ¶ó¹ÌÅÍ</b></td>
 			</tr>
 
-			<!-- ì‹ ìš©ì¹´ë“œ ì˜ì—­ -->
+			<!-- ½Å¿ëÄ«µå ¿µ¿ª -->
 			<tr id="add_card_view1" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">í• ë¶€ê°œì›”ìˆ˜<br/>(INSTALLMENT_PERIOD)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÇÒºÎ°³¿ù¼ö<br/>(INSTALLMENT_PERIOD)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="INSTALLMENT_PERIOD" size=30 class="input" value="0:3:6:9:12"></td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì¹´ë“œì‚¬ì„ íƒ<br/>(CARD_TYPE)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">Ä«µå»ç¼±ÅÃ<br/>(CARD_TYPE)</td>
 				<td bgcolor="#FFFFFF">
 					<select name="CARD_TYPE" >
-						<option value="0000">---ì¹´ë“œì‚¬ ì„ íƒ---</option>
-						<option value="0052">ë¹„ì”¨ì¹´ë“œ(BC card)</option>
-						<option value="0050">êµ­ë¯¼ì¹´ë“œ(KB card)</option>
-						<option value="0073">í˜„ëŒ€ì¹´ë“œ(Hyundai card)</option>
-						<option value="0054">ì‚¼ì„±ì¹´ë“œ(Samsung card)</option>
-						<option value="0053">ì‹ í•œ(LG)ì¹´ë“œ(Shinhan(LG) card)</option>
-						<option value="0055">ë¡¯ë°ì¹´ë“œ(Lotte card)</option>
-						<option value="0089">ì €ì¶•ì€í–‰(savings bank)</option>
-						<option value="0051">ì™¸í™˜ì¹´ë“œ(Yes card)</option>
-						<option value="0076">í•˜ë‚˜(Hana card)</option>
-						<option value="0079">ì œì£¼(e-jeju bank)</option>
-						<option value="0080">ê´‘ì£¼(kjbank)</option>
-						<option value="0073">ì‹ í˜‘(í˜„ëŒ€)(cu(Hyundai))</option>
-						<option value="0075">ìˆ˜í˜‘(suhyup)</option>
-						<option value="0081">ì „ë¶(jbbank)</option>
-						<option value="0078">ë†í˜‘(NH card)</option>
-						<option value="0084">ì”¨í‹°(Citi card)</option>
+						<option value="0000">---Ä«µå»ç ¼±ÅÃ---</option>
+						<option value="0052">ºñ¾¾Ä«µå(BC card)</option>
+						<option value="0050">±¹¹ÎÄ«µå(KB card)</option>
+						<option value="0073">Çö´ëÄ«µå(Hyundai card)</option>
+						<option value="0054">»ï¼ºÄ«µå(Samsung card)</option>
+						<option value="0053">½ÅÇÑ(LG)Ä«µå(Shinhan(LG) card)</option>
+						<option value="0055">·Ôµ¥Ä«µå(Lotte card)</option>
+						<option value="0089">ÀúÃàÀºÇà(savings bank)</option>
+						<option value="0051">¿ÜÈ¯Ä«µå(Yes card)</option>
+						<option value="0076">ÇÏ³ª(Hana card)</option>
+						<option value="0079">Á¦ÁÖ(e-jeju bank)</option>
+						<option value="0080">±¤ÁÖ(kjbank)</option>
+						<option value="0073">½ÅÇù(Çö´ë)(cu(Hyundai))</option>
+						<option value="0075">¼öÇù(suhyup)</option>
+						<option value="0081">ÀüºÏ(jbbank)</option>
+						<option value="0078">³óÇù(NH card)</option>
+						<option value="0084">¾¾Æ¼(Citi card)</option>
 					</select>
 				</td>
 			</tr>
 			<tr id="add_card_view2" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">[í•´ì™¸ì „ìš©]êµ­ë‚´/í•´ì™¸ì¹´ë“œ<br/>(USING_TYPE)</td>
-				<td width="150" bgcolor="#FFFFFF" ><input type="text" name="USING_TYPE" size=30 class="input" value=""><br/>(0001:í•´ì™¸ì¹´ë“œ, ê·¸ì™¸)</td>
-				<td width="150" align="left" bgcolor="#F6F6F6">[í•´ì™¸ì „ìš©]ìŠ¹ì¸í†µí™”êµ¬ë¶„<br/>(CURRENCY)</td>
-				<td width="150" bgcolor="#FFFFFF" ><input type="text" name="CURRENCY" size=30 class="input" value=""><br/>(0000:ì›í™”ìŠ¹ì¸, 0001:ë‹¬ëŸ¬ìŠ¹ì¸)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">[ÇØ¿ÜÀü¿ë]±¹³»/ÇØ¿ÜÄ«µå<br/>(USING_TYPE)</td>
+				<td width="150" bgcolor="#FFFFFF" ><input type="text" name="USING_TYPE" size=30 class="input" value=""><br/>(0001:ÇØ¿ÜÄ«µå, ±×¿Ü)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">[ÇØ¿ÜÀü¿ë]½ÂÀÎÅëÈ­±¸ºÐ<br/>(CURRENCY)</td>
+				<td width="150" bgcolor="#FFFFFF" ><input type="text" name="CURRENCY" size=30 class="input" value=""><br/>(0000:¿øÈ­½ÂÀÎ, 0001:´Þ·¯½ÂÀÎ)</td>
 			</tr>
 			<tr id="add_card_view3" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ì¸ì¦ë°´ë” ì§ì ‘í˜¸ì¶œ<br/>(DIRECT_USE)</td>
-				<td width="150" bgcolor="#FFFFFF"  colspan="3"><input type="text" name="DIRECT_USE" size=30 class="input" value="">(0001:ì§ì ‘í˜¸ì¶œ, ê·¸ì™¸:ë¯¸ì ìš©)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÀÎÁõ¹ê´õ Á÷Á¢È£Ãâ<br/>(DIRECT_USE)</td>
+				<td width="150" bgcolor="#FFFFFF"  colspan="3"><input type="text" name="DIRECT_USE" size=30 class="input" value="">(0001:Á÷Á¢È£Ãâ, ±×¿Ü:¹ÌÀû¿ë)</td>
 			</tr>
-			<!-- ì‹ ìš©ì¹´ë“œ ì˜ì—­ -->
+			<!-- ½Å¿ëÄ«µå ¿µ¿ª -->
 
-			<!-- íœ´ëŒ€í° ì˜ì—­ -->
+			<!-- ÈÞ´ëÆù ¿µ¿ª -->
 			<tr id="add_mobile_view1" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ì£¼ë¯¼ë²ˆí˜¸ ì•ž6ìžë¦¬<br/>(SOCIAL_NUMBER)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="SOCIAL_NUMBER" size=30 class="input" value="" maxlength="6"><br/>ìƒë…„ì›”ì¼(YYMMDD)</td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ì´ë™í†µì‹ ì‚¬ ì½”ë“œ<br/>(MOBILE_COMPANY_CODE)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÁÖ¹Î¹øÈ£ ¾Õ6ÀÚ¸®<br/>(SOCIAL_NUMBER)</td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="SOCIAL_NUMBER" size=30 class="input" value="" maxlength="6"><br/>»ý³â¿ùÀÏ(YYMMDD)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÀÌµ¿Åë½Å»ç ÄÚµå<br/>(MOBILE_COMPANY_CODE)</td>
 				<td width="150" bgcolor="#FFFFFF"><input type="text" name="MOBILE_COMPANY_CODE" size=30 class="input" value="" maxlength="4"><br/>0000:SKT, 0001:KT, 0002:LGU, 0011:CJH, 0010:KCT, 0012:SKL</td>
 			</tr>
 			<tr id="add_mobile_view2" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ì‚¬ì „ì „ë‹¬ íœ´ëŒ€í°ë²ˆí˜¸ ìˆ˜ì •ì—¬ë¶€<br/>(READONLY_HP)</td>
-				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="READONLY_HP" size=30 class="input" value=""><br/>(Y:ìˆ˜ì •ë¶ˆê°€, N:ìˆ˜ì •ê°€ëŠ¥)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">»çÀüÀü´Þ ÈÞ´ëÆù¹øÈ£ ¼öÁ¤¿©ºÎ<br/>(READONLY_HP)</td>
+				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="READONLY_HP" size=30 class="input" value=""><br/>(Y:¼öÁ¤ºÒ°¡, N:¼öÁ¤°¡´É)</td>
 			</tr>
-			<!-- íœ´ëŒ€í° ì˜ì—­ -->
+			<!-- ÈÞ´ëÆù ¿µ¿ª -->
 
-			<!-- ê°€ìƒê³„ì¢Œ ì˜ì—­ -->
+			<!-- °¡»ó°èÁÂ ¿µ¿ª -->
 			<tr id="add_vaccount_view" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ìž…ê¸ˆë§ˆê° ìœ íš¨ì¼<br/>(QUOTA)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="QUOTA" size=30 class="input" value="" maxlength="2"><br/>(ë¯¸ìž…ë ¥ì‹œ ë””í´íŠ¸(5), ì§€ì •ê°€ëŠ¥ì¼[1 - 30])</td>
-				<td width="150" align="left" bgcolor="#F6F6F6">ìž…ê¸ˆë§ˆê° ìœ íš¨ì‹œê°„<br/>(EXPIRE_TIME)</td>
-				<td width="150" bgcolor="#FFFFFF"><input type="text" name="EXPIRE_TIME" size=30 class="input" value="" maxlength="6"><br/>(ë¯¸ìž…ë ¥ì‹œ ë””í´íŠ¸(235959) [24HHMMSS])</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÀÔ±Ý¸¶°¨ À¯È¿ÀÏ<br/>(QUOTA)</td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="QUOTA" size=30 class="input" value="" maxlength="2"><br/>(¹ÌÀÔ·Â½Ã µðÆúÆ®(5), ÁöÁ¤°¡´ÉÀÏ[1 - 30])</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÀÔ±Ý¸¶°¨ À¯È¿½Ã°£<br/>(EXPIRE_TIME)</td>
+				<td width="150" bgcolor="#FFFFFF"><input type="text" name="EXPIRE_TIME" size=30 class="input" value="" maxlength="6"><br/>(¹ÌÀÔ·Â½Ã µðÆúÆ®(235959) [24HHMMSS])</td>
 			</tr>
-			<!-- ê°€ìƒê³„ì¢Œ ì˜ì—­ -->
+			<!-- °¡»ó°èÁÂ ¿µ¿ª -->
 
-			<!-- ë¨¸ë‹ˆíŠ¸ë¦¬ ì˜ì—­ -->
+			<!-- ¸Ó´ÏÆ®¸® ¿µ¿ª -->
 			<tr id="add_moneytree_view" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ì‚¬ì „ì „ë‹¬ íœ´ëŒ€í°ë²ˆí˜¸ ìˆ˜ì •ì—¬ë¶€<br/>(MODIFY_FLAG)</td>
-				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="MODIFY_FLAG" size=30 class="input" value="">(Y:ìˆ˜ì •ë¶ˆê°€, N:ìˆ˜ì •ê°€ëŠ¥)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">»çÀüÀü´Þ ÈÞ´ëÆù¹øÈ£ ¼öÁ¤¿©ºÎ<br/>(MODIFY_FLAG)</td>
+				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="MODIFY_FLAG" size=30 class="input" value="">(Y:¼öÁ¤ºÒ°¡, N:¼öÁ¤°¡´É)</td>
 			</tr>
-			<!-- ë¨¸ë‹ˆíŠ¸ë¦¬ ì˜ì—­ -->
+			<!-- ¸Ó´ÏÆ®¸® ¿µ¿ª -->
 
-			<!-- (íœ´ëŒ€í°, ë¨¸ë‹ˆíŠ¸ë¦¬) ì˜ì—­ -->
+			<!-- (ÈÞ´ëÆù, ¸Ó´ÏÆ®¸®) ¿µ¿ª -->
 			<tr id="add_common_view1" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">íœ´ëŒ€í° ë²ˆí˜¸<br/>(MOBILE_NUMBER)</td>
-				<td width="200" bgcolor="#FFFFFF" colspan="3"><input type="text" name="MOBILE_NUMBER" size=30 class="input" value="" maxlength="11">-(í•˜ì´í”ˆ) ì—†ì´ ìž…ë ¥</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">ÈÞ´ëÆù ¹øÈ£<br/>(MOBILE_NUMBER)</td>
+				<td width="200" bgcolor="#FFFFFF" colspan="3"><input type="text" name="MOBILE_NUMBER" size=30 class="input" value="" maxlength="11">-(ÇÏÀÌÇÂ) ¾øÀÌ ÀÔ·Â</td>
 			</tr>
-			<!-- (íœ´ëŒ€í°, ë¨¸ë‹ˆíŠ¸ë¦¬) ì˜ì—­ -->
+			<!-- (ÈÞ´ëÆù, ¸Ó´ÏÆ®¸®) ¿µ¿ª -->
 
-			<!-- ê°€ìƒê³„ì¢Œ ì˜ì—­ -->
+			<!-- °¡»ó°èÁÂ ¿µ¿ª -->
 			<tr id="add_common_view2" style="display:none;">
-				<td width="150" align="left" bgcolor="#F6F6F6">ì—ìŠ¤í¬ë¡œ ì‚¬ìš© ì—¬ë¶€<br/>(ESCROW_FLAG)</td>
-				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="ESCROW_FLAG" size=30 class="input" value="">(Y:ì—ìŠ¤í¬ë¡œ í•„ìˆ˜ ë™ì˜, N:ì—ìŠ¤í¬ë¡œ ë¯¸ì ìš©)</td>
+				<td width="150" align="left" bgcolor="#F6F6F6">¿¡½ºÅ©·Î »ç¿ë ¿©ºÎ<br/>(ESCROW_FLAG)</td>
+				<td width="150" bgcolor="#FFFFFF" colspan="3"><input type="text" name="ESCROW_FLAG" size=30 class="input" value="">(Y:¿¡½ºÅ©·Î ÇÊ¼ö µ¿ÀÇ, N:¿¡½ºÅ©·Î ¹ÌÀû¿ë)</td>
 			</tr>
-			<!-- ê°€ìƒê³„ì¢Œ ì˜ì—­ -->
+			<!-- °¡»ó°èÁÂ ¿µ¿ª -->
 		</table>
 	</form>
 
 	<div style="padding : 0px 0 10px 0; width:100%; display: block; float:left; ">
-		<br/><input type="button" value="ê²°ì œì°½ í˜¸ì¶œ(layerpopup) PC ì „ìš©" onclick="javascript:checkSubmit('layerpopup');">
-		&nbsp;<input type="button" value="ê²°ì œì°½ í˜¸ì¶œ(submit)" onclick="javascript:checkSubmit('submit');">
-		&nbsp;<input type="button" value="ê²°ì œì°½ í˜¸ì¶œ(popup)" onclick="javascript:checkSubmit('popup');">
+		<br/><input type="button" value="°áÁ¦Ã¢ È£Ãâ(layerpopup) PC Àü¿ë" onclick="javascript:checkSubmit('layerpopup');">
+		&nbsp;<input type="button" value="°áÁ¦Ã¢ È£Ãâ(submit)" onclick="javascript:checkSubmit('submit');">
+		&nbsp;<input type="button" value="°áÁ¦Ã¢ È£Ãâ(popup)" onclick="javascript:checkSubmit('popup');">
 		<br/>
 	</div>
 </div>
