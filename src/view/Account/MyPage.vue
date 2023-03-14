@@ -95,6 +95,19 @@
 					</li>
 				</ul>
 
+				<h6 class="pa-10 mt-10">신용카드 관리</h6>
+				<ul
+					class="box-mypage-list shadow ul-under-line size-px-14 bg-white"
+				>
+					<li
+						class="pa-10 justify-space-between"
+						@click="toCredit"
+					>
+						<span>신용카드</span>
+						<span><v-icon>mdi-chevron-right</v-icon></span>
+					</li>
+				</ul>
+
 				<h6 class="pa-10 mt-10">고객센터</h6>
 				<ul
 					class="box-mypage-list shadow ul-under-line size-px-14 bg-white"
@@ -201,6 +214,9 @@ export default{
 		}
 		,toModify: function(){
 			this.$emit('push', {name: 'Modify'})
+		}
+		, toCredit: function(){
+			this.$emit('push', { name: 'CreditList'})
 		}
 	}
 	,created: function(){

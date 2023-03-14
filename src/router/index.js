@@ -118,6 +118,16 @@ const routes = [
 		,component: () => import('@/view/Account/ShippingList.vue')
 	}
 	,{
+		path: prefix + 'Credit'
+		,name: 'CreditList'
+		,component: () => import('@/view/Account/CreditList.vue')
+	}
+	,{
+		path: prefix + 'Credit/Register'
+		,name: 'CreditRegister'
+		,component: () => import('@/view/Account/CreditRegister.vue')
+	}
+	,{
 		path: prefix + 'CustomerCenter/:b_code'
 		,name: 'CustomerCenter'
 		,component: () => import('@/view/Customer/CustomerCenter.vue')

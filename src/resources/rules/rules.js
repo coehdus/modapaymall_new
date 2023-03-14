@@ -10,12 +10,11 @@ export const rules = {
 		}
 	}
 	,numeric: (obj, part, max) => {
-		
+
 		if(obj[part]){
-			const num = obj[part].search(/[0-9]/g);
-			if(num){
-				this.$set(obj, part, max)
-			}
+			const num = obj[part].replace(/[^0-9]/, '');
+
+			obj[part] = (num + '').substring(0, max)
 		}
 	}
 	,id: (obj, part, {min, max}) => {

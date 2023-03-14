@@ -44,7 +44,9 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 		if(method != 'get'){
 			const formData = new FormData();
 			for(let key in data){
-				formData.append(key, data[key])
+				if(data[key] != undefined){
+					formData.append(key, data[key])
+				}
 			}
 			if(!formData.get('TOKEN')){
 				let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
