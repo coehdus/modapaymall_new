@@ -184,6 +184,7 @@
 				}
 				, is_result: false
 				, result_type: false
+				, pg_info: {}
 			}
 		}
 		, computed: {
@@ -198,7 +199,7 @@
 					this.$bus.$emit('on', true)
 					let result = await this.Axios({
 						method: 'post'
-						,url: '/order/postCredit'
+						,url: '/billgateauto/postPay'
 						, data: {
 							credit_type: this.item_credit.credit_type
 							, credit_number: this.credit_number
@@ -207,6 +208,7 @@
 							, valid_cvc: this.item_credit.valid_cvc
 							, credit_pw: this.item_credit.credit_pw
 							, credit_owner_info: this.item_credit.credit_owner_info
+							, pg_uid: this.pg_info.uid
 						}
 					})
 					if(result.success){
@@ -234,9 +236,31 @@
 				this.is_result = false
 				this.$bus.$emit('onLoad', this.program)
 			}
+			, getPgInfo: async function(){
+				try {
+					this.$bus.$emit('on', true)
+					const result = await this.Axios({
+						method: 'get'
+						,url: 'order/getPgInfo'
+						,data: {
+						}
+					})
+					if(result.success){
+						this.pg_info = result.data
+					}else{
+						throw result.message
+					}
+				}catch (e) {
+					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
+				}finally {
+					this.$bus.$emit('on', false)
+				}
+			}
 		}
 		, created() {
 			this.$emit('onLoad', this.program)
+			this.getPgInfo()
 		}
 	}
 </script>
