@@ -560,6 +560,21 @@
 			@success="success"
 			@fail="fail"
 		></OrderFormBillgate>
+
+		<OrderFormCorpayM
+			v-if="is_corpay_m"
+
+			:Axios="Axios"
+			:user="user"
+			:member_info="member_info"
+			:order_info="order_item"
+			:pg_info="pg_info"
+			:is_mobile="is_mobile"
+
+			@cancel="fail"
+			@success="success"
+			@fail="fail"
+		></OrderFormCorpayM>
 	</div>
 </template>
 
@@ -573,10 +588,12 @@ import OrderFormFirst from "./OrderFormFirst";
 import OrderFormFirstM from "./OrderFormFirstM";
 import OrderFormPaytus from "./OrderFormPaytus";
 import OrderFormBillgate from "./OrderFormBillgate";
+import OrderFormCorpayM from "@/view/Order/OrderFormCorpayM";
 export default{
 	name: 'OrderForm'
 	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
 	,components: {
+		OrderFormCorpayM,
 		OrderFormBillgate,
 		OrderFormPaytus,
 		OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
@@ -671,6 +688,13 @@ export default{
 		, is_billgate: function(){
 			let t = false
 			if(this.pg_info.pg_code == 'billgate' && this.is_order){
+				t = true
+			}
+			return t
+		}
+		, is_corpay_m: function(){
+			let t = false
+			if(this.pg_info.pg_code == 'corpay_m' && this.is_order){
 				t = true
 			}
 			return t
@@ -1001,6 +1025,7 @@ export default{
 					method: 'get'
 					,url: 'order/getPgInfo'
 					,data: {
+						order_price: this.order_price
 					}
 				})
 				if(result.success){
