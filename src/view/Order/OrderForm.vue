@@ -319,8 +319,8 @@
 				<div
 					class="mt-10 pa-10 bg-white box-shadow"
 				>
-					<div class="pa-10 justify-space-around under-line-dashed">
-						<span
+					<div class=" under-line-dashed pb-10">
+						<div
 							v-if="shop_info.is_bank == '1'"
 							@click="item.pay_div = 'bank'"
 						>
@@ -332,8 +332,9 @@
 								v-else
 							>mdi mdi-radiobox-blank</v-icon>
 							<span> 무통장 입금</span>
-						</span>
-						<span
+						</div>
+						<div
+							class="mt-10"
 							v-if="shop_info.is_card == '1'"
 							@click="doPaymentCard"
 						>
@@ -345,7 +346,22 @@
 								v-else
 							>mdi mdi-radiobox-blank</v-icon>
 							<span> 카드 결제</span>
-						</span>
+						</div>
+
+						<div
+							class="mt-10"
+							v-if="shop_info.is_bill == '1' && Number(seller_info.sales_bill_uid)"
+							@click="doPaymentBill"
+						>
+							<v-icon
+								v-if="item.pay_div == 'bill'"
+								class="color-green"
+							>mdi mdi-radiobox-marked</v-icon>
+							<v-icon
+								v-else
+							>mdi mdi-radiobox-blank</v-icon>
+							<span> 정기 결제</span>
+						</div>
 					</div>
 					<div
 						class="mt-10"
@@ -474,7 +490,7 @@
 			:Axios="Axios"
 			:referrer_code="program.code"
 			:pg_info="pg_info"
-			:shop_info="shop_info"
+			:seller_info="seller_info"
 
 			@setNotify="setNotify"
 			@success="success"
@@ -561,7 +577,7 @@
 			@fail="fail"
 		></OrderFormBillgate>
 
-		<OrderFormCorpayM
+		<OrderFormCorpayR
 			v-if="is_corpay_m"
 
 			:Axios="Axios"
@@ -574,7 +590,85 @@
 			@cancel="fail"
 			@success="success"
 			@fail="fail"
-		></OrderFormCorpayM>
+		></OrderFormCorpayR>
+
+		<PopupLayer
+			v-if="is_on_bill"
+
+			@cancel="is_on_bill = false"
+			@click="postBill"
+		>
+			<template
+				v-slot:body
+			>
+				<div
+					class="bg-white radius-20"
+				>
+					<div class="under-line prl-20 flex-row justify-space-between">
+						<h6>월 정기 결제</h6>
+						<v-icon @click="is_on_bill = false">mdi-close-circle</v-icon>
+					</div>
+					<div
+						class=""
+					>
+						<ul
+							v-if="items_credit.length > 0"
+							style="max-height: 180px; overflow: auto"
+						>
+							<li
+								v-for="(credit, c_index) in items_credit"
+								:key="'credit_' + c_index"
+								class="pa-10"
+								:class="credit.uid == item_credit.uid ? 'bg-gray-light' : ''"
+								@click="setCredit(credit)"
+							>{{ credit.bill_name }} <span v-if="credit.is_main == '1'" class="label label-primary">대표카드</span></li>
+						</ul>
+						<div
+							v-else
+						>등록된 신용카드가 없습니다.</div>
+					</div>
+					<div class="top-line">
+						<h6 class="pa-10-20 under-line">결제일</h6>
+						<ul
+							class="flex-row justify-center"
+						>
+							<li
+								v-for="(bill_date, bd_index) in items_bill_date"
+								:key="'bill_date_' + bd_index"
+								class="pa-10"
+								:class="bill_date == item_credit.bill_date ? 'bg-gray-light' : ''"
+								@click="setBillDate(bill_date)"
+							>{{ bill_date }}일</li>
+						</ul>
+					</div>
+					<div class="top-line under-line">
+						<h6 class="pa-10-20 under-line">정기 결제 기간</h6>
+						<ul
+							class="flex-row justify-center"
+						>
+							<li
+								v-for="(bill_rate, br_index) in items_bill_rate"
+								:key="'bill_rate_' + br_index"
+								class="pa-10"
+								:class="bill_rate == item_credit.bill_rate ? 'bg-gray-light' : ''"
+								@click="setBillRate(bill_rate)"
+							>{{ bill_rate }} 개월</li>
+						</ul>
+					</div>
+					<div
+						class="pa-10"
+					>
+						첫 결제 이후 다음 달부터 정기결제기간 동안 매월 결제일에 자동으로 주문결제가 완료됩니다
+					</div>
+					<div>
+						<button
+							class="btn bg-base"
+							@click="save"
+						>결제</button>
+					</div>
+				</div>
+			</template>
+		</PopupLayer>
 	</div>
 </template>
 
@@ -588,12 +682,14 @@ import OrderFormFirst from "./OrderFormFirst";
 import OrderFormFirstM from "./OrderFormFirstM";
 import OrderFormPaytus from "./OrderFormPaytus";
 import OrderFormBillgate from "./OrderFormBillgate";
-import OrderFormCorpayM from "@/view/Order/OrderFormCorpayM";
+import OrderFormCorpayR from "@/view/Order/OrderFormCorpayR";
+import PopupLayer from "../Layout/PopupLayer";
 export default{
 	name: 'OrderForm'
-	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user']
+	,props: ['Axios', 'cart_items', 'member_info', 'TOKEN', 'rules', 'user', 'seller_info']
 	,components: {
-		OrderFormCorpayM,
+		PopupLayer,
+		OrderFormCorpayR,
 		OrderFormBillgate,
 		OrderFormPaytus,
 		OrderFormFirstM, OrderFormFirst, OrderFormAllatM, OrderFormReappay, Modal, DaumPost, OrderFormAllat }
@@ -649,6 +745,11 @@ export default{
 			, pg_info: {}
 			, is_order: false
 			, is_mobile: this.$common.isMobile()
+			, items_credit: []
+			, item_credit: { bill_date: '', bill_rate: ''}
+			, is_on_bill: false
+			, items_bill_date: [5, 10, 15, 20, 25]
+			, items_bill_rate: [3, 6, 12]
 		}
 	}
 	,computed: {
@@ -1098,6 +1199,29 @@ export default{
 			}
 
 			await this.getOrderNumber()
+
+			if(Number(this.seller_info.sales_bill_uid)){
+				await this.getCreditList()
+			}
+		}
+		, getCreditList: async function(){
+			try{
+				this.$bus.$emit('on', true)
+				let result = await this.Axios({
+					method: 'get'
+					,url: '/order/getCreditList'
+				})
+				if(result.success){
+					this.items_credit = result.data
+				}else{
+					throw result.message
+				}
+			}catch(e){
+				console.log(e.message)
+				this.$bus.$emit('notify', { type: 'error', message: e})
+			}finally {
+				this.$bus.$emit('on', false)
+			}
 		}
 		,setNotify: function({ type, message}){
 			this.$bus.$emit('notify', { type: type, message: message})
@@ -1183,6 +1307,9 @@ export default{
 		,doPaymentCard: function(){
 			this.item.pay_div = 'card'
 		}
+		, doPaymentBill: function(){
+			this.item.pay_div = 'bill'
+		}
 		,toCancel: async function(){
 			try {
 				this.$bus.$emit('on', true)
@@ -1207,9 +1334,27 @@ export default{
 		, checkPayment: function(){
 			if(this.item.pay_div == 'bank'){
 				this.save()
+			}else if(this.item.pay_div == 'bill') {
+				this.is_on_bill = true
 			}else{
 				this.getPgInfo()
 			}
+		}
+		, postBill: async function(){
+			alert('!')
+		}
+		, setCredit: function(credit){
+			let bill_date = this.item_credit.bill_date
+			let bill_rate = this.item_credit.bill_rate
+			this.item_credit = credit
+			this.setBillDate(bill_date)
+			this.setBillRate(bill_rate)
+		}
+		, setBillDate: function(bill_date){
+			this.$set(this.item_credit, 'bill_date', bill_date)
+		}
+		, setBillRate: function(bill_rate){
+			this.$set(this.item_credit, 'bill_rate', bill_rate)
 		}
 	}
 	,created: function(){

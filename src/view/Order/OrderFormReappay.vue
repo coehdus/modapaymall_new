@@ -20,7 +20,7 @@
 
 		<br/>
 		가맹점 사업자 번호
-		<input 	v-model="shop_info.site_biz_number" name="storeBizNo"/>
+		<input 	v-model="seller_info.site_biz_number" name="storeBizNo"/>
 
 		<br/>
 
@@ -85,7 +85,7 @@
 <script>
 export default {
 	name: 'OrderFormReappay'
-	,props: ['Axios', 'item', 'user', 'order_item', 'referrer_code', 'pg_info', 'shop_info']
+	,props: ['Axios', 'item', 'user', 'order_item', 'referrer_code', 'pg_info', 'seller_info']
 	,data: function(){
 		return{
 

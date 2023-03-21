@@ -13,7 +13,7 @@
 			v-if="is_side"
 			:Axios="Axios"
 			:member_info="member_info"
-			:shop_info="shop_info"
+			:seller_info="seller_info"
 			:category="category"
 
 			@toggleSide="toggleSide"
@@ -27,7 +27,7 @@
 				v-if="program.top"
 				:program="program"
 				:member_info="member_info"
-				:shop_info="shop_info"
+				:seller_info="seller_info"
 
 				@push="toLocation"
 			></Top>
@@ -47,7 +47,7 @@
 				:TOKEN="TOKEN"
 				:cart_items="cart_items"
 				:member_info="member_info"
-				:shop_info="shop_info"
+				:seller_info="seller_info"
 				:filter="filter"
 				:key="$route.fullPath"
 				:date="date"
@@ -97,7 +97,7 @@
 	
 	export default{
 		name: 'Layout'
-		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'shop_info', 'filter', 'date', 'codes']
+		,props: ['Axios', 'Notify', 'metaInfo', 'rules', 'TOKEN', 'member_info', 'seller_info', 'filter', 'date', 'codes']
 		,components: {Loading, Title, Bottom, Side, Top, Notify }
 		,data: function(){
 			return {

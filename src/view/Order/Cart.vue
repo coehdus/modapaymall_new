@@ -174,6 +174,7 @@
 					,top: false
 					,title: true
 					,bottom: false
+					, from: 'Index'
 				}
 				//,total_delivery_price: 0
 			}

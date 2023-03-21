@@ -17,14 +17,14 @@
 					v-if="$production"
 				>
 					<img
-						v-if="shop_info.shop_logo"
-						:src="shop_info.shop_logo"
+						v-if="seller_info.shop_logo"
+						:src="seller_info.shop_logo"
 						class="shop-logo"
 					/>
 					<div
-						v-else-if="shop_info.shop_name"
+						v-else-if="seller_info.shop_name"
 						class="pa-20 size-px-16 font-weight-bold  under-line-82"
-					>{{ shop_info.shop_name }}</div>
+					>{{ seller_info.shop_name }}</div>
 					<img
 						v-else
 						:src="$shop_logo" style="width: 40%"
@@ -34,14 +34,14 @@
 					v-else
 				>
 					<img
-						v-if="shop_info.shop_logo"
-						:src="shop_info.shop_logo"
+						v-if="seller_info.shop_logo"
+						:src="seller_info.shop_logo"
 						class="shop-logo"
 					/>
 					<div
-						v-else-if="shop_info.shop_name"
+						v-else-if="seller_info.shop_name"
 						class="pa-20 size-px-16 font-weight-bold  under-line-82"
-					>{{ shop_info.shop_name }} 2</div>
+					>{{ seller_info.shop_name }} 2</div>
 					<div
 						v-else
 						class="color-333 size-px-16 font-weight-bold under-line"
@@ -117,7 +117,7 @@
 
 	export default{
 		name: 'Side'
-		,props: ['Axios', 'member_info', 'category', 'shop_info']
+		,props: ['Axios', 'member_info', 'category', 'seller_info']
 		,data: function(){
 			return {
 				items: this.category

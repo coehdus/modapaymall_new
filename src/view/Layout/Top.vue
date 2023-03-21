@@ -8,14 +8,14 @@
 				v-if="$production"
 			>
 				<img
-					v-if="shop_info.shop_logo"
-					:src="shop_info.shop_logo"
+					v-if="seller_info.shop_logo"
+					:src="seller_info.shop_logo"
 					class="shop-logo"
 				/>
 				<div
-					v-else-if="shop_info.shop_name"
+					v-else-if="seller_info.shop_name"
 					class="pa-20 color-333 size-px-16 font-weight-bold"
-				>{{ shop_info.shop_name }}</div>
+				>{{ seller_info.shop_name }}</div>
 				<img
 					v-else
 					:src="$shop_logo" style="width: 40%"
@@ -25,14 +25,14 @@
 				v-else
 			>
 				<img
-					v-if="shop_info.shop_logo"
-					:src="shop_info.shop_logo"
+					v-if="seller_info.shop_logo"
+					:src="seller_info.shop_logo"
 					class="shop-logo"
 				/>
 				<div
-					v-else-if="shop_info.shop_name"
+					v-else-if="seller_info.shop_name"
 					class="pa-20 color-333 size-px-16 font-weight-bold"
-				>{{ shop_info.shop_name }}</div>
+				>{{ seller_info.shop_name }}</div>
 				<span
 					v-else
 					class="color-333 size-px-16 font-weight-bold"
@@ -45,7 +45,7 @@
 <script>
 	export default{
 		name: 'Top'
-		, props: ['member_info', 'shop_info']
+		, props: ['member_info', 'seller_info']
 		,methods: {
 			onSide: function(){
 				this.$emit('toggleSide')

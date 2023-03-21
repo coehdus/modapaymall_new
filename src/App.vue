@@ -9,7 +9,7 @@
 		:metaInfo="metaInfo"
 		:TOKEN="TOKEN"
 		:member_info="member_info"
-		:shop_info="shop_info"
+		:seller_info="seller_info"
 		:codes="codes"
 	/>
 </template>
@@ -46,7 +46,7 @@ export default {
 		,member_info: {
 
 		}
-		,shop_info: {
+		,seller_info: {
 
 		}
 	})
@@ -92,7 +92,6 @@ export default {
 
 				if(result.success){
 					this.member_info = result.data.member_info
-					this.shop_info = result.data.shop_info
 					this.seller_info = result.data.seller_info
 				}else{
 					throw result.message

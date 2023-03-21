@@ -4,7 +4,7 @@
 		<Top
 			:program="program"
 			:member_info="member_info"
-			:shop_info="shop_info"
+			:seller_info="seller_info"
 
 		></Top>
 		<Search
@@ -197,7 +197,7 @@
 		name: 'Main'
 		,
 		components: {Top, Search, Pagination, ProductDetail},
-		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter', 'shop_info', 'member_info']
+		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter', 'seller_info', 'member_info']
 		,data: function(){
 			return {
 				program: {

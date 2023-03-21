@@ -5,7 +5,7 @@
 		<Top
 			:program="program"
 			:member_info="member_info"
-			:shop_info="shop_info"
+			:seller_info="seller_info"
 
 		></Top>
 
@@ -158,7 +158,7 @@ import Empty from "@/view/Layout/Empty";
 import Top from "../Layout/Top";
 
 export default{
-	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category', 'member_info', 'shop_info']
+	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category', 'member_info', 'seller_info']
 	,components: {Top, Empty, Search, Pagination }
 	,data: function(){
 		return {

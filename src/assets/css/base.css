@@ -208,6 +208,8 @@
 .full-width { width: 100%;}
 .height-auto { height: auto !important;}
 
+.inline-block { display: inline-block;}
+
 /* background */
 
 .bg-none { background-color: transparent}
