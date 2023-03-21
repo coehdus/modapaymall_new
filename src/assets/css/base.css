@@ -1,6 +1,6 @@
 
 /* text decoration */
-.under-line { border-bottom: 1px solid #bbb}
+.under-line { border-bottom: 1px solid var(--line-primary)}
 .under-line-82 { border-bottom: 1px solid #828282}
 .text-right { text-align: right !important; }
 .text-center { text-align: center; }
@@ -116,6 +116,7 @@
 .pa-30 { padding: 30px;}
 .pa-10-10-15-10 { padding: 10px 10px 15px 10px !important;}
 .pa-50 { padding: 50px}
+.pa-50-20 { padding: 50px 20px !important;}
 
 .pl-5 { padding-left: 5px}
 .pl-10 { padding-left: 10px}
@@ -209,6 +210,7 @@
 
 /* background */
 
+.bg-none { background-color: transparent}
 .bg-default { background-color: #eee}
 .bg-identify { background-color: #333; color: #eee}
 .bg-gray { background-color: gray; color: white}
@@ -253,15 +255,19 @@ input:read-only { background-color: #eee; color: #bbb;}
 .input-box-5 { width: 100%; padding: 5px; border: 1px solid #ddd;}
 .box { border: 1px solid #ddd}
 .box-rl { border-right: 1px solid #ddd; border-left: 1px solid #ddd}
-.radius-5 { border-radius: 5px}
-.radius-10 { border-radius: 10px}
+.radius-5 { border-radius: 5px; overflow: hidden}
+.radius-10 { border-radius: 10px; overflow: hidden}
+.radius-20 { border-radius: 20px; overflow: hidden}
+.radius-top-20 { border-radius: 20px 20px 0 0; overflow: hidden}
+.radius-bottom-20 { border-radius: 0 0 20px 20px; overflow: hidden}
 
 .login-checkbox { width: 20px !important; vertical-align: middle; margin-right: 0px;}
 
 /* button */
-.btn { display: inline-block; width: 100%; text-align: center; padding: 10px; font-size: 12px; color: white;}
+.btn { display: inline-block; width: 100%; text-align: center; padding: 10px; font-size: 14px; font-weight: 500; color: white;}
 
-.btn-primary { background-color: #0165FA; color: white; font-size: 16px; font-weight: 300; }
+.btn-primary { background-color: var(--btn-primary); color: white; }
+.btn-dark-gray { background-color: darkgray; color: white; }
 
 .btn-danger { background-color: #D50000; color: white; font-size: 16px; font-weight: 300; }
 .btn-default { background-color: #eee; color: #2A2A2A; border: 1px solid #ddd}

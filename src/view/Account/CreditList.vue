@@ -28,27 +28,20 @@
 					<div
 						class="ptb-10 justify-space-between under-line-dashed"
 					>
-					<span
-						:class="{ 'color-green font-weight-bold': item.is_base == 1 }"
-					>{{ item.shipping_name }}</span>
+						<span
+							:class="{ 'color-green font-weight-bold': item.is_base == 1 }"
+						>{{ item.bill_name }}</span>
 						<span>
-						<v-icon
-							class="color-blue"
-							@click="setItem(item)"
-						>mdi mdi-pencil-box</v-icon>
-						<v-icon
-							class="color-red"
-							@click="showRemoveModal(item)"
-						>mdi mdi-close-box-outline</v-icon>
-					</span>
+							<v-icon
+								class="color-blue"
+								@click="onMain(item)"
+							>mdi mdi-pencil-box</v-icon>
+							<v-icon
+								class="color-red"
+								@click="onDelete(item)"
+							>mdi mdi-close-box-outline</v-icon>
+						</span>
 					</div>
-					<div class="ptb-10  justify-space-between under-line-dashed">
-						<span>{{ item.name }}</span>
-						<span>{{ item.tell }}</span>
-					</div>
-
-					<div class="ptb-10">{{ item.post }} {{ item.addr1 }} </div>
-					<div class="">{{ item.addr2 }}</div>
 				</li>
 			</ul>
 
@@ -65,17 +58,47 @@
 				</div>
 			</div>
 		</div>
+
+		<PopupConfirm
+			v-if="is_on_main"
+
+			@cancel="is_on_main = false"
+		>
+			<template
+				v-slot:title
+			>대표카드 설정</template>
+			<template
+				v-slot:main-txt
+			>{{ item_credit.bill_name}}을 대표카드로 설정하시겠습니까?</template>
+		</PopupConfirm>
+
+		<PopupConfirm
+			v-if="is_on_delete"
+
+			@cancel="is_on_delete = false"
+		>
+			<template
+				v-slot:title
+			>신용카드 삭제</template>
+			<template
+				v-slot:main-txt
+			>{{ item_credit.bill_name}}을 삭제하시겠습니까?</template>
+		</PopupConfirm>
 	</div>
 </template>
 
 <script>
+
+	import PopupConfirm from "@/view/Layout/PopupConfirm";
 	export default {
 		name: 'CreditList'
-		, props: ['member_info', 'Axios']
+		,
+		components: {PopupConfirm},
+		props: ['member_info', 'Axios']
 		, data: function(){
 			return {
 				program: {
-					name: '신용카드관리'
+					name: '신용카드 관리'
 					,code: 'mypage'
 					,wrap: 'mypage'
 					,top: false
@@ -86,6 +109,9 @@
 				, items_credit: []
 				, item_more: {}
 				, is_more: false
+				, is_on_main: false
+				, is_on_delete: false
+				, item_credit: {}
 			}
 		}
 		, computed: {
@@ -113,6 +139,14 @@
 			}
 			, toCredit: function(){
 				this.$emit('push', { name: 'CreditRegister'})
+			}
+			, onMain: function(item){
+				this.is_on_main = true
+				this.item_credit = item
+			}
+			, onDelete: function(item){
+				this.is_on_delete = true
+				this.item_credit = item
 			}
 		}
 		, created() {
