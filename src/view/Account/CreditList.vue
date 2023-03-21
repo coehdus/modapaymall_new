@@ -82,6 +82,7 @@
 			v-if="is_on_delete"
 
 			@cancel="is_on_delete = false"
+			@click="postCreditDelete"
 		>
 			<template
 				v-slot:title
@@ -167,6 +168,29 @@
 					if(result.success){
 						await this.getCreditList()
 						this.is_on_main = false
+					}else{
+						throw result.message
+					}
+				}catch(e){
+					console.log(e.message)
+					this.$bus.$emit('notify', { type: 'error', message: e})
+				}finally {
+					this.$bus.$emit('on', false)
+				}
+			}
+			, postCreditDelete: async function(){
+				try{
+					this.$bus.$emit('on', true)
+					let result = await this.Axios({
+						method: 'post'
+						, url: '/order/postCreditDelete'
+						, data: {
+							uid: this.item_credit.uid
+						}
+					})
+					if(result.success){
+						await this.getCreditList()
+						this.is_on_delete = false
 					}else{
 						throw result.message
 					}
