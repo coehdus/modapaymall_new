@@ -388,12 +388,6 @@
 
 <style>
 
-	.label { color: white; border-radius: 5px; padding: 3px 7px 3px; line-height: 12px !important; font-size: 10px;}
-	.label-new { background-color: #0D47A1;}
-	.label-hot { background-color: #e64a19;}
-	.label-recomm { background-color: #0f9d58;}
-	.label-season { background-color: #00b0ff;}
-
 	ul.list {
 		height: 100%
 	}

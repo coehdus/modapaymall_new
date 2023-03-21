@@ -338,6 +338,15 @@ input:read-only { background-color: #eee; color: #bbb;}
 .icon-xxxx-large { font-size: 96px  !important; }
 
 /* label */
+
+.label { color: #eee; border-radius: 5px; padding: 3px 7px 3px; line-height: 12px !important; font-size: 10px;}
+.label-new { background-color: #0D47A1;}
+.label-hot { background-color: #e64a19;}
+.label-recomm { background-color: #0f9d58;}
+.label-season { background-color: #00b0ff;}
+
+.label-primary { background-color: var(--bg-primary); }
+
 .label-default { background-color: #bbb; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px }
 .label-success { background-color: #15ab94; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px}
 .label-cancel { background-color: #f44336; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px}

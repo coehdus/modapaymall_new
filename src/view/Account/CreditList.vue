@@ -32,14 +32,19 @@
 							:class="{ 'color-green font-weight-bold': item.is_base == 1 }"
 						>{{ item.bill_name }}</span>
 						<span>
+							<span
+								v-if="item.is_main == '1'"
+								class="label label-primary"
+							>대표카드</span>
 							<v-icon
+								v-else
 								class="color-blue"
 								@click="onMain(item)"
-							>mdi mdi-pencil-box</v-icon>
+							>mdi-marker-check</v-icon>
 							<v-icon
-								class="color-red"
+								class="color-red ml-10"
 								@click="onDelete(item)"
-							>mdi mdi-close-box-outline</v-icon>
+							>mdi-close-box-outline</v-icon>
 						</span>
 					</div>
 				</li>
@@ -63,6 +68,7 @@
 			v-if="is_on_main"
 
 			@cancel="is_on_main = false"
+			@click="postMain"
 		>
 			<template
 				v-slot:title
@@ -147,6 +153,29 @@
 			, onDelete: function(item){
 				this.is_on_delete = true
 				this.item_credit = item
+			}
+			, postMain: async function(){
+				try{
+					this.$bus.$emit('on', true)
+					let result = await this.Axios({
+						method: 'post'
+						, url: '/order/postCreditMain'
+						, data: {
+							uid: this.item_credit.uid
+						}
+					})
+					if(result.success){
+						await this.getCreditList()
+						this.is_on_main = false
+					}else{
+						throw result.message
+					}
+				}catch(e){
+					console.log(e.message)
+					this.$bus.$emit('notify', { type: 'error', message: e})
+				}finally {
+					this.$bus.$emit('on', false)
+				}
 			}
 		}
 		, created() {
