@@ -578,7 +578,7 @@
 		></OrderFormBillgate>
 
 		<OrderFormCorpayR
-			v-if="is_corpay_m"
+			v-if="is_on_corpay_m"
 
 			:Axios="Axios"
 			:user="user"
@@ -751,6 +751,7 @@ export default{
 			, items_bill_date: [5, 10, 15, 20, 25]
 			, items_bill_rate: [3, 6, 12]
 			, is_bill_result: false
+			, is_on_corpay_m: false
 		}
 	}
 	,computed: {
@@ -1161,7 +1162,11 @@ export default{
 				})
 				if(result.success){
 					this.pg_info = result.data
-					this.is_on_bill = true
+					if(this.pg_info.pg_code == 'corpay_m'){
+						this.is_on_corpay_m = true
+					}else{
+						this.is_on_bill = true
+					}
 				}else{
 					throw result.message
 				}
@@ -1280,6 +1285,7 @@ export default{
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.pg_info = {}
+				this.is_on_corpay_m = false
 				this.$bus.$emit('notify', { type: 'error', message: '결제가 정상적으로 처리되지 않았습니다. 잠시후 다시 이용해주세요'})
 			}
 		}

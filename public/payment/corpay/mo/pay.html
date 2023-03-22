@@ -23,6 +23,7 @@
 
         $(document).ready(function() {
 
+            getOrderInfo()
 //결제창 요청시 실행됩니다.
             $("#payBtn").click(function (){
 
@@ -44,13 +45,15 @@
 
         //결제창 종료 함수 <<'returnData' 수정 불가능>>
         function returnData (e){
-            console.log('returnData e', e)
+            console.log('returnData e', e.data)
             if (e.data != ""){
                 var div = document.createElement('div');
                 div.setAttribute('id', 'sendData');
                 document.body.appendChild(div);
                 document.getElementById("sendData").innerHTML = e.data;
-                document.transRslt.submit();
+                if(document.transRslt){
+                    document.transRslt.submit();
+                }
             }
             // $("#mask, .window").hide();
             // $("#pay_frame").attr("src", "");
@@ -74,10 +77,6 @@
 
                 document.payInit.action = t.returnUrl
             }
-        }
-
-        window.onload = function(){
-            getOrderInfo()
         }
     </script>
     <div style="text-align:center;">
@@ -159,7 +158,7 @@
         </div>
     </div>
     <div id="mask"></div>
-    <div class="window">
+    <div class="window" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: none">
         <div class="cont">
             <iframe id="pay_frame" name="pay_frame" style="width:100%; height:100%;" src="" marginwidth="0" marginheight="0" frameborder="no" scrolling="no"></iframe>
         </div>

@@ -6,12 +6,12 @@
 			style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5;"
 		></div>
 		<div
-			style="position: relative; width: 100%; height: 100%;"
+			style="position: relative; width: 100%; height: 100%; overflow: auto"
 			class="flex-column justify-center items-center"
 		>
 			<iframe
 				src="/payment/corpay/mo/pay.html"
-				style=" width: 480px; height: 640px"
+				style=" width: 320px; height: 100%; overflow: hidden"
 				frameborder="0"
 				class="bg-white"
 			></iframe>
