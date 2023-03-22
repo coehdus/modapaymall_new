@@ -88,6 +88,11 @@ const routes = [
 		,component: () => import('@/view/Order/OrderList.vue')
 	}
 	,{
+		path: prefix + 'Order/Regular'
+		,name: 'OrderRegular'
+		,component: () => import('@/view/Order/OrderRegularList.vue')
+	}
+	,{
 		path: prefix + 'Order/Odt/Confirm/:odt_uid'
 		,name: 'OdtConfirm'
 		,component: () => import('@/view/Order/OdtConfirm.vue')

@@ -596,7 +596,7 @@
 			v-if="is_on_bill"
 
 			@cancel="is_on_bill = false"
-			@click="postBill"
+			@click="getBillInfo"
 		>
 			<template
 				v-slot:body
@@ -750,6 +750,7 @@ export default{
 			, is_on_bill: false
 			, items_bill_date: [5, 10, 15, 20, 25]
 			, items_bill_rate: [3, 6, 12]
+			, is_bill_result: false
 		}
 	}
 	,computed: {
@@ -953,6 +954,11 @@ export default{
 
 		save: async function(){
 			this.$bus.$emit('on', true)
+			if(this.item.pay_div == 'bill'){
+				this.order_item.credit_uid = this.item_credit.uid
+				this.order_item.regular_date = this.item_credit.bill_date
+				this.order_item.regular_rate = this.item_credit.bill_rate
+			}
 			try{
 				const result = await this.Axios({
 					method: 'post'
@@ -962,12 +968,12 @@ export default{
 
 				if(result.success){
 					this.order_number_new = result.data.order_number_new
-					if(this.item.pay_div == 'bank'){
-						this.$bus.$emit('notify', { type: 'success', message: result.message})
-						this.toResult()
-					}else{
+					if(this.item.pay_div == 'card'){
 						this.is_order = true
 						this.$bus.$emit('on', true)
+					}else{
+						this.$bus.$emit('notify', { type: 'success', message: result.message})
+						this.toResult()
 					}
 
 				}else{
@@ -1132,6 +1138,30 @@ export default{
 				if(result.success){
 					this.pg_info = result.data
 					await this.save()
+				}else{
+					throw result.message
+				}
+			}catch (e) {
+				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
+			}finally {
+				this.$bus.$emit('on', false)
+			}
+		}
+
+		, getBillInfo: async function(){
+			try {
+				this.$bus.$emit('on', true)
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/getBillInfo'
+					,data: {
+						order_price: this.order_price
+					}
+				})
+				if(result.success){
+					this.pg_info = result.data
+					this.is_on_bill = true
 				}else{
 					throw result.message
 				}
@@ -1335,13 +1365,29 @@ export default{
 			if(this.item.pay_div == 'bank'){
 				this.save()
 			}else if(this.item.pay_div == 'bill') {
-				this.is_on_bill = true
+				this.getBillInfo()
 			}else{
 				this.getPgInfo()
 			}
 		}
 		, postBill: async function(){
-			alert('!')
+			try {
+				this.$bus.$emit('on', true)
+				const result = await this.Axios({
+					method: 'get'
+					,url: 'order/postBill'
+					,data: this.item_credit
+				})
+				if(result.success){
+					this.is_bill_result = true
+				}else{
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
+				}
+			}catch (e) {
+				console.log(e)
+			}finally {
+				this.$bus.$emit('on', false)
+			}
 		}
 		, setCredit: function(credit){
 			let bill_date = this.item_credit.bill_date

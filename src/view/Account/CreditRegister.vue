@@ -236,12 +236,12 @@
 				this.is_result = false
 				this.$bus.$emit('onLoad', this.program)
 			}
-			, getPgInfo: async function(){
+			, getBillInfo: async function(){
 				try {
 					this.$bus.$emit('on', true)
 					const result = await this.Axios({
 						method: 'get'
-						,url: 'order/getPgInfo'
+						,url: 'order/getBillInfo'
 						,data: {
 						}
 					})
@@ -260,7 +260,7 @@
 		}
 		, created() {
 			this.$emit('onLoad', this.program)
-			this.getPgInfo()
+			this.getBillInfo()
 		}
 	}
 </script>

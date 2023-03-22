@@ -93,6 +93,13 @@
 						<span>주문 취소</span>
 						<span><v-icon>mdi-chevron-right</v-icon></span>
 					</li>
+					<li
+						class="pa-10 justify-space-between"
+						@click="toRegularList"
+					>
+						<span>정기 결제</span>
+						<span><v-icon>mdi-chevron-right</v-icon></span>
+					</li>
 				</ul>
 
 				<h6 class="pa-10 mt-10">신용카드 관리</h6>
@@ -195,6 +202,9 @@ export default{
 		}
 		,toOrderList: function(type){
 			this.$storage.push({ name: 'OrderList', params: {type: type}})
+		}
+		, toRegularList: function(){
+			this.$storage.push({ name: 'OrderRegular'})
 		}
 		,toPassword: function(){
 			this.$router.push('Password')
