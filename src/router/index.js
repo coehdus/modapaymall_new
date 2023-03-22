@@ -68,6 +68,11 @@ const routes = [
 		,component: () => import('@/view/Order/OrderForm.vue')
 	}
 	,{
+		path: prefix + 'Order/Bill'
+		,name: 'OrderBill'
+		,component: () => import('@/view/Order/OrderForm.vue')
+	}
+	,{
 		path: prefix + 'Order/Form'
 		,name: 'OrderForm'
 		,component: () => import('@/view/Order/OrderForm.vue')
@@ -91,6 +96,11 @@ const routes = [
 		path: prefix + 'Order/Regular'
 		,name: 'OrderRegular'
 		,component: () => import('@/view/Order/OrderRegularList.vue')
+	}
+	,{
+		path: prefix + 'Order/Regular/Detail/:idx'
+		,name: 'OrderRegularDetail'
+		,component: () => import('@/view/Order/OrderRegularDetail.vue')
 	}
 	,{
 		path: prefix + 'Order/Odt/Confirm/:odt_uid'

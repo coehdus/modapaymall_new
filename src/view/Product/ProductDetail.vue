@@ -98,6 +98,19 @@
 			</div>
 
 			<div
+				v-if="item.is_regular == '1'"
+				class="mt-10 flex-row justify-space-between under-line-dashed pb-10 "
+			>
+				<div
+					class="pdt-rate"
+				>정기구매 가능 상품</div>
+				<div
+					class="pdt-price"
+					@click="setBuy('bill')"
+				><button class="label label-primary size-px-12"><v-icon class="color-white mr-5" small>mdi-arrow-left-bold-box-outline</v-icon>정기구매</button></div>
+			</div>
+
+			<div
 				v-if="item.pdt_delivery > 0"
 				class="mt-10 justify-space-between under-line-dashed pb-10"
 			>
@@ -283,7 +296,7 @@
 			>
 				<button
 					class="flex-1 btn btn-default mr-10"
-					@click="setBuy"
+					@click="setBuy('buy')"
 				>바로구매</button>
 				<button
 					class="flex-1 btn btn-identify"
@@ -413,7 +426,7 @@
 					console.log(E)
 				}
 			}
-			,setBuy: async function() {
+			,setBuy: async function(type) {
 				if(this.options.length <= 0){
 					this.$bus.$emit('notify', { type: 'error', message: '옵션을 선택하세요'})
 					return false
@@ -428,7 +441,11 @@
 					})
 
 					if(result.success){
-						await this.$router.push({ name: 'OrderBuy'})
+						if(type == 'bill'){
+							await this.$router.push({ name: 'OrderBill'})
+						}else{
+							await this.$router.push({ name: 'OrderBuy'})
+						}
 					}else{
 						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}

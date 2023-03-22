@@ -350,7 +350,7 @@
 
 						<div
 							class="mt-10"
-							v-if="shop_info.is_bill == '1' && Number(seller_info.sales_bill_uid)"
+							v-if="is_do_bill"
 							@click="doPaymentBill"
 						>
 							<v-icon
@@ -705,7 +705,7 @@ export default{
 			,daumPostUp: false
 			,order_number: ''
 			,item: {
-				pay_div: 'card'
+				pay_div: this.$route.name == 'OrderBill' ? 'bill' : 'card'
 				,member_tell: this.member_info.member_tell ? this.member_info.member_tell : ''
 				,member_email: this.member_info.member_email ? this.member_info.member_email : ''
 				,d_name: ''
@@ -949,6 +949,13 @@ export default{
 			}
 
 			return items
+		}
+		, is_do_bill: function(){
+			let t = false
+			if(this.shop_info.is_bill == '1' && Number(this.seller_info.sales_bill_uid) && (this.$route.name == 'OrderBuy' || this.$route.name == 'OrderBill')){
+				t = true
+			}
+			return t
 		}
 	}
 	,methods: {
@@ -1223,7 +1230,7 @@ export default{
 			await this.getShopInfo()
 			await this.getShippingList()
 
-			if(this.$route.name == 'OrderBuy'){
+			if(this.$route.name != 'OrderForm'){
 				await this.getBuyItem()
 			}else{
 				this.use_item = this.cart_items

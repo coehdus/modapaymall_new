@@ -13,9 +13,28 @@
 				<li
 					v-for="(item, index) in items"
 					:key="'item_' + index"
-					class=" bg-white mt-10 box-shadow position-relative"
+					class=" bg-white mt-10 box-shadow position-relative "
+					@click="toDetail(item)"
 				>
-					{{ item.bill_name }}
+					<div class="flex-row items-center under-line pb-10 pa-10">
+						<div class="square-64  text-center flex-column justify-center mr-10">
+							<img
+								v-if="!item.is_error"
+								:src="$pdt_img_url + item.pdt_img" class="width-100" @error="item.is_error = true"/>
+							<v-icon
+								v-else
+								>mdi-image-area</v-icon>
+						</div>
+						<div class="flex-1 flex-column ">
+							<div>{{ item.pdt_name }}</div>
+							<div>{{ item.order_price | makeComma}}원</div>
+						</div>
+					</div>
+
+					<div class="pa-10 flex-row justify-space-between">
+						<div>{{ item.bill_name }} </div>
+						<div>매월 {{ item.regular_date }}일 {{ item.regular_rate }}개월</div>
+					</div>
 				</li>
 			</ul>
 
@@ -43,9 +62,8 @@ import Empty from "@/view/Layout/Empty";
 
 export default{
 	name: 'OrderList'
-	,
-	components: {Empty, Pagination},
-	props: ['Axios', 'member_info', 'TOKEN', 'codes']
+	, components: {Empty, Pagination}
+	, props: ['Axios', 'member_info', 'TOKEN', 'codes']
 	,data: function() {
 		return {
 			program: {
@@ -124,6 +142,16 @@ export default{
 			}finally {
 				this.$bus.$emit('on', false)
 			}
+		}
+		, toDetail: function(item){
+			this.$router.push({name: 'OrderRegularDetail', params: { idx: item.uid}})
+		}
+		, getSearch: function(page = 1){
+			if(page){
+				this.search.page = page
+			}
+
+			this.getData()
 		}
 	}
 	,created() {
