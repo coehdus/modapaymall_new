@@ -16,6 +16,15 @@
 					class=" bg-white mt-10 box-shadow position-relative "
 					@click="toDetail(item)"
 				>
+
+					<div class="pa-10 flex-row justify-space-between under-line">
+						<div>
+							<span v-if="item.is_cancel == 0" class="label label-primary">구독중</span>
+							<span v-else-if="item.is_cancel == 1" class="label label-success">구독완료</span>
+							<span v-else-if="item.is_cancel == 2" class="label label-cancel">구독취소</span>
+						</div>
+						<div>매월 {{ item.regular_date }}일</div>
+					</div>
 					<div class="flex-row items-center under-line pb-10 pa-10">
 						<div class="square-64  text-center flex-column justify-center mr-10">
 							<img
@@ -27,13 +36,12 @@
 						</div>
 						<div class="flex-1 flex-column ">
 							<div>{{ item.pdt_name }}</div>
-							<div>{{ item.order_price | makeComma}}원</div>
 						</div>
 					</div>
 
 					<div class="pa-10 flex-row justify-space-between">
 						<div>{{ item.bill_name }} </div>
-						<div>매월 {{ item.regular_date }}일 {{ item.regular_rate }}개월</div>
+						<div>{{ item.order_price | makeComma}}원</div>
 					</div>
 				</li>
 			</ul>
