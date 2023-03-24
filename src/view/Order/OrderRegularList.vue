@@ -3,7 +3,7 @@
 		class="full-height flex-column "
 	>
 		<div
-			class="pa-10 flex-column full-height  bg-gray-light overflow-y-auto"
+			class=" pa-10 flex-column full-height  bg-gray-light overflow-y-auto"
 		>
 			<ul
 				v-if="items.length > 0"
