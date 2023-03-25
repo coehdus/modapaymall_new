@@ -729,7 +729,7 @@ export default{
 
 			]
 			,use_item: [
-
+				{is_regular: ''}
 			]
 			,is_modal: false
 			,modal_option: {
