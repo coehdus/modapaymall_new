@@ -1090,9 +1090,6 @@ export default{
 				})
 				if(result.success){
 					this.shop_info = result.data
-					if(this.shop_info.is_bank == '1'){
-						this.item.pay_div = 'bank'
-					}
 				}else{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 					this.$router.back()
