@@ -952,7 +952,7 @@ export default{
 		}
 		, is_do_bill: function(){
 			let t = false
-			if(this.shop_info.is_bill == '1' && Number(this.seller_info.sales_bill_uid) && (this.$route.name == 'OrderBuy' || this.$route.name == 'OrderBill')){
+			if(this.shop_info.is_bill == '1' && Number(this.seller_info.sales_bill_uid) && (this.$route.name == 'OrderBuy' || this.$route.name == 'OrderBill') && this.use_item[0].is_regular == '1'){
 				t = true
 			}
 			return t
