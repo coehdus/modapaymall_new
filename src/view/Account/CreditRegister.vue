@@ -13,6 +13,7 @@
 			</div>
 
 			<div
+				v-if="pg_info.uid"
 				class="pa-10 flex-column full-height overflow-y-auto bg-gray-light"
 			>
 				<div class="bg-white pa-20 size-px-16 ">
@@ -153,7 +154,22 @@
 				</div>
 			</div>
 
-			<div class="mt-auto">
+			<div
+				v-else
+				class="pa-20"
+			>
+				<div
+					class="bg-white pa-10"
+				>
+					빌링결제 정보가 없습니다.
+					관리자에게 문의하세요
+				</div>
+			</div>
+
+			<div
+				v-if="pg_info.uid"
+				class="mt-auto"
+			>
 				<button
 					class="btn btn-identify"
 					@click="postCredit"
