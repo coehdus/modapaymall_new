@@ -2,9 +2,13 @@
 
 :root {
     --bg-primary: black;
+    --bg-secondary: #DC505C;
+    --bg-success: #15ab94;
     --bg-white: white;
 
     --line-primary: #eee;
 
     --btn-primary: #0165FA;
+    --btn-secondary: #DC505C;
+    --btn-success: #15ab94;
 }

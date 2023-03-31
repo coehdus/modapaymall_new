@@ -275,6 +275,7 @@ input:read-only { background-color: #eee; color: #bbb;}
 .btn { display: inline-block; width: 100%; text-align: center; padding: 10px; font-size: 14px; font-weight: 500; color: white;}
 
 .btn-primary { background-color: var(--btn-primary); color: white; }
+.btn-secondary { background-color: var(--btn-secondary); color: white;}
 .btn-dark-gray { background-color: darkgray; color: white; }
 
 .btn-danger { background-color: #D50000; color: white; font-size: 16px; font-weight: 300; }
@@ -353,11 +354,11 @@ input:read-only { background-color: #eee; color: #bbb;}
 .label-recomm { background-color: #0f9d58;}
 .label-season { background-color: #00b0ff;}
 
-.label-primary { background-color: var(--bg-primary); }
 
-.label-default { background-color: #bbb; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px }
-.label-success { background-color: #15ab94; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px}
-.label-cancel { background-color: #f44336; border-radius: 5px; color: white; padding: 0px 5px; font-size: 12px; letter-spacing: 1px}
+.label-primary { background-color: var(--bg-primary); }
+.label-default { background-color: #bbb;}
+.label-success { background-color: var(--bg-success);}
+.label-cancel { background-color: var(--bg-secondary);}
 
 /* animation */
 .rotate-180 {

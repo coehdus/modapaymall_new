@@ -2,6 +2,23 @@
 	<div
 		class="full-height flex-column "
 	>
+		<div class="tab justify-space-between under-line">
+			<div
+				class="flex-1 pa-10 text-center "
+				:class="{ on: search.is_cancel == 0}"
+				@click="getTypeData(0)"
+			>구독중</div>
+			<div
+				class="flex-1 pa-10 text-center box-rl"
+				:class="{ on: search.is_cancel == 1}"
+				@click="getTypeData(1)"
+			>구독완료</div>
+			<div
+				class="flex-1 pa-10 text-center "
+				:class="{ on: search.is_cancel == 2}"
+				@click="getTypeData(2)"
+			>구독취소</div>
+		</div>
 		<div
 			class=" pa-10 flex-column full-height  bg-gray-light overflow-y-auto"
 		>
@@ -86,6 +103,7 @@ export default{
 				, type: this.$route.params.type
 				, page: 1
 				, list_cnt: 10
+				, is_cancel: 0
 			})
 			,items: [
 
@@ -159,6 +177,10 @@ export default{
 				this.search.page = page
 			}
 
+			this.getData()
+		}
+		, getTypeData: function(type){
+			this.search.is_cancel = type
 			this.getData()
 		}
 	}
