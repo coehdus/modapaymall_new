@@ -18,12 +18,11 @@
     <body>
     <script type="text/javascript">
 
-        let domain = process.env.VUE_APP_DOMAIN
-        let location = window.location.hostname
-
-        let url = "https://testpgapi.korpay.com";
-        if(location == domain){
-            url = "https://pgapi.korpay.com";
+        var url = "https://pgapi.korpay.com";
+        var domain = ['modapaymall.shop', 'sspay.kr']
+        var path = document.location.hostname
+        if(domain.includes(path)){
+            url = 'https://pgapi.korpay.com'
         }
 
         $(document).ready(function() {
