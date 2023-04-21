@@ -18,8 +18,13 @@
     <body>
     <script type="text/javascript">
 
-        var url = "https://pgapi.korpay.com";
+        let domain = process.env.VUE_APP_DOMAIN
+        let location = window.location.hostname
 
+        let url = "https://testpgapi.korpay.com";
+        if(location == domain){
+            url = "https://pgapi.korpay.com";
+        }
 
         $(document).ready(function() {
 
@@ -55,6 +60,7 @@
                     document.transRslt.submit();
                 }
             }
+
             // $("#mask, .window").hide();
             // $("#pay_frame").attr("src", "");
         }
@@ -75,7 +81,7 @@
                     }
                 }
 
-                document.payInit.action = t.returnUrl
+                // document.payInit.action = t.returnUrl
             }
         }
     </script>
