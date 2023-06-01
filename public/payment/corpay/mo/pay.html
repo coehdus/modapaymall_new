@@ -49,7 +49,7 @@
 
         //결제창 종료 함수 <<'returnData' 수정 불가능>>
         function returnData (e){
-            console.log('returnData e', e.data)
+            // console.log('returnData e', e.data)
             if (e.data != ""){
                 var div = document.createElement('div');
                 div.setAttribute('id', 'sendData');
@@ -72,7 +72,7 @@
                 t = JSON.parse(t)
 
                 for(let key in t){
-                    console.log(key, t[key])
+                    // console.log(key, t[key])
                     if(key == 'is_mobile'){
                         is_mobile = t[key]
                     }else{

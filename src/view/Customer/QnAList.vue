@@ -143,7 +143,7 @@ export default {
 					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -159,7 +159,7 @@ export default {
 		}
 	}
 	,created() {
-		console.log('in noticelist ')
+		// console.log('in noticelist ')
 		this.$emit('onLoad', this.program)
 		this.getData()
 	}

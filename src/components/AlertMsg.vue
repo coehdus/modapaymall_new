@@ -107,7 +107,7 @@ export default{
 	,created() {
 		let self = this
 		this.$bus.$on('notify', function({ type, message, config }){
-			console.log('config', config)
+			// console.log('config', config)
 			self.msg = message
 			self.type = type
 			self.config = config

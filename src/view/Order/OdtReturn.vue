@@ -124,7 +124,7 @@ export default {
 			if(this.item.file){
 				return this.item.file.name
 			}else{
-				console.log(2)
+				// console.log(2)
 				return '사진을 첨부해주세요'
 			}
 		}
@@ -152,7 +152,7 @@ export default {
 	}
 	,methods: {
 		setCancelFile: function(e){
-			console.log(e.target.files)
+			// console.log(e.target.files)
 			let file = e.target.files[0]
 
 			this.$set(this.cancel_item, 'file', file)
@@ -176,7 +176,7 @@ export default {
 					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
 			}catch(e){
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -203,8 +203,7 @@ export default {
 					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
-				this.$bus.$emit('notify', {type: 'error', message: '시스템 오류'})
+				this.$bus.$emit('notify', {type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}

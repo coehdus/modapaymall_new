@@ -162,7 +162,7 @@ export default{
 					throw result.message
 				}
 			}catch(e){
-				console.log(e.message)
+				// console.log(e.message)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)

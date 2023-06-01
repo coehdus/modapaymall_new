@@ -67,7 +67,7 @@
 			//Ajax 통신
 			xhr.onload = function(){
 				if(xhr.readyState == 4 && xhr.status == 200){ //통신 성공 시
-					console.log(xhr.responseText);
+					// console.log(xhr.responseText);
 					HForm.CHECK_SUM.value = xhr.responseText.trim();  //재생성된 체크썸
 				}
 			};
@@ -174,7 +174,7 @@
 				t = JSON.parse(t)
 
 				for(let key in t){
-					console.log(key, t[key])
+					// console.log(key, t[key])
 					if(key == 'is_mobile'){
 						is_mobile = t[key]
 					}else{

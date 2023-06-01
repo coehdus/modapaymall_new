@@ -9,7 +9,7 @@
 		>
 		</div>
 		<div
-			style="position: relative; z-index: 1; padding: 10px; height: 100%; overflow: auto"
+			style="position: relative; z-index: 1; padding: 10px; height: 100%; overflow: auto; max-width: 480px; margin: 0 auto"
 		>
 			<div
 				style="background-color: #0f6ecd; color: white; padding: 10px; display: flex; justify-content: space-between"
@@ -49,7 +49,7 @@ export default{
 		modal: {
 			deep: true
 			,handler: function(call){
-				console.log('watch modal')
+				// console.log('watch modal')
 				if(call){
 					this.callModal()
 				}else{

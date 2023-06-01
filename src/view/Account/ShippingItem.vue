@@ -149,7 +149,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e){
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 			,daumPost: function () {

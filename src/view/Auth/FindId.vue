@@ -103,7 +103,7 @@ export default{
 				let length = this.member_id.length
 				let start = Math.ceil(length / 3)
 				let end = Math.floor(length / 3)
-				console.log('length : ' + length + ' start: ' + start + ' end: ' + end)
+				// console.log('length : ' + length + ' start: ' + start + ' end: ' + end)
 				id = this.member_id.slice(0, start)
 					+ this.member_id.slice(start, start + end).replace(/(?<=.{0})./gi, "*")
 					+ this.member_id.slice(start + end, length)
@@ -130,9 +130,8 @@ export default{
 				} else {
 					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
-			} catch (E) {
-				console.log(E)
-				this.$bus.$emit('notify', {type: 'error', message: E})
+			} catch (e) {
+				this.$bus.$emit('notify', {type: 'error', message: e})
 			}
 		}
 		,toLogin: function(){

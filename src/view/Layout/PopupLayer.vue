@@ -5,6 +5,7 @@
 		<div class="bg-layer z-index-bg"></div>
 		<div
 			class="position-relative pa-20 flex-column justify-center full-width full-height z-index-contents"
+			style="max-width: 480px; margin: 0 auto"
 		>
 			<div>
 				<slot name="body"></slot>

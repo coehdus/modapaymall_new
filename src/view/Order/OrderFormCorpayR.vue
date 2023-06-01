@@ -77,7 +77,7 @@ export default {
 				if (t.orderNo == this.order_info.order_number) {
 
 					window.addEventListener('message', (e) => {
-						console.log('on message', e.data)
+						// console.log('on message', e.data)
 
 						if(e.data.name == 'orderFormCorpayM'){
 
@@ -86,15 +86,15 @@ export default {
 								let data = JSON.parse(e.data)
 								let result = data.result
 								if (result) {
-									console.log('success');
+									// console.log('success');
 									this.$emit('success', data)
 								} else {
-									console.log('fail');
+									// console.log('fail');
 									this.$emit('fail', data)
 								}
 								// w_a.close()
 							} catch (e) {
-								console.log('addEventListener', e)
+								// console.log('addEventListener', e)
 							}finally {
 								sessionStorage.removeItem('order_info')
 							}
@@ -111,7 +111,7 @@ export default {
 		}
 	}
 	, async created() {
-		console.log('corpay_m order_info', this.order_info)
+		// console.log('corpay_m order_info', this.order_info)
 		this.setOrder()
 	}
 }

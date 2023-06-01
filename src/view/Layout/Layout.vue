@@ -1,13 +1,15 @@
 <template>
 	<div
 		class="full-height"
-		style="overflow: hidden"
+		style="overflow: hidden; background-color: #f8f8f8"
 	>
 		<Loading
 			v-if="is_loading"
 		></Loading>
-		<template
+		<div
 			v-if="is_ready"
+			class="full-height"
+			style=" max-width: 480px; margin: 0 auto"
 		>
 		<Side
 			v-if="is_side"
@@ -75,7 +77,7 @@
 				@toggleSide="toggleSide"
 			></Bottom>
 		</div>
-		</template>
+		</div>
 
 		<Notify
 			:msg="notifyCondition.message"
@@ -135,8 +137,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
-
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 			,setNotify: function({type, message}){
@@ -170,7 +171,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 			,toBack: function(){

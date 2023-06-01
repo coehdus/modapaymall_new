@@ -422,8 +422,8 @@
 					} else {
 						this.$bus.$emit('notify', {type: 'error', message: result.message})
 					}
-				}catch(E){
-					console.log(E)
+				}catch(e){
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 			,setBuy: async function(type) {
@@ -450,8 +450,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
-					console.log(e)
-					this.$bus.$emit('notify', { type: 'error', message: 'DB 오류'})
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 
@@ -479,8 +478,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
-					console.log(e)
-					this.$bus.$emit('notify', { type: 'error', message: 'DB 오류'})
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 			,toBack: function(){

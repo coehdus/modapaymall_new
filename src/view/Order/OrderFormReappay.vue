@@ -132,7 +132,7 @@ export default {
 
 			let domain = process.env.VUE_APP_DOMAIN
 			let location = window.location.href
-			console.log(window.location)
+			// console.log(window.location)
 			if(location.indexOf(domain) > -1){
 				url = window.location.origin + '/' + this.pg_info.successUrl
 			}else{
@@ -183,20 +183,20 @@ export default {
 			window.addEventListener('message', function (e) {
 
 				let data = JSON.parse(e.data)
-				console.log('addEventListener2', data)
+				// console.log('addEventListener2', data)
 				let result = data.result
 				if(result){
-					console.log('success');
+					// console.log('success');
 					self.$emit('success', data)
 				}else{
-					console.log('fail');
+					// console.log('fail');
 					self.$emit('fail', data)
 				}
 			});
 		}
 	}
 	,created() {
-		console.log('created')
+		// console.log('created')
 		setTimeout(() => this.openPop(), 1000);
 	}
 }

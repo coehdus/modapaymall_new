@@ -122,9 +122,8 @@ export default{
 				}else{
 					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
-			}catch(E){
-				console.log(E)
-				this.$bus.$emit('notify', { type: 'error', message: E })
+			}catch(e){
+				this.$bus.$emit('notify', { type: 'error', message: e })
 			}
 		}
 
@@ -143,7 +142,7 @@ export default{
 						document.location.href = '/Login'
 					}
 				}catch(e){
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 					document.location.href = '/Login'
 				}
 			}

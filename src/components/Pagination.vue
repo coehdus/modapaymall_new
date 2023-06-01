@@ -103,8 +103,8 @@
 				deep: true
 				,immediate: true
 				,handler: function(call){
-//					console.log('page_config')
-//					console.log(call)
+//					// console.log('page_config')
+//					// console.log(call)
 					if(call.page){
 						this.page_config.page = call.page
 					}

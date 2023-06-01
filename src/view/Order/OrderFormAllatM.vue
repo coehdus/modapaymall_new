@@ -112,7 +112,7 @@
 						throw result.message
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}
 			}
 
@@ -139,16 +139,16 @@
 
 						let self = this
 						window.addEventListener('message', function (e) {
-console.log('on message', e.data)
+// console.log('on message', e.data)
 							let data = JSON.parse(e.data)
 							let result = data.result
 							if(result){
 								alert('success')
-								console.log('success');
+								// console.log('success');
 								self.$emit('success', data)
 							}else{
 								alert('fail')
-								console.log('fail');
+								// console.log('fail');
 								self.$emit('fail', data)
 							}
 
@@ -162,7 +162,7 @@ console.log('on message', e.data)
 			}
 		}
 		, created() {
-			console.log('order_info', this.order_info)
+			// console.log('order_info', this.order_info)
 			this.setOrder()
 		}
 	}

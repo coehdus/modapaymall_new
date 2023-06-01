@@ -73,22 +73,22 @@
 					if (t.ordNo == this.order_info.order_number) {
 
 						window.addEventListener('message', (e) => {
-							console.log('on message', e.data)
+							// console.log('on message', e.data)
 
 							try {
 
 								let data = JSON.parse(e.data)
 								let result = data.result
 								if (result) {
-									console.log('success');
+									// console.log('success');
 									this.$emit('success', data)
 								} else {
-									console.log('fail');
+									// console.log('fail');
 									this.$emit('fail', data)
 								}
 								// w_a.close()
 							} catch (e) {
-								console.log('addEventListener', e)
+								// console.log('addEventListener', e)
 							}finally {
 								sessionStorage.removeItem('order_info')
 							}
@@ -121,7 +121,6 @@
 						//await this.toCancel(this.order_number_new)
 					}
 				}catch (e) {
-					console.log(e)
 					// await this.toCancel(this.order_number_new)
 					this.$bus.$emit('notify', { type: 'error', message: e})
 					this.$emit('fail')
@@ -131,7 +130,7 @@
 			}
 		}
 		, async created() {
-			console.log('order_info', this.order_info)
+			// console.log('order_info', this.order_info)
 			await this.getEncData()
 
 		}

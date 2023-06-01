@@ -349,7 +349,7 @@
 		,methods: {
 			getData: async function(){
 
-				console.log(this.search)
+				// console.log(this.search)
 
 				try{
 					this.$bus.$emit('on', true)
@@ -367,7 +367,6 @@
 						throw result.message
 					}
 				}catch(e){
-					console.log(e)
 					this.$bus.$emit('notify', { type: 'error', message: e })
 				}finally {
 					this.$bus.$emit('on', false)
@@ -381,7 +380,7 @@
 				item.index = index
 				this.cancel_item = item
 
-				console.log(item)
+				// console.log(item)
 			}
 			, postOdtCancelConfirm: async function(){
 				this.$bus.$emit('on', true)
@@ -402,7 +401,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -425,7 +424,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -448,7 +447,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -471,7 +470,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -493,7 +492,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -529,7 +528,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.clearItem()
 				}
@@ -552,7 +551,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message})
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.$emit('offLoad')
 				}
@@ -582,7 +581,7 @@
 				this.$set(this.item_return, 'reason', reason)
 			}
 			,setCancelFile: function(e){
-				console.log(e)
+				// console.log(e)
 				let file = e.data.files[0]
 
 				this.$set(this.item_return, 'img', file)
@@ -617,7 +616,7 @@
 						break
 					}
 				}
-				console.log('toShipping', url)
+				// console.log('toShipping', url)
 				window.open(url, 'shipping')
 			}
 			,getSearch: function(page){

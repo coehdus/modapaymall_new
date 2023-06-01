@@ -49,7 +49,7 @@
         }
 
 		window.addEventListener('message',  (e) => {
-			console.log('on message', e.data)
+			// console.log('on message', e.data)
 
 			try{
 
@@ -57,7 +57,7 @@
 				this.result_submit(data.data.result_cd, data.data.result_msg, data.data.enc_data)
 				// w_a.close()
 			}catch (e){
-				console.log('addEventListener', e)
+				// console.log('addEventListener', e)
 			}
 
 		});
@@ -409,7 +409,7 @@
             t = JSON.parse(t)
 
             for(let key in t){
-                console.log(key, t[key])
+                // console.log(key, t[key])
 				if(key == 'shop_approval_url'){
 					approval_url = t[key]
 				}else{

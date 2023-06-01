@@ -52,7 +52,7 @@ export default {
 	})
 	,methods: {
 		isAuth: function(){
-			console.log('isAuth start !!')
+			// console.log('isAuth start !!')
 			let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 			let skip = false
 			let except = ['auth']
@@ -64,10 +64,10 @@ export default {
 				}
 			})
 			if(skip){
-				console.log('isAuth skip ! do next !!')
+				// console.log('isAuth skip ! do next !!')
 			}else {
 				if (!TOKEN || TOKEN === 'false') {
-					console.log('not auth ! to login !!')
+					// console.log('not auth ! to login !!')
 					this.toLogin()
 				}else{
 					this.getBaseInfo()
@@ -75,7 +75,7 @@ export default {
 				}
 			}
 
-			console.log('isAuth finished !!')
+			// console.log('isAuth finished !!')
 		}
 		,toLogin: function(){
 			//this.$router.push({ name: 'Login' })
@@ -97,7 +97,6 @@ export default {
 					throw result.message
 				}
 			}catch (e) {
-				console.log(e)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}

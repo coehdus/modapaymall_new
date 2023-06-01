@@ -9,7 +9,7 @@ export const common = {
             w_type = true
         }
 
-        console.log('isMobile', w_type)
+        // console.log('isMobile', w_type)
         return w_type
     }
     , getIp: async function(){

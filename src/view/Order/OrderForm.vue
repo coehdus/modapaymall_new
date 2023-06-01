@@ -989,7 +989,6 @@ export default{
 					//await this.toCancel(this.order_number_new)
 				}
 			}catch (e) {
-				console.log(e)
 				// await this.toCancel(this.order_number_new)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.is_order = false
@@ -1032,7 +1031,6 @@ export default{
 					throw result.message
 				}
 			}catch (e) {
-				console.log(e)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.$router.back()
 			}
@@ -1060,7 +1058,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}
 		,showSipping: function(){
@@ -1095,7 +1093,7 @@ export default{
 					this.$router.back()
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}
 		,getIslandDelivery: async function(post){
@@ -1123,7 +1121,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}
 		}
 
@@ -1147,7 +1145,6 @@ export default{
 					throw result.message
 				}
 			}catch (e) {
-				console.log(e)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
@@ -1175,7 +1172,6 @@ export default{
 					throw result.message
 				}
 			}catch (e) {
-				console.log(e)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
@@ -1197,7 +1193,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -1218,7 +1214,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -1256,7 +1252,7 @@ export default{
 					throw result.message
 				}
 			}catch(e){
-				console.log(e.message)
+				// console.log(e.message)
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
@@ -1285,7 +1281,7 @@ export default{
 				await this.postOrderFail()
 
 			}catch (e){
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.pg_info = {}
@@ -1310,7 +1306,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -1331,7 +1327,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -1366,7 +1362,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
@@ -1394,7 +1390,7 @@ export default{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}

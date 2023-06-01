@@ -110,7 +110,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.$bus.$emit('on', false)
 				}
@@ -123,7 +123,7 @@
 			}
 		}
 		,created() {
-			console.log('in noticelist ')
+			// console.log('in noticelist ')
 			this.$emit('onLoad', this.program)
 			this.getData()
 		}

@@ -35,7 +35,7 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 				let TOKEN = sessionStorage.getItem(process.env.VUE_APP_NAME + 'T')
 				data.TOKEN = TOKEN
 			}
-				//console.log(url, data)
+				//// console.log(url, data)
 			return data
 		}
 	}
@@ -96,18 +96,16 @@ export async function Axios({ method, url, data, header, authorize, multipart, T
 			return result.data
 		}else{
 			const data = result.data
-			console.log(data.status)
+			// console.log(data.status)
 			if(data.status == 40120){
 				return {success: false, message: '인증이 만료되었습니다'}
 			}else{
 				return {success: false, message: '통신오류: ' + result.status}
 			}
 		}
-	}catch(E){
-		console.log('Axios result error')
-		console.log(E)
-		
-		return {success: false, message: '통신오류: ' + E}
+	}catch(e){
+		// console.log('Axios result error')
+		return {success: false, message: '통신오류: ' + e}
 	}
 }
 

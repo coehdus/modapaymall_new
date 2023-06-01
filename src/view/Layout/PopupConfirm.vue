@@ -19,7 +19,7 @@
 
 					<div class="font-popup-sub"><slot name="sub-txt"></slot></div>
 
-					<slot name="content"></slot>
+					<slot name="content"></slot>해
 				</div>
 			</div>
 

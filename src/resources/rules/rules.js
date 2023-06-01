@@ -19,7 +19,7 @@ export const rules = {
 	}
 	,id: (obj, part, {min, max}) => {
 		if(obj[part]){
-			console.log(obj[part])
+			// console.log(obj[part])
 			if(obj[part].length < min){
 				return { result: false, type: 'min'}
 			}

@@ -145,7 +145,7 @@ export default{
 	,methods: {
 		getData: async function(){
 
-			console.log(this.search)
+			// console.log(this.search)
 
 			try{
 				this.$bus.$emit('on', true)
@@ -163,7 +163,6 @@ export default{
 					throw result.message
 				}
 			}catch(e){
-				console.log(e)
 				this.$bus.$emit('notify', { type: 'error', message: e })
 			}finally {
 				this.$bus.$emit('on', false)

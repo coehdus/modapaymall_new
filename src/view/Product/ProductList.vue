@@ -250,9 +250,8 @@ export default{
 				} else {
 					this.$bus.$emit('notify', {type: 'error', message: result.message})
 				}
-			} catch (E) {
-				console.log(E)
-				this.$bus.$emit('notify', {type: 'error', message: E})
+			} catch (e) {
+				this.$bus.$emit('notify', {type: 'error', message: e})
 			} finally {
 				this.$bus.$emit('on', false)
 			}

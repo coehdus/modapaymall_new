@@ -212,7 +212,7 @@
 
 				if(Object.keys(this.item_list).length > 0){
 					for(const [key, val] of Object.entries(this.cart_items)){
-						console.log('is_select_cart : ' + key)
+						console.log(key)
 						if(!val.is_not_select){
 							result = true
 							break
@@ -225,7 +225,7 @@
 				let items = {}
 
 				for(const [key ,val] of Object.entries(this.cart_items)){
-					console.log('key: ' + key)
+					// console.log('key: ' + key)
 
 					let company = items[val.seller_id]
 
@@ -323,7 +323,7 @@
 							this.$bus.$emit('notify', { type: 'error', message: result.message })
 						}
 					}catch(e){
-						console.log(e)
+						this.$bus.$emit('notify', { type: 'error', message: e})
 					}finally {
 						this.$bus.$emit('on', false)
 					}
@@ -364,7 +364,7 @@
 						this.$bus.$emit('notify', { type: 'error', message: result.message })
 					}
 				}catch (e) {
-					console.log(e)
+					this.$bus.$emit('notify', { type: 'error', message: e})
 				}finally {
 					this.$emit('getCartList')
 				}

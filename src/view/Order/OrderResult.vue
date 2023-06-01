@@ -287,7 +287,7 @@ export default {
 					this.$bus.$emit('notify', { type: 'error', message: result.message })
 				}
 			}catch (e) {
-				console.log(e)
+				this.$bus.$emit('notify', { type: 'error', message: e})
 			}finally {
 				this.$bus.$emit('on', false)
 			}
