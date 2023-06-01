@@ -41,11 +41,11 @@
 					<div
 						v-else-if="seller_info.shop_name"
 						class="pa-20 size-px-16 font-weight-bold  under-line-82"
-					>{{ seller_info.shop_name }} 2</div>
+					>{{ seller_info.shop_name }}</div>
 					<div
 						v-else
 						class="color-333 size-px-16 font-weight-bold under-line"
-					>{{ $production_title }} 1</div>
+					>{{ $production_title }}</div>
 				</template>
 			</div>
 			<div
