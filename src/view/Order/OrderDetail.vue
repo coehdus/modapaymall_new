@@ -103,7 +103,7 @@
 					v-else-if="!is_purchase && item.is_purchase == 1"
 					class="btn-inline btn-primary"
 					@click="copy"
-				>매입 코드</button>
+				><v-icon small class="color-white">mdi-content-copy</v-icon> 매입 코드</button>
 			</div>
 
 			<template
