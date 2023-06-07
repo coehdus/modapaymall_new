@@ -79,7 +79,7 @@ export default {
 		}
 		,toLogin: function(){
 			//this.$router.push({ name: 'Login' })
-			document.location.href = process.env.VUE_APP_PUBLIC_PATH + 'Auth/Login'
+			document.location.href = '/Auth/Login'
 		}
 		,getBaseInfo: async function(){
 			try{
