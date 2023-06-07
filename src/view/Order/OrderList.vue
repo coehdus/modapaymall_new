@@ -99,10 +99,10 @@
 										</div>
 									</div>
 									<div
-										class="mt-10  under-line-dashed pb-10"
+										class="mt-10 under-line-dashed pb-10"
 									>
 										<button
-											v-if="odt.is_cancel"
+											v-if="odt.is_cancel && (!item.is_purchase || item.is_purchase == '0')"
 											class="box prl-10 size-px-11 bg-red "
 											@click="isOdtUpdate(odt, odt_step_cancel, item.pg_code)"
 										>주문취소 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
@@ -114,11 +114,25 @@
 										>구매확정 <v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
 										<button
-											v-if="odt.is_return"
+											v-if="odt.is_return && (!item.is_purchase || item.is_purchase == '0')"
 											class="box prl-10 size-px-11 bg-orange mr-5 "
 											@click="toOdtReturn(odt)"
 										>교환/반품<v-icon small class="color-eee">mdi mdi-chevron-right</v-icon></button>
 
+									</div>
+
+									<div
+										v-if="item.is_purchase && item.is_purchase != '0'"
+										class="mt-10 justify-space-between items-center"
+									>
+										<label
+											v-if="item.is_purchase && item.is_purchase == '1'"
+											class="label label-primary"
+										>매입 처리중</label>
+										<label
+											v-else-if="item.is_purchase && item.is_purchase == '2'"
+											class="label label-primary"
+										>매입 완료</label>
 									</div>
 								</li>
 							</ul>

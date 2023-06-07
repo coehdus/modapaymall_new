@@ -92,9 +92,18 @@
 				</div>
 			</div>
 
-			<div class="mt-10">
+			<div class="mt-10 flex-row justify-space-between items-center">
 				<h6>상품 정보</h6>
-				<div></div>
+				<button
+					v-if="is_purchase"
+					class="btn-inline btn-primary"
+					@click="onPurchase"
+				>매입 처리</button>
+				<button
+					v-else-if="!is_purchase && item.is_purchase == 1"
+					class="btn-inline btn-primary"
+					@click="copy"
+				>매입 코드</button>
 			</div>
 
 			<template
@@ -160,11 +169,13 @@
 										</div>
 									</div>
 								</div>
-								<div class="justify-space-between">
+								<div
+									class="justify-space-between"
+								>
 
 									<div class="flex-3 mt-10 size-px-10 text-right">
 										<span
-											v-if="odt.is_cancel"
+											v-if="odt.is_cancel && (!item.is_purchase || item.is_purchase == '0')"
 											class=" prl-10 bg-red"
 											@click="isOdtUpdate(odt,'step21')"
 										>주문 취소</span>
@@ -174,11 +185,24 @@
 											@click="toOdtConfirm(odt)"
 										>구매 확정</span>
 										<span
-											v-if="odt.is_return"
+											v-if="odt.is_return && (!item.is_purchase || item.is_purchase == '0')"
 											class="box prl-10 bg-orange mr-5"
 											@click="toOdtReturn(odt)"
 										>교환 / 반품</span>
 									</div>
+								</div>
+								<div
+									v-if="is_purchase"
+									class="text-right mt-10 top-line-dashed pt-10"
+								>
+									<label
+										v-if="item.is_purchase == 1"
+										class="label label-primary"
+									>매입 처리중</label>
+									<label
+										v-if="item.is_purchase == 2"
+										class="label label-primary"
+									>매입 완료</label>
 								</div>
 								<div
 									v-if="odt.reason"
@@ -255,17 +279,32 @@
 				>닫기</button>
 			</div>
 		</Modal>
+
+		<PopupConfirm
+			v-if="is_on_purchase"
+
+			@cancel="is_on_purchase = false"
+			@click="postPurchaseRequest"
+		>
+
+			<template
+				v-slot:title
+			>매입 요청</template>
+			<template
+				v-slot:main-txt
+			>매입 요청 하시겠습니까?</template>
+		</PopupConfirm>
 	</div>
 </template>
 
 <script>
 import Modal from "@/components/Modal";
+import PopupConfirm from "../Layout/PopupConfirm";
 export default {
 	name: 'OrderResult'
-	,
-	components: {Modal},
-	props: ['Axios', 'codes', 'TOKEN']
-	,data: function(){
+	, components: {PopupConfirm, Modal}
+	, props: ['Axios', 'codes', 'TOKEN', 'seller_info']
+	, data: function(){
 		return {
 			program: {
 				name: '주문상세'
@@ -291,6 +330,8 @@ export default {
 			}
 			,odt_step_cancel: 'step21'
 			,item_cancel: ''
+			, is_on_purchase: false
+			, is_purchase_request: false
 		}
 	}
 	,computed: {
@@ -302,6 +343,13 @@ export default {
 				div = '카드 결제'
 			}
 			return div
+		}
+		, is_purchase: function(){
+			let t = false
+			if(this.seller_info.sales_type == 1 && (!this.item.is_purchase || this.item.is_purchase == '0') && this.is_purchase_request){
+				t = true
+			}
+			return t
 		}
 		,order_status: function(){
 			let status = ''
@@ -315,6 +363,7 @@ export default {
 		,item_list: function(){
 
 			let self = this
+			self.is_purchase_request = false
 			return this.item.supply_list.filter(function(item){
 
 				return item.odt_list.filter(function(odt){
@@ -327,6 +376,7 @@ export default {
 						default: case 'step1':
 							odt.is_shipping = false
 							odt.is_cancel = true
+							self.is_purchase_request = true
 							break
 						case 'step2':
 							odt.is_cancel = false
@@ -438,8 +488,8 @@ export default {
 
 				if(result.success){
 					this.$bus.$emit('notify', { type: 'success', message: result.message})
-					await this.getData()
 					this.clearItem()
+					await this.getData()
 				}else{
 					this.$bus.$emit('notify', { type: 'error', message: result.message})
 				}
@@ -460,12 +510,55 @@ export default {
 		}
 		,clearItem: function(){
 			this.is_modal = false
-			this.item = {}
+			this.item = {
+				supply_list: []
+			}
 			this.item_cancel = {}
 			this.item_return = {}
 			this.item_confirm = {}
 			this.item_result = {}
+			this.is_on_purchase = false
 			this.$bus.$emit('on', false)
+		}
+		, postPurchaseRequest: async function(){
+			try{
+				const result = await this.Axios({
+					method: 'post'
+					, url: 'order/postPurchaseRequest'
+					, data: {
+						order_number: this.item.order_num_new
+					}
+				})
+
+				if(result.success){
+					this.$bus.$emit('notify', { type: 'success', message: result.message})
+					await this.getData()
+				}else{
+					this.$bus.$emit('notify', { type: 'error', message: result.message})
+				}
+			}catch(e){
+				this.$bus.$emit('notify', { type: 'error', message: e})
+			}finally {
+				this.is_on_purchase = false
+			}
+		}
+		, onPurchase: function(){
+			this.is_on_purchase = true
+		}
+
+		,clipBoard: function (value){
+			const t = document.createElement("textarea");
+			document.body.appendChild(t);
+			t.value = value;
+			t.select();
+			document.execCommand('copy');
+			document.body.removeChild(t);
+		}
+
+		,copy: function (){
+
+			this.clipBoard(this.item.order_number);
+			alert('매입코드가 복사되었습니다.');
 		}
 	}
 	,created() {

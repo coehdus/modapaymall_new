@@ -273,6 +273,7 @@ input:read-only { background-color: #eee; color: #bbb;}
 
 /* button */
 .btn { display: inline-block; width: 100%; text-align: center; padding: 10px; font-size: 14px; font-weight: 500; color: white;}
+.btn-inline { display: inline-block; width: auto; text-align: center; padding: 5px 10px; font-size: 12px; font-weight: 400; color: white;}
 
 .btn-primary { background-color: var(--btn-primary); color: white; }
 .btn-secondary { background-color: var(--btn-secondary); color: white;}
