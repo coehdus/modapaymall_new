@@ -17,18 +17,20 @@
 			@click="getSearch"
 		></Search>
 
-		<div
-			class="pa-10 flex-row under-line"
-			style="height: 50px"
-		>
-			<button
-				v-for="category in category_list"
-				:key="'category_' + category.category_code"
-				class=" radius-10 mr-10"
-				:class="category.category_code == category_now.category_code ? 'bg-identify' : 'bg-gray color-bbb'"
-				style="flex-shrink: 0; padding: 3px 10px 10px 10px"
-				@click="toCategory(category)"
-			>{{ category.category_name }}</button>
+		<div>
+			<div
+				class="pa-10 flex-row under-line"
+				style="height: 50px; overflow: auto"
+			>
+				<button
+					v-for="category in category_list"
+					:key="'category_' + category.category_code"
+					class=" radius-10 mr-10"
+					:class="category.category_code == category_now.category_code ? 'bg-identify' : 'bg-gray color-bbb'"
+					style="flex-shrink: 0; padding: 3px 10px 10px 10px"
+					@click="toCategory(category)"
+				>{{ category.category_name }}</button>
+			</div>
 		</div>
 
 		<div
@@ -283,6 +285,7 @@ export default{
 		}
 		,getSearch: async function(){
 			this.items = []
+			this.search.page = 1
 			await this.getData()
 		}
 	}
