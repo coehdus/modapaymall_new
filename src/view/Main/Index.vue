@@ -1,5 +1,5 @@
 <template>
-	<div class="flex-column full-height bg-white">
+	<div class="flex-column full-height bg-white" ref="body">
 
 		<Top
 			:program="program"
@@ -89,7 +89,7 @@
 		<template
 			v-if="items.length > 0"
 		>
-		<div class="flex-column">
+		<div class="flex-column" >
 			<ul
 				class=" main-pdt overflow-y-auto"
 				:class="list_type"
@@ -183,6 +183,11 @@
 			@push="$emit('push', 'Cart')"
 			@getCartList="$emit('getCartList')"
 		></ProductDetail>
+
+		<More
+			v-if="$refs.body"
+			:body="$refs.body"
+		></More>
 	</div>
 </template>
 
@@ -192,13 +197,13 @@
 	import Pagination from "@/components/Pagination";
 	import Search from "@/view/Layout/Search";
 	import Top from "../Layout/Top";
+	import More from "../Layout/More";
 
 	export default{
 		name: 'Main'
-		,
-		components: {Top, Search, Pagination, ProductDetail},
-		props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter', 'seller_info', 'member_info']
-		,data: function(){
+		, components: {More, Top, Search, Pagination, ProductDetail}
+		, props: ['Axios', 'cart_cnt', 'codes', 'TOKEN', 'filter', 'seller_info', 'member_info']
+		, data: function(){
 			return {
 				program: {
 					name: process.env.VUE_APP_TITLE_DEV

@@ -1,5 +1,6 @@
 <template>
 	<div
+		ref="body"
 		class="full-height flex-column"
 	>
 		<Top
@@ -17,20 +18,26 @@
 			@click="getSearch"
 		></Search>
 
-		<div>
-			<div
-				class="pa-10 flex-row under-line"
-				style="height: 50px; overflow: auto"
-			>
-				<button
+
+
+		<div
+			class="pa-10 under-line "
+			style="max-width: 100%; min-height: 55px; white-space: nowrap; overflow-x: scroll; overflow-y: hidden"
+		>
+			<ul>
+				<li
 					v-for="category in category_list"
 					:key="'category_' + category.category_code"
-					class=" radius-10 mr-10"
-					:class="category.category_code == category_now.category_code ? 'bg-identify' : 'bg-gray color-bbb'"
-					style="flex-shrink: 0; padding: 3px 10px 10px 10px"
-					@click="toCategory(category)"
-				>{{ category.category_name }}</button>
-			</div>
+
+					class="inline-block mr-10"
+				>
+					<button
+						class=" radius-10 pa-5-10"
+						:class="category.category_code == category_now.category_code ? 'bg-identify' : 'bg-gray color-bbb'"
+						@click="toCategory(category)"
+					>{{ category.category_name }}</button>
+				</li>
+			</ul>
 		</div>
 
 		<div
@@ -149,6 +156,11 @@
 		<Empty
 			v-else
 		></Empty>
+
+		<More
+			v-if="$refs.body"
+			:body="$refs.body"
+		></More>
 	</div>
 </template>
 
@@ -158,10 +170,11 @@ import Pagination from "@/components/Pagination";
 import Search from "@/view/Layout/Search";
 import Empty from "@/view/Layout/Empty";
 import Top from "../Layout/Top";
+import More from "../Layout/More";
 
 export default{
 	props: ['Axios', 'user', 'codes', 'date', 'callBack', 'TOKEN', 'cart_cnt', 'category', 'member_info', 'seller_info']
-	,components: {Top, Empty, Search, Pagination }
+	,components: {More, Top, Empty, Search, Pagination }
 	,data: function(){
 		return {
 			program: {

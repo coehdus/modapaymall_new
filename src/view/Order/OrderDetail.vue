@@ -94,6 +94,9 @@
 
 			<div class="mt-10 flex-row justify-space-between items-center">
 				<h6>상품 정보</h6>
+				<template
+					v-if="false"
+				>
 				<button
 					v-if="is_purchase"
 					class="btn-inline btn-primary"
@@ -104,6 +107,7 @@
 					class="btn-inline btn-primary"
 					@click="copy"
 				><v-icon small class="color-white">mdi-content-copy</v-icon> 매입 코드</button>
+				</template>
 			</div>
 
 			<template
